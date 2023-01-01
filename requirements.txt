@@ -1,5 +1,5 @@
 asgiref==3.6.0
-decouple==0.0.7
 Django==4.1.4
 sqlparse==0.4.3
 gunicorn==20.1.0
+python-decouple==3.6
