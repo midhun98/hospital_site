@@ -14,14 +14,12 @@ class Role(MPTTModel):
         return "{}".format(self.name)
 
 
-class Profile(MPTTModel, AbstractBaseUser):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     country = models.TextField(null=True, blank=True)
     mobile = models.CharField(max_length=10, blank=False)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
-
-    USERNAME_FIELD = 'mobile'
 
     def __str__(self):
         return "{}".format(self.user if self.user else "")
