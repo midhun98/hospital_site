@@ -59,7 +59,7 @@ $('#message-form').submit(function (e) {
         let alert = document.getElementById("message-errors");
         alert.innerHTML = message;
         alert.style.display = "block";
-        swal.fire("Error creating Message");
+        swal.fire("Error sending Message");
     });
 });
 

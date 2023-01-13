@@ -32,3 +32,11 @@ class Appointment(models.Model):
     date = models.DateTimeField(default=datetime.datetime.now())
     message = models.TextField()
     doctor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='doctor_role', null=True, blank=True)
+    subject = models.CharField(max_length=255)
+
+class Enquiries(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+    subject = models.CharField(max_length=255)
+
