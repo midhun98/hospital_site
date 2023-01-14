@@ -20,6 +20,7 @@ class AppointmentView(APIView):
 
 class ContactMessage(APIView):
     def post(self, request):
+
         serializer = ContactFormSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

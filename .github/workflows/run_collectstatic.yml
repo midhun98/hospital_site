@@ -10,5 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Change working directory
+      run: cd hospital_site
     - name: Collect Static Files
       run: python manage.py collectstatic
