@@ -1,0 +1,14 @@
+name: Collect Static Files
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  collect_static:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Collect Static Files
+      run: python manage.py collectstatic
