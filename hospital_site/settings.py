@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'www.jayanthihospital.in']
+ALLOWED_HOSTS = ['web-production-dd3e.up.railway.app','127.0.0.1']
 
 
 # Application definition
@@ -135,4 +135,3 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 django_heroku.settings(locals())
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
