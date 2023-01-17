@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'frontEnd',
     'mptt',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
