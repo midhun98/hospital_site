@@ -2,274 +2,63 @@
 {% block content %}
 
     <!-- Breadcrumb -->
-    <title>Patient List</title>
-
+    <title>Patient Enquiries</title>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Enquiries</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Enquiries</li>
+        </ol>
+    </div>
     <!-- /Breadcrumb -->
     <!-- Main Content -->
     <div class="container">
 
         <div class="row">
             <!-- Widget Item -->
-            <div class="col-md-6">
-                <div class="widget-area-2 proclinic-box-shadow">
-                    <h3 class="widget-title">Patient Details</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Date Of Birth</strong></td>
-                                {% if profile.dob %}
-                                    <td>{{ profile.dob }}</td>
-                                {% else %}
-                                    <td>---</td>
-                                {% endif %}
-                            </tr>
-
-                            <tr>
-                                <td><strong>Address</strong></td>
-                                {% if profile.address %}
-                                    <td>{{ profile.address }}</td>
-                                {% else %}
-                                    <td>---</td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td><strong>Phone </strong></td>
-                                <td>{{ profile.contact }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email</strong></td>
-                                <td>{{ profile.user.email }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!--Export links-->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center export-pagination">
-                            <li class="page-item">
-                                <form method="get">
-                                    <button name="excel" class="page-link"><span class="fa fa-file-excel-o"
-                                                                                 style="color:#3CB371"></span> Excel
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- /Export links-->
-                    <button type="button" class="btn btn-success mb-3"><span class="ti-pencil-alt"></span> Edit Patient
-                    </button>
-                    <button type="button" class="btn btn-danger mb-3"><span class="ti-trash"></span> Delete Patient
-                    </button>
-                    <button type="button" class="btn btn-info mb-3"><span class="ti-arrow-down"></span> Download File
-                    </button>
-                </div>
-            </div>
-            <!-- /Widget Item -->
-            <!-- Widget Item -->
-            <div class="col-md-6">
-                <div class="widget-area-2 proclinic-box-shadow">
-                    <h3 class="widget-title">Patient Visits</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>Doctor Name</th>
-                                <th>Cost</th>
-                                <th>Visit Date</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Manoj Kumar</td>
-                                <td>$30</td>
-                                <td>12-03-2018</td>
-                                <td>Resheduled</td>
-                            </tr>
-                            <tr>
-                                <td>Riya</td>
-                                <td>$26</td>
-                                <td>12-10-2018</td>
-                                <td>Operation</td>
-                            </tr>
-                            <tr>
-                                <td>Paul</td>
-                                <td>$46</td>
-                                <td>45-10-2018</td>
-                                <td>Fever</td>
-                            </tr>
-                            <tr>
-                                <td>Manoj Kumar</td>
-                                <td>$30</td>
-                                <td>12-03-2018</td>
-                                <td>Ortho</td>
-                            </tr>
-                            <tr>
-                                <td>Riya</td>
-                                <td>26</td>
-                                <td>12-10-2018</td>
-                                <td>General Check-up</td>
-                            </tr>
-                            <tr>
-                                <td>Paul</td>
-                                <td>46</td>
-                                <td>45-10-2018</td>
-                                <td>Injury</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <!--Export links-->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center export-pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-printer"></span> print</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- /Export links-->
-                    </div>
-                </div>
-            </div>
-            <!-- /Widget Item -->
-            <!-- Widget Item -->
-            <div class="col-md-12">
-                <div class="widget-area-2 proclinic-box-shadow">
-                    <h3 class="widget-title">Patient Payment Transactions</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Cost</th>
-                                <th>Discount</th>
-                                <th>Payment Type</th>
-                                <th>Invoive</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$300</td>
-                                <td>15%</td>
-                                <td>Check</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$130</td>
-                                <td>5%</td>
-                                <td>Credit Card</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$30</td>
-                                <td>5%</td>
-                                <td>Credit Card</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-danger">Cancelled</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$30</td>
-                                <td>5%</td>
-                                <td>Cash</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$30</td>
-                                <td>5%</td>
-                                <td>Credit Card</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$30</td>
-                                <td>5%</td>
-                                <td>Insurance</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>12-03-2018</td>
-                                <td>$30</td>
-                                <td>5%</td>
-                                <td>Credit Card</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info mb-0"><span
-                                            class="ti-arrow-down"></span> Invoice
-                                    </button>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <!--Export links-->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center export-pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-printer"></span> print</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- /Export links-->
-                    </div>
+            <div class="card mb-4">
+                <div class="card-header"><i class="fas fa-table me-1"></i>Enquires Table</div>
+                <div class="card-body">
+                    <table id="datatablesSimple" class="table" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr>
+                            <td>Colleen Hurst</td>
+                            <td>Javascript Developer</td>
+                            <td>San Francisco</td>
+                            <td>39</td>
+                            <td>2009/09/15</td>
+                            <td>$205,500</td>
+                        </tr>
+                        <tr>
+                            <td>Sonya Frost</td>
+                            <td>Software Engineer</td>
+                            <td>Edinburgh</td>
+                            <td>23</td>
+                            <td>2008/12/13</td>
+                            <td>$103,600</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- /Widget Item -->
