@@ -36,3 +36,7 @@ $(document).on("click", ".view-message", function () {
         confirmButtonText: 'OK'
     });
 });
+$(document).ready(function () {
+    'use strict';
+    $('#appointment-table').DataTable();
+});
