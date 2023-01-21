@@ -24,6 +24,18 @@ class AppointmentView(APIView):
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class AppointmentModify(APIView):
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        print("pk", pk)
+        try:
+            brand = Appointment.objects.get(id=pk)
+        except:
+            return Response('Appointment doesnt exist')
+        brand.delete()
+        return Response({"Message": 'Appointment deleted'})
+
+
 class ContactMessage(APIView):
     def get(self, request):
         contacts = Enquiries.objects.all()

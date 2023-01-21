@@ -7,7 +7,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['name', 'email', 'phone', 'date', 'message', 'doctor']
+        fields = ['id', 'name', 'email', 'phone', 'date', 'message', 'doctor']
 
 
 class ContactFormSerializer(serializers.ModelSerializer):
