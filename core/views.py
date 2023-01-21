@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +9,7 @@ from core.serializers import AppointmentSerializer, ContactFormSerializer
 
 # Create your views here.
 
-class AppointmentView(APIView):
+class AppointmentView(LoginRequiredMixin, APIView):
     def get(self, request):
         appointments = Appointment.objects.all()
         serializer = AppointmentSerializer(appointments, many=True)
@@ -24,7 +25,7 @@ class AppointmentView(APIView):
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AppointmentModify(APIView):
+class AppointmentModify(LoginRequiredMixin, APIView):
     def delete(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         print("pk", pk)
@@ -36,7 +37,7 @@ class AppointmentModify(APIView):
         return Response({"Message": 'Appointment deleted'})
 
 
-class ContactMessage(APIView):
+class ContactMessage(LoginRequiredMixin, APIView):
     def get(self, request):
         contacts = Enquiries.objects.all()
         serializer = ContactFormSerializer(contacts, many=True)

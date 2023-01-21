@@ -21,3 +21,6 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('frontEnd.urls')),
 ]
+handler401 = 'frontEnd.views.handler401'
+handler404 = 'frontEnd.views.handler404'
+handler500 = 'frontEnd.views.handler500'
