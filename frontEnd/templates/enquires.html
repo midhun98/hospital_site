@@ -16,67 +16,19 @@
     <div class="card mb-4">
         <div class="card-header"><i class="fas fa-table me-1"></i>Enquires Table</div>
         <div class="card-body">
-            <table id="myDatatable" class="table table-bordered table-striped table-dark dt-responsive nowrap"
+            <table id="appointment-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
                    style="width:100%">
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Message</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011-07-25</td>
-                    <td>$170,750</td>
-                </tr>
-                <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                    <td>2009-01-12</td>
-                    <td>$86,000</td>
-                </tr>
-                <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                    <td>2012-03-29</td>
-                    <td>$433,060</td>
-                </tr>
-                <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                    <td>2008-11-28</td>
-                    <td>$162,700</td>
-                </tr>
-                <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2012-12-02</td>
-                    <td>$372,000</td>
-                </tr>
-                <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-                    <td>59</td>
-                    <td>2012-08-06</td>
-                    <td>$137,500</td>
-                </tr>
                 </tbody>
             </table>
         </div>
@@ -89,8 +41,48 @@
 
     <script>
         $(document).ready(function () {
-            $('#myDatatable').DataTable();
+            $('#appointment-table').DataTable();
         });
+    </script>
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "/api/appointments/",
+            dataType: "json",
+            success: function (data) {
+                // Iterate over the data and add it to the table
+                $.each(data, function (index, item) {
+                    let date = new Date(item.date);
+                    let formattedDate = date.toLocaleDateString();
+                    let message = item.message;
+                    let messageButton = (message && message != "") ? `<button class="btn btn-primary view-message"
+                                                                  data-message="${message}">View Message</button>` : '';
+                    $("#appointment-table tbody").append(
+                        "<tr>" +
+                        "<td>" + item.name + "</td>" +
+                        "<td>" + item.email + "</td>" +
+                        "<td>" + item.phone + "</td>" +
+                        "<td>" + formattedDate + "</td>" +
+                        "<td>" + (item.doctor ? item.doctor : "-") + "</td>" +
+                        "<td>" + messageButton + "</td>" +
+                        "</tr>"
+                    );
+                });
+            }
+        });
+        $(document).on("click", ".view-message", function () {
+            let message = $(this).attr("data-message");
+            swal.fire({
+                title: 'Message',
+                text: message,
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+        });
+
+
     </script>
 
 {% endblock scripts %}
