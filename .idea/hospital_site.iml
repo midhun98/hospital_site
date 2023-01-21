@@ -18,6 +18,10 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (hospital_site)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="rowReorder.dataTables" level="application" />
+    <orderEntry type="library" name="responsive.dataTables" level="application" />
+    <orderEntry type="library" name="responsive.bootstrap5" level="application" />
+    <orderEntry type="library" name="dataTables.responsive" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
