@@ -18,6 +18,11 @@ function getCookie(name) {
 
 const csrftoken = getCookie('csrftoken');
 
+$(document).ready(function () {
+    'use strict';
+    $('#appointment-table').DataTable();
+});
+
 $.ajax({
     type: "GET",
     url: "/api/appointments/",
@@ -100,9 +105,4 @@ $(document).on("click", ".delete-appointment", function () {
             });
         }
     });
-});
-
-$(document).ready(function () {
-    'use strict';
-    $('#appointment-table').DataTable();
 });
