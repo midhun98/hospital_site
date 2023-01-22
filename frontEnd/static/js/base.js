@@ -61,11 +61,11 @@ document.getElementById("logout-button").addEventListener("click", function () {
 });
 
 function getCurrentUser(){
+    'use strict';
     $.ajax({
         type: "GET",
         url: "/api/get_current_user/",
         success: function (data) {
-            'use strict';
             $("#logged-in-user").text(data.username);
         }
     });
