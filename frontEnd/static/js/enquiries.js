@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
 
+// load the table and its contents
 $.ajax({
     type: "GET",
     url: "/api/appointments/",
@@ -31,6 +32,7 @@ $.ajax({
     }
 });
 
+// view the message in a row
 $(document).on("click", ".view-message", function () {
     'use strict';
     let message = $(this).attr("data-message");
@@ -43,6 +45,7 @@ $(document).on("click", ".view-message", function () {
     });
 });
 
+// Delete the Selected row
 $(document).on("click", ".delete-appointment", function () {
     'use strict';
     let id = $(this).data("id");
