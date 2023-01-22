@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-{% load static %}
+    {% load static %}
     <!-- Breadcrumb -->
     <title>Patient Enquiries</title>
     <div class="container-fluid px-4">
@@ -39,5 +39,11 @@
 
 {% endblock %}
 {% block scripts %}
+    <script>
+        $(document).ready(function () {
+            'use strict';
+            $('#appointment-table').DataTable();
+        });
+    </script>
     <script src="{% static "js/enquiries.js" %}"></script>
 {% endblock scripts %}
