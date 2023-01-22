@@ -45,6 +45,7 @@ $.ajax({
                 "</tr>"
             );
         });
+        $('#appointment-table').DataTable();
     }
 });
 
