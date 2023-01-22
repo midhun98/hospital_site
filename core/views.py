@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.models import Appointment, Enquiries
 from core.serializers import AppointmentSerializer, ContactFormSerializer
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 import json
 
@@ -68,3 +69,8 @@ def login_api(request):
         else:
             return JsonResponse({'status': 'failed'})
     return JsonResponse({'status': 'failed'})
+
+
+def logout_api(request):
+    logout(request)
+    return render(request, 'login.html')
