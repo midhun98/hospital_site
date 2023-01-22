@@ -22,5 +22,11 @@ jobs:
     - name: Run CollectStatic
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        ENGINE: ${{ secrets.ENGINE }}
+        NAME: ${{ secrets.NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        HOST: ${{ secrets.HOST }}
+        PORT: ${{ secrets.PORT }}
       run: |
         python manage.py collectstatic
