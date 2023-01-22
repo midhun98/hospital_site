@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 
 from core.models import Appointment, Enquiries
 from core.serializers import AppointmentSerializer, ContactFormSerializer
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -51,3 +54,17 @@ class ContactMessage(LoginRequiredMixin, APIView):
         else:
             errors = serializer.errors
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def login_api(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        username = body.get('username')
+        password = body.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'failed'})
+    return JsonResponse({'status': 'failed'})
