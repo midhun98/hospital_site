@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth.decorators import login_required
 from core.models import Appointment, Enquiries
 from core.serializers import AppointmentSerializer, ContactFormSerializer
 from django.contrib.auth import authenticate, login, logout
@@ -70,7 +70,14 @@ def login_api(request):
             return JsonResponse({'status': 'failed'})
     return JsonResponse({'status': 'failed'})
 
-
+@login_required
 def logout_api(request):
     logout(request)
     return render(request, 'login.html')
+
+
+@login_required
+def get_current_user(request):
+    user = request.user
+    full_name = user.first_name +' '+user.last_name
+    return JsonResponse({'username': full_name})
