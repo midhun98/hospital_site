@@ -30,4 +30,4 @@ jobs:
         PORT: ${{ secrets.PORT }}
         DEBUG: ${{ secrets.DEBUG }}
       run: |
-        python manage.py collectstatic
+        echo "yes" | python manage.py collectstatic
