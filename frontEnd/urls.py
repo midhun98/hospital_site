@@ -8,4 +8,5 @@ urlpatterns = [
     path("dashboard/", login_required(TemplateView.as_view(template_name="dashboard.html")), name='dashboard'),
     path("enquiries/", login_required(TemplateView.as_view(template_name="enquiries.html")), name='enquiries'),
     path("login/", TemplateView.as_view(template_name="login.html"), name='login-page'),
+    path("patient-list/", TemplateView.as_view(template_name="patients/patient_list.html"), name='patient-list'),
 ]
