@@ -52,6 +52,7 @@ class Patient(models.Model):
     medical_history = models.TextField(null=True, blank=True)
     allergies = models.TextField(null=True, blank=True)
     current_medications = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return "{}".format(self.profile.user if self.profile.user else "")
@@ -81,7 +82,7 @@ class PatientVisit(models.Model):
 
 
 class LabResult(models.Model):
-    patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE)
+    patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE, null=True, blank=True)
     test_name = models.CharField(max_length=100, null=True, blank=True)
     test_result = models.TextField(null=True, blank=True)
     test_date = models.DateField(null=True, blank=True)
