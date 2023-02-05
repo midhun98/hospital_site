@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', include('frontEnd.urls')),
+    path('', include('patients.urls')),
 ]
 handler401 = 'frontEnd.views.handler401'
 handler404 = 'frontEnd.views.handler404'

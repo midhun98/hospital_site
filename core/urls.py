@@ -8,5 +8,4 @@ urlpatterns = [
     path('api/login/', views.login_api, name='login-api'),
     path('api/logout/', views.logout_api, name='logout-api'),
     path('api/get_current_user/', views.get_current_user, name='logout-api'),
-    path('api/patients/', views.PatientAPIView.as_view(), name='patient-view'),
 ]

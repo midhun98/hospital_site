@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'frontEnd',
     'mptt',
     'rest_framework',
+    'patients',
 ]
 
 MIDDLEWARE = [
