@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+
+    <!-- Add the Bootstrap CSS to the header of your HTML file -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        .card {
+            border: 2px solid #ddd;
+        }
+    </style>
+
+    <div class="container my-5 border-primary mb-3">
+        <div class="card border-secondary mb-3">
+
+            <div class="card-header">
+                Create Patient
+            </div>
+           <div class="container my-md-3"> <h5>Patient Personal Details</h5> </div>
+            <div class="card-body">
+                <form class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustom01">First name</label>
+                            <input type="text" class="form-control" id="validationCustom01" placeholder="First name"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                    Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">Last name</label>
+                            <input type="text" class="form-control" id="validationCustom02" placeholder="Last name"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                    Please choose a Last name.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustomUsername">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                </div>
+                                <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username"
+                                       aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">
+                                    Please choose a username.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom03">Address</label>
+                            <input type="text" class="form-control" id="validationCustom03" placeholder="Address" required>
+                            <div class="invalid-feedback">
+                                Please provide an Address.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="validationCustom04">Mobile</label>
+                            <input type="text" class="form-control" id="validationCustom04" placeholder="Mobile" required>
+                            <div class="invalid-feedback">
+                                Please provide a Mobile Number.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="validationCustom05">Gender</label>
+                            <input type="text" class="form-control" id="validationCustom05" placeholder="Gender" required>
+                            <div class="invalid-feedback">
+                                Please provide a Gender.
+                            </div>
+                        </div>
+                    </div>
+                   <div class="container my-md-3"><h5>Patient Details</h5></div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="inpatient_number">IP No</label>
+                            <input type="text" class="form-control" id="inpatient_number" placeholder="IP No"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="outpatient_number">OP No</label>
+                            <input type="text" class="form-control" id="outpatient_number" placeholder="OP No"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 mb-3">
+                            <label for="medical_history">Medical History</label>
+                            <textarea class="form-control" name="message" id="medical_history" rows="2" placeholder="Medical History"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="allergies">Allergies</label>
+                            <textarea class="form-control" name="message" id="allergies" rows="2" placeholder="Allergies"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="current_medications">Current Medications</label>
+                            <textarea class="form-control" name="message" id="current_medications" rows="2" placeholder="Current Medications"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name">Emergency Contact Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Emergency Name" required>
+                            <div class="invalid-feedback">
+                                Please provide an Address.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="phone_number">Emergency Mobile</label>
+                            <input type="text" class="form-control" id="phone_number" placeholder="Emergency Mobile" required>
+                            <div class="invalid-feedback">
+                                Please provide a Mobile Number.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container my-md-3"><h5>Patient Visit</h5></div>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label for="admission_date">admission_date</label>
+                            <input type="text" class="form-control" id="admission_date" placeholder="admission_date" required>
+                            <div class="invalid-feedback">
+                                Please provide an admission_date.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="discharge_date">discharge_date</label>
+                            <input type="text" class="form-control" id="discharge_date" placeholder="discharge_date" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="follow_up_appointments">follow_up_appointments</label>
+                            <input type="text" class="form-control" id="follow_up_appointments" placeholder="follow_up_appointments" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 mb-3">
+                            <label for="current_medications">reason_for_visit</label>
+                            <textarea class="form-control" name="message" id="reason_for_visit" rows="2" placeholder="reason_for_visit"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="current_medications">diagnosis</label>
+                            <textarea class="form-control" name="message" id="diagnosis" rows="2" placeholder="diagnosis"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="current_medications">treatment_notes</label>
+                            <textarea class="form-control" name="message" id="treatment_notes" rows="2" placeholder="treatment_notes"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="insurance_provider">insurance_provider</label>
+                            <input type="text" class="form-control" id="insurance_provider" placeholder="insurance_provider"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="policy_number">policy_number</label>
+                            <input type="text" class="form-control" id="policy_number" placeholder="policy_number"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header"><h5>Lab Details</h5></div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="test_name">test_name</label>
+                            <input type="text" class="form-control" id="test_name" placeholder="test_name"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="test_date">test_date</label>
+                            <input type="text" class="form-control" id="test_date" placeholder="test_date"
+                                   required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12 mb-3">
+                            <label for="test_result">test_result</label>
+                            <textarea class="form-control" name="message" id="test_result" rows="2" placeholder="test_result"></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please choose a First name.
+                            </div>
+                        </div>
+
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+            </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static "js/patients/patient_list.js" %}"></script>
+{% endblock scripts %}

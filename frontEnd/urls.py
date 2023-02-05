@@ -9,4 +9,5 @@ urlpatterns = [
     path("enquiries/", login_required(TemplateView.as_view(template_name="enquiries.html")), name='enquiries'),
     path("login/", TemplateView.as_view(template_name="login.html"), name='login-page'),
     path("patient-list/", TemplateView.as_view(template_name="patients/patient_list.html"), name='patient-list'),
+    path("patient-create/", TemplateView.as_view(template_name="patients/patient_create.html"), name='patient-create'),
 ]
