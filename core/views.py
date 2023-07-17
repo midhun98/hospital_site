@@ -1,5 +1,5 @@
 import json
-
+from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,6 +12,8 @@ from rest_framework.views import APIView
 from core.models import (
     Appointment,
     Enquiries,
+    Career,
+    Document,
 )
 from core.serializers import (
     AppointmentSerializer,
@@ -90,3 +92,26 @@ def get_current_user(request):
     user = request.user
     full_name = user.first_name + ' ' + user.last_name
     return JsonResponse({'username': full_name})
+
+
+class CareerAPIView(APIView):
+    def post(self, request):
+        name = request.data.get('name')
+        email = request.data.get('email')
+        phone = request.data.get('phone')
+        message = request.data.get('message')
+        documents = request.FILES.getlist('document')
+
+        career = Career(name=name, email=email, phone=phone, message=message)
+
+        try:
+            career.full_clean()
+            career.save()
+        except ValidationError as e:
+            errors = dict(e)
+            return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        for document in documents:
+            Document.objects.create(career=career, file=document)
+
+        return Response({'success': True}, status=status.HTTP_201_CREATED)

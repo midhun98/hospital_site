@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mptt',
     'rest_framework',
     'patients',
+    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'hospital_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': config('ENGINE') ,
+        'ENGINE': config('ENGINE'),
         'NAME': config('NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('PASSWORD'),
