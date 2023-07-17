@@ -3,8 +3,6 @@
     {% load static %}
 
     <!-- Add the Bootstrap CSS to the header of your HTML file -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Patient List</title>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Patient List</h1>
@@ -19,7 +17,7 @@
     <div class="card mb-4">
         <div class="card-header"><i class="fas fa-table me-1"></i>All Patients</div>
         <div class="card-body">
-            <table id="appointment-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
+            <table id="all-patients-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
                    style="width:100%">
                 <thead>
                 <tr>
@@ -28,7 +26,6 @@
                     <th>Mobile</th>
                     <th>IP No</th>
                     <th>OP No</th>
-                    <th>Gender</th>
                     <th>Actions</th>
                 </tr>
                 </thead>

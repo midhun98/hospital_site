@@ -17,7 +17,7 @@ class Role(MPTTModel):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    mobile = models.CharField(max_length=10, blank=False)
+    mobile = models.CharField(max_length=10, blank=False, unique=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
     gender = models.IntegerField(choices=utils.gender_choices, default=utils.MALE)
