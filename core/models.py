@@ -42,3 +42,16 @@ class Enquiries(models.Model):
     email = models.EmailField()
     message = models.TextField()
     subject = models.CharField(max_length=255)
+
+
+class Career(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+    phone = models.IntegerField()
+    date = models.DateTimeField(default=datetime.datetime.now())
+
+class Document(models.Model):
+    career = models.ForeignKey(Career, on_delete=models.CASCADE, related_name='documents')
+    file = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)

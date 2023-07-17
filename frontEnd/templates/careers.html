@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Careers</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static "assets/img/hospital.png" %}" rel="icon">
+  <link href="{% static "assets/img/apple-touch-icon.png" %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+
+  <link href="{% static "assets/vendor/fontawesome-free/css/all.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/animate.css/animate.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/bootstrap-icons/bootstrap-icons.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/glightbox/css/glightbox.min.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/remixicon/remixicon.css" %}" rel="stylesheet">
+  <link href="{% static "assets/vendor/swiper/swiper-bundle.min.css" %}" rel="stylesheet">
+
+
+
+  <!-- Template Main CSS File -->
+  <link href="{% static "assets/css/style.css" %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Medilab - v4.9.1
+  * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">jayanthiskani@gmail.com</a>
+        <i class="bi bi-phone"></i> +91 9447311047
+      </div>
+      <div class="d-none d-lg-flex social-links align-items-center">
+            <a href="https://www.instagram.com/jayanthihospital/" target="_blank" class="instagram"><i
+                    class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/jayanthi-hospital" target="_blank" class="linkedin"><i
+                    class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="index.html">Jayanthi Hospital</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+{#      <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">Make an</span> Appointment</a>#}
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Careers</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Careers</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+
+          <!-- ======= Appointment Section ======= -->s
+    <section id="career" class="career section-bg">
+        <div class="container">
+
+            <div class="section-title">
+{#                <h2>Make an Appointment</h2>#}
+                <p>Need to join our team. Fill in the details here and we will get back to you asap.</p>
+            </div>
+
+            <form id="career-form" >
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="name">Name:</label><br>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
+                               data-rule="minlen:4" data-msg="Please enter at least 4 chars" autocomplete="off">
+                    </div>
+                    <div class="col-md-4 form-group mt-3 mt-md-0">
+                        <label for="email">Email:</label><br>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                               data-rule="email" data-msg="Please enter a valid email" autocomplete="off">
+                    </div>
+                    <div class="col-md-4 form-group mt-3 mt-md-0">
+                        <label for="phone">Phone:</label><br>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone"
+                               data-rule="minlen:4" data-msg="Please enter at least 4 chars" autocomplete="off">
+                    </div>
+                    <div class="col-md-4 form-group mt-3 mt-md-0">
+                        <label for="document">Resume:</label><br>
+                        <input type="file" class="form-control" name="document" id="document" placeholder="Your Resume" multiple autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="name">Message:</label><br>
+                    <textarea class="form-control" name="message" rows="3" placeholder="Message" autocomplete="off"></textarea>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <div class="alert alert-danger" id="career-errors" role="alert" style="display: none;"></div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section><!-- End Appointment Section -->
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+<footer id="footer">
+
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6 footer-contact">
+                    <h3>Jayathi Hospital</h3>
+                    <p>
+                        Kanjiramkulam <br>
+                        Thiruvananthapuram, 695524<br>
+                        Kerala <br><br>
+                        <strong>Phone:</strong> +91 9447311047<br>
+                        <strong>Email:</strong> jayanthiskani@gmail.com<br>
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i><a class="nav-link scrollto active" href="#hero">Home</a>
+                        </li>
+                        <li><i class="bx bx-chevron-right"></i><a class="nav-link scrollto" href="#about">About</a></li>
+                        <li><i class="bx bx-chevron-right"></i><a class="nav-link scrollto"
+                                                                  href="#services">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i><a class="nav-link scrollto" href="#departments">Departments</a>
+                        </li>
+                        <li><i class="bx bx-chevron-right"></i><a class="nav-link scrollto" href="#doctors">Doctors</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> Gynecology</li>
+                        <li><i class="bx bx-chevron-right"></i> Urology</li>
+                        <li><i class="bx bx-chevron-right"></i> Pediatrics</li>
+                        <li><i class="bx bx-chevron-right"></i> Infertility Speciality</li>
+                        <li><i class="bx bx-chevron-right"></i> Keyhole Surgery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+
+        <div class="me-md-auto text-center text-md-start">
+            <div class="credits">
+            </div>
+        </div>
+        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+            {#        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>#}
+{#            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>#}
+            <a href="https://www.instagram.com/jayanthihospital/" target="_blank" class="instagram"><i
+                    class="bx bxl-instagram"></i></a>
+            {#        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>#}
+            <a href="https://www.linkedin.com/company/jayanthi-hospital" target="_blank" class="linkedin"><i
+                    class="bx bxl-linkedin"></i></a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+  <script src="{% static "assets/vendor/purecounter/purecounter_vanilla.js" %}"></script>
+  <script src="{% static "assets/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+  <script src="{% static "assets/vendor/glightbox/js/glightbox.min.js" %}"></script>
+  <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
+  <script src="{% static "assets/vendor/php-email-form/validate.js" %}"></script>
+  <script src="{% static "assets/js/main.js" %}"></script>
+  <script src="{% static "js/careers.js" %}"></script>
+
+  <!-- Template Main JS File -->
+
+</body>
+</html>
