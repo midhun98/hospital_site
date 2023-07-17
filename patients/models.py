@@ -9,8 +9,8 @@ from core import utils
 class Patient(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     existence_status = models.IntegerField(choices=utils.existence_status, default=utils.ACTIVE)
-    inpatient_number = models.CharField(max_length=10, blank=True, null=True)
-    outpatient_number = models.CharField(max_length=10, blank=True, null=True)
+    inpatient_number = models.CharField(max_length=10, blank=True, null=True, unique=True)
+    outpatient_number = models.CharField(max_length=10, blank=True, null=True, unique=True)
     medical_history = models.TextField(null=True, blank=True)
     allergies = models.TextField(null=True, blank=True)
     current_medications = models.TextField(null=True, blank=True)
