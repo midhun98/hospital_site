@@ -18,6 +18,7 @@ from core.models import (
 from core.serializers import (
     AppointmentSerializer,
     ContactFormSerializer,
+    CareerSerializer,
 )
 
 
@@ -95,6 +96,11 @@ def get_current_user(request):
 
 
 class CareerAPIView(APIView):
+    def get(self, request):
+        careers = Career.objects.all()
+        serializer = CareerSerializer(careers, context={'request': request}, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
         name = request.data.get('name')
         email = request.data.get('email')
@@ -107,8 +113,8 @@ class CareerAPIView(APIView):
         try:
             career.full_clean()
             career.save()
-        except ValidationError as e:
-            errors = dict(e)
+        except ValidationError as err:
+            errors = dict(err)
             return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
 
         for document in documents:
