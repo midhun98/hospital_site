@@ -10,7 +10,7 @@ const careerData = $.ajax({
 });
 
 careerData.done(function (data) {
-    'use strict';
+    // 'use strict';
 
     // Initialize the datatable
     $('#careers-table').DataTable({
