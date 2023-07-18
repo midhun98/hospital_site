@@ -4,6 +4,8 @@ from core.models import (
     Appointment,
     Profile,
     Enquiries,
+    Career,
+    Document,
 )
 
 
@@ -19,3 +21,18 @@ class ContactFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enquiries
         fields = ['name', 'email', 'subject', 'message']
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Document
+        fields = ['id', 'file']
+
+
+class CareerSerializer(serializers.ModelSerializer):
+    documents = DocumentSerializer(many=True)
+
+    class Meta:
+        model = Career
+        fields = ['id', 'name', 'email', 'phone', 'message', 'documents']
