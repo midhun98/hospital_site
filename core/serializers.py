@@ -24,15 +24,20 @@ class ContactFormSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
-
+    """
+    A serializer for Document
+    """
     class Meta:
         model = Document
         fields = ['id', 'file']
 
 
 class CareerSerializer(serializers.ModelSerializer):
+    """
+    A serializer for Career
+    """
     documents = DocumentSerializer(many=True)
 
     class Meta:
         model = Career
-        fields = ['id', 'name', 'email', 'phone', 'message', 'documents']
+        fields = ['id', 'name', 'email', 'phone', 'message', 'date', 'documents']

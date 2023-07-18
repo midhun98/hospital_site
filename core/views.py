@@ -96,6 +96,9 @@ def get_current_user(request):
 
 
 class CareerAPIView(APIView):
+    """
+    A view to create and display the applications in the career page of the site.
+    """
     def get(self, request):
         careers = Career.objects.all()
         serializer = CareerSerializer(careers, context={'request': request}, many=True)
