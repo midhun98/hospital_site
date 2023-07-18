@@ -3,6 +3,7 @@
 /*global console*/
 /*global DataTable*/
 /*global swal*/
+/*global csrftoken*/
 
 const careerData = $.ajax({
     url: "/api/careers/",
@@ -35,16 +36,25 @@ careerData.done(function (data) {
                     return data;
                 }
             },
-            // {
-            //     data: null,
-            //     render: function (data) {
-            //         // Customize the actions column as needed
-            //         let viewLink = '<a href="#" class="btn btn-primary btn-sm">View</a>';
-            //         let editLink = '<a href="#" class="btn btn-secondary btn-sm">Edit</a>';
-            //         let deleteLink = '<a href="#" class="btn btn-danger btn-sm">Delete</a>';
-            //         return viewLink + ' ' + editLink + ' ' + deleteLink;
-            //     }
-            // }
+            {
+                data: 'documents',
+                render: function (data) {
+                    if (data.length > 0) {
+                        let files = data.map(function (document) {
+                            let fileName = document.file.split('/').pop();
+                            return '<a href="' + document.file + '" target="_blank">' + fileName + '</a>';
+                        });
+                        return files.join('<br>');
+                    }
+                    return '';
+                }
+            },
+            {
+                data: null,
+                render: function (data) {
+                    return '<a href="#" class="btn btn-danger btn-sm delete-career"  data-id="' + data.id + '">Delete</a>';
+                }
+            }
         ]
     });
 
@@ -59,4 +69,44 @@ careerData.done(function (data) {
         });
     });
 
+    $(document).on("click", ".delete-career", function () {
+        let careerId = $(this).data("id");
+        let row = $(this).closest("tr");
+        swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/careers/" + careerId + "/",
+                    headers: {
+                        'Content-type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    success: function () {
+                        swal.fire(
+                            'Deleted!',
+                            'Item deleted.',
+                            'success'
+                        );
+                        //removing the row
+                        row.remove();
+                    },
+                    error: function () {
+                        swal.fire(
+                            'Error!',
+                            'An error occurred while deleting the item.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
 });

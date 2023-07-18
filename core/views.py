@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render
-from rest_framework import status
+from django.shortcuts import render, get_object_or_404
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -95,16 +95,16 @@ def get_current_user(request):
     return JsonResponse({'username': full_name})
 
 
-class CareerAPIView(APIView):
+class CareerViewSet(viewsets.ViewSet):
     """
-    A view to create and display the applications in the career page of the site.
+    A viewset to create, view, delete the applications in the career page of the site.
     """
-    def get(self, request):
+    def list(self, request):
         careers = Career.objects.all()
         serializer = CareerSerializer(careers, context={'request': request}, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def create(self, request):
         name = request.data.get('name')
         email = request.data.get('email')
         phone = request.data.get('phone')
@@ -124,3 +124,8 @@ class CareerAPIView(APIView):
             Document.objects.create(career=career, file=document)
 
         return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk):
+        career = get_object_or_404(Career, pk=pk)
+        career.delete()
+        return Response({'success': True}, status=status.HTTP_204_NO_CONTENT)
