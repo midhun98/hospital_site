@@ -1,4 +1,6 @@
 /* jshint esversion: 6 */
+/*global swal*/
+/*global csrftoken*/
 
 // load the table and its contents
 $.ajax({
