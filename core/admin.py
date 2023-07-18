@@ -3,4 +3,5 @@ from core import models
 # Register your models here.
 admin.site.register(models.Profile)
 admin.site.register(models.Role)
-admin.site.register(models.Appointment)
+admin.site.register(models.Career)
+admin.site.register(models.Document)

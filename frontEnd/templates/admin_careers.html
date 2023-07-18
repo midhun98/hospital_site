@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <!-- Breadcrumb -->
+    <title>Career Enquiries</title>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Career</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Careers</li>
+        </ol>
+    </div>
+    <!-- /Breadcrumb -->
+    <!-- Main Content -->
+    <!-- Widget Item -->
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table me-1"></i>Careers Table</div>
+        <div class="card-body">
+            <table id="careers-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
+                   style="width:100%">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Message</th>
+{#                    <th>Actions</th>#}
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /Widget Item -->
+    <!-- /Main Content -->
+
+{% endblock %}
+{% block scripts %}
+    <!-- Include the moment.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="{% static "js/admin_careers.js" %}"></script>
+{% endblock scripts %}
