@@ -19,15 +19,9 @@
     <orderEntry type="jdk" jdkName="Python 3.10 (hospital_site)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="rowReorder.dataTables" level="application" />
-    <orderEntry type="library" name="responsive.bootstrap5" level="application" />
     <orderEntry type="library" name="responsive.dataTables" level="application" />
+    <orderEntry type="library" name="responsive.bootstrap5" level="application" />
     <orderEntry type="library" name="dataTables.responsive" level="application" />
-    <orderEntry type="library" name="glightbox" level="application" />
-    <orderEntry type="library" name="sweetalert2" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="jquery-3.6.0.slim" level="application" />
-    <orderEntry type="library" name="swiper" level="application" />
-    <orderEntry type="library" name="@srexi/purecounterjs" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
