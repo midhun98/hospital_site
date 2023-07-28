@@ -4,7 +4,7 @@
         "builder": "NIXPACKS"
     },
     "deploy": {
-        "startCommand": "python manage.py collectstatic --noinput && gunicorn hospital_site.wsgi",
+        "startCommand": "python manage.py collectstatic --noinput && gunicorn hospital_site.wsgi && pip install -r requirements.txt",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     }
