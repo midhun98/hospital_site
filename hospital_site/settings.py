@@ -158,5 +158,5 @@ AWS_DEFAULT_ACL = config('AWS_DEFAULT_ACL')
 AWS_QUERYSTRING_AUTH = config('AWS_QUERYSTRING_AUTH', cast=bool)
 
 # Set media storage for Django
-if config('DEBUG', cast=bool) == True:
+if config('DEBUG', cast=bool) == False:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
