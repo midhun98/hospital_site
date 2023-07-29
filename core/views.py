@@ -116,7 +116,7 @@ class CareerViewSet(viewsets.ViewSet):
         try:
             career.full_clean()
             career.save()
-        except ValidationError as err:
+        except Exception as err:
             errors = dict(err)
             return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
 

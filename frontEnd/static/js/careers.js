@@ -2,6 +2,7 @@
 // Submit the career form
 
 $('#career-form').submit(function (e) {
+    'use strict';
     e.preventDefault();
 
     const formData = new FormData(e.target);
