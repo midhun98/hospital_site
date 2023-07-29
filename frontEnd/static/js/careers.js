@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+/*global swal*/
 // Submit the career form
 
 $('#career-form').submit(function (e) {
