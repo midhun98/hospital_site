@@ -53,3 +53,7 @@ $(document).on("click", ".submit-login", function () {
         }
     });
 });
+
+ function otpless(otplessUser) {
+  console.log(JSON.stringify(otplessUser));
+ }
