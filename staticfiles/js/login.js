@@ -54,6 +54,27 @@ $(document).on("click", ".submit-login", function () {
     });
 });
 
- function otpless(otplessUser) {
-  console.log(JSON.stringify(otplessUser));
- }
+function otpless(otplessUser) {
+    $.ajax({
+        type: "POST",
+        url: "/api/otplesslogin/",
+        data: JSON.stringify(otplessUser),
+        contentType: "application/json",
+        success: function (response) {
+            swal.fire({
+                icon: 'success',
+                title: 'Login Success',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(function () {
+                window.location = '/dashboard/';
+            }, 1500);
+            console.log("API Response:", response);
+        },
+        error: function (error) {
+            console.error("API Error:", error);
+        },
+    });
+    console.log(JSON.stringify(otplessUser));
+}

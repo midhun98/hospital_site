@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth import get_user_model
 from core.models import (
     Appointment,
     Enquiries,
@@ -20,7 +20,7 @@ from core.serializers import (
     ContactFormSerializer,
     CareerSerializer,
 )
-
+User = get_user_model()
 
 # Create your views here.
 
@@ -80,6 +80,20 @@ def login_api(request):
         else:
             return JsonResponse({'status': 'failed'})
     return JsonResponse({'status': 'failed'})
+
+
+def otplesslogin(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        phone_number = body.get('waNumber')
+        phone_number = phone_number[2:]
+        try:
+            user = User.objects.get(phone_number=phone_number)
+            login(request, user)
+            return JsonResponse({'status': 'success'})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'failed', 'message': 'User not found'})
+    return JsonResponse({'status': 'failed', 'message': 'Invalid request method'})
 
 
 @login_required
