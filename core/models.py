@@ -4,6 +4,7 @@ from django.db import models
 from mptt.models import MPTTModel
 from core.manger import CustomUserManager
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15, unique=True, db_index=True)
     email = models.EmailField(unique=True, null=True, blank=True)
@@ -47,6 +48,7 @@ class Career(models.Model):
     message = models.TextField()
     phone = models.IntegerField()
     date = models.DateTimeField(default=datetime.datetime.now())
+
 
 class Document(models.Model):
     career = models.ForeignKey(Career, on_delete=models.CASCADE, related_name='documents')
