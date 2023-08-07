@@ -34,6 +34,9 @@ class Appointment(models.Model):
     # doctor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='doctor_role', null=True, blank=True)
     subject = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Enquiries(models.Model):
     name = models.CharField(max_length=255)

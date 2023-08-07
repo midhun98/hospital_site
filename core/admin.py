@@ -7,6 +7,7 @@ from .models import CustomUser
 # Register your models here.
 admin.site.register(models.Career)
 admin.site.register(models.Document)
+admin.site.register(models.Appointment)
 
 
 
