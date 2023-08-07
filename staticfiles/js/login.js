@@ -58,6 +58,10 @@ function otpless(otplessUser) {
     $.ajax({
         type: "POST",
         url: "/api/otplesslogin/",
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
         data: JSON.stringify(otplessUser),
         contentType: "application/json",
         success: function (response) {
