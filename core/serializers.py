@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from core.models import (
     Appointment,
-    Profile,
+    # Profile,
     Enquiries,
     Career,
     Document,
@@ -10,11 +10,9 @@ from core.models import (
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    doctor = serializers.PrimaryKeyRelatedField(queryset=Profile.objects.filter(role__name='Doctor'), required=False)
-
     class Meta:
         model = Appointment
-        fields = ['id', 'name', 'email', 'phone', 'date', 'message', 'doctor']
+        fields = ['id', 'name', 'email', 'phone', 'date', 'message']
 
 
 class ContactFormSerializer(serializers.ModelSerializer):
