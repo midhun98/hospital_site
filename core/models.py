@@ -1,30 +1,27 @@
 import datetime
-from django.contrib.auth.models import AbstractBaseUser, Group, User
+from django.contrib.auth.models import AbstractBaseUser, Group, User, PermissionsMixin
 from django.db import models
 from mptt.models import MPTTModel
-from core import utils
+from core.manger import CustomUserManager
 
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    phone_number = models.CharField(max_length=15, unique=True, db_index=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    profile_picture = models.ImageField(upload_to='profile/', blank=True, null=True)
 
-class Role(MPTTModel):
-    name = models.CharField(max_length=64, blank=False, unique=True,
-                            error_messages={'unique': "This name already exists.", }, )
-    group = models.ForeignKey(Group, blank=False, null=True, on_delete=models.SET_NULL)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date = models.DateTimeField(default=datetime.datetime.now())
 
-    def __str__(self):
-        return "{}".format(self.name)
+    USERNAME_FIELD = "phone_number"
+    REQUIRED_FIELDS = []
 
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    mobile = models.CharField(max_length=10, blank=False, unique=True)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
-    gender = models.IntegerField(choices=utils.gender_choices, default=utils.MALE)
-    address = models.TextField(null=True, blank=True)
+    objects = CustomUserManager()
 
     def __str__(self):
-        return "{}".format(self.user if self.user else "")
+        return self.phone_number
 
 
 class Appointment(models.Model):
@@ -33,7 +30,7 @@ class Appointment(models.Model):
     phone = models.CharField(max_length=20)
     date = models.DateTimeField(default=datetime.datetime.now())
     message = models.TextField()
-    doctor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='doctor_role', null=True, blank=True)
+    # doctor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='doctor_role', null=True, blank=True)
     subject = models.CharField(max_length=255)
 
 

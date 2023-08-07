@@ -146,7 +146,7 @@ SESSION_COOKIE_AGE = 1800
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+AUTH_USER_MODEL = 'core.CustomUser'
 # AWS Credentials
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
