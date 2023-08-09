@@ -10,7 +10,6 @@ admin.site.register(models.Document)
 admin.site.register(models.Appointment)
 
 
-
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -31,9 +30,10 @@ class CustomUserAdmin(UserAdmin):
                 "phone_number", "password1", "password2", "is_staff",
                 "is_active", "groups", "user_permissions"
             )}
-        ),
+         ),
     )
     search_fields = ("phone_number",)
     ordering = ("phone_number",)
+
 
 admin.site.register(models.CustomUser, CustomUserAdmin)
