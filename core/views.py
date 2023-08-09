@@ -1,11 +1,10 @@
 import json
-from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
@@ -23,6 +22,7 @@ from core.serializers import (
 User = get_user_model()
 
 # Create your views here.
+
 
 class AppointmentView(LoginRequiredMixin, APIView):
     def get(self, request):
@@ -143,3 +143,9 @@ class CareerViewSet(viewsets.ViewSet):
         career = get_object_or_404(Career, pk=pk)
         career.delete()
         return Response({'success': True}, status=status.HTTP_204_NO_CONTENT)
+
+
+class CustomPageNumberPagination(pagination.PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
