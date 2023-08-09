@@ -19,7 +19,7 @@ class PatientViewSet(viewsets.ModelViewSet):
         phone_number = request.data.get('phone_number')
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
-        email = request.data.get('email')
+        email = request.data.get('email') or None
         existing_user = User.objects.filter(phone_number=phone_number)
 
         if not existing_user:
@@ -27,13 +27,15 @@ class PatientViewSet(viewsets.ModelViewSet):
             patients_group = Group.objects.get(name='patients')
             userobj.groups.add(patients_group)
         else:
-            userobj = existing_user
+            userobj = existing_user.first()
 
         patient_data = {
             'profile': userobj,
             'medical_history': request.data.get('medical_history'),
             'allergies': request.data.get('allergies'),
             'current_medications': request.data.get('current_medications'),
+            'outpatient_number': request.data.get('outpatient_number') or None,
+            'inpatient_number': request.data.get('inpatient_number') or None,
         }
         Patient.objects.create(**patient_data)
         return Response({'success': True}, status=status.HTTP_201_CREATED)
