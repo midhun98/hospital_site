@@ -1,33 +1,18 @@
 /* jshint esversion: 6 */
-function getCookie(name) {
-    'use strict';
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-const csrftoken = getCookie('csrftoken');
+// Get the CSRF token from the HTML form
+const csrfToken = $('#loginForm input[name="csrfmiddlewaretoken"]').val();
 
 $(document).on("click", ".submit-login", function () {
     'use strict';
     let username = $('#inputName').val();
     let password = $('#inputPassword').val();
+
     $.ajax({
         type: "POST",
         url: "/api/login/",
         headers: {
             'Content-type': 'application/json',
-            'X-CSRFToken': csrftoken,
+            'X-CSRFToken': csrfToken,
         },
         contentType: "application/json",
         data: JSON.stringify({username: username, password: password}),
@@ -53,3 +38,33 @@ $(document).on("click", ".submit-login", function () {
         }
     });
 });
+
+function otpless(otplessUser) {
+    $.ajax({
+        type: "POST",
+        url: "/api/otplesslogin/",
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        data: JSON.stringify(otplessUser),
+        contentType: "application/json",
+        success: function (response) {
+            swal.fire({
+                icon: 'success',
+                title: 'Login Success',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(function () {
+                window.location = '/dashboard/';
+            }, 1500);
+            console.log("API Response:", response);
+        },
+        error: function (error) {
+            console.error("API Error:", error);
+        },
+    });
+    console.log(JSON.stringify(otplessUser));
+}
+
