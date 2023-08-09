@@ -1,11 +1,12 @@
 /* jshint esversion: 6 */
+// Get the CSRF token from the HTML form
+const csrfToken = $('#loginForm input[name="csrfmiddlewaretoken"]').val();
+
 $(document).on("click", ".submit-login", function () {
     'use strict';
     let username = $('#inputName').val();
     let password = $('#inputPassword').val();
 
-    // Get the CSRF token from the HTML form
-    const csrfToken = $('#loginForm input[name="csrfmiddlewaretoken"]').val();
     $.ajax({
         type: "POST",
         url: "/api/login/",
@@ -38,7 +39,7 @@ $(document).on("click", ".submit-login", function () {
     });
 });
 
-function otpless(otplessUser, csrfToken) {
+function otpless(otplessUser) {
     $.ajax({
         type: "POST",
         url: "/api/otplesslogin/",
@@ -67,5 +68,3 @@ function otpless(otplessUser, csrfToken) {
     console.log(JSON.stringify(otplessUser));
 }
 
-const csrfToken = $('#loginForm input[name="csrfmiddlewaretoken"]').val();
-otpless(otplessUser, csrfToken);
