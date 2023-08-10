@@ -2,6 +2,17 @@
 {% block content %}
     {% load static %}
     <title>Create Patient</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+    </style>
     <div class="container mt-4">
         <h2>Create Patient</h2>
         <ol class="breadcrumb mb-4">
@@ -30,6 +41,7 @@
                 <label for="phone_number" class="form-label">Phone Number:</label>
                 <input type="text" class="form-control " id="phone_number" name="phone_number" placeholder="1234567890"
                        required>
+                <small class="form-text text-muted">Please enter a 10-digit phone number without spaces or dashes (e.g., 1234567890).</small>
             </div>
 
             <div class="mb-3">
