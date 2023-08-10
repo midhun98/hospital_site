@@ -1,4 +1,4 @@
-from rest_framework import status, viewsets, pagination
+from rest_framework import status, viewsets
 from .models import Patient
 from .serializers import PatientSerializer
 from rest_framework.response import Response
@@ -21,6 +21,23 @@ class PatientViewSet(viewsets.ModelViewSet):
         last_name = request.data.get('last_name')
         email = request.data.get('email') or None
         existing_user = User.objects.filter(phone_number=phone_number)
+
+        errors = {}
+        fields_to_check = ['outpatient_number', 'inpatient_number']
+        user_fields_check = ['phone_number', 'email']
+
+        for field in user_fields_check:
+            value = request.data.get(field)
+            if value and User.objects.filter(**{field: value}).exists():
+                errors[field] = [f"This {field.replace('_', ' ')} is already in use."]
+
+        for field in fields_to_check:
+            value = request.data.get(field)
+            if value and Patient.objects.filter(**{field: value}).exists():
+                errors[field] = [f"This {field.replace('_', ' ')} is already in use."]
+
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
         if not existing_user:
             userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name, email=email)
