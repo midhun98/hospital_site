@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from core.views import CustomPageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
@@ -13,6 +14,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticated]  # Require authenticated users
 
     def create(self, request, *args, **kwargs):
 
