@@ -1,29 +1,16 @@
-/* jshint esversion: 6 */
+const dataTable = CustomDataTable({
+    targetTable: '#all-patients-table',
+    targetName: 'Patients',
+    searchInput: '#search-input',
+    sortOrder: [[0, 'asc']], // Default sorting by the first column in ascending order
+    searchPlaceholderText: 'Search patients...',
+    apiURL: '/api/patients/',
+    tableColumns: [
+        { data: 'id', title: 'ID' },
+        { data: 'profile.first_name', title: 'First Name' },
+        { data: 'profile.last_name', title: 'Last Name' },
+        { data: 'profile.email', title: 'Email', defaultContent: '' },    ],
+    columnDefinitions: [],
+});
 
-// load the table and its contents
-$.ajax({
-    type: "GET",
-    url: "/api/patients/",
-    dataType: "json",
-    success: function (data) {
-        'use strict';
-        $.each(data, function (index, item) {
-            let date = new Date(item.date);
-            let formattedDate = date.toLocaleDateString();
-            let id = item.id;
-            let deleteButton = `<button class='btn btn btn-info' data-id="${id}">Detail View</button></td>"`;
-            $("#all-patients-table tbody").append(
-                "<tr>" +
-                "<td>" + item.profile.user.first_name + "</td>" +
-                "<td>" + item.profile.user.last_name + "</td>" +
-                "<td>" + item.profile.mobile + "</td>" +
-                "<td>" + item.inpatient_number + "</td>" +
-                "<td>" + item.outpatient_number + "</td>" +
-                "<td>" + deleteButton + "</td>" +
-                "</tr>"
-            );
-        });
-        $('#all-patients-table').DataTable();
-    }
-})
-;
+
