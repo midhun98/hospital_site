@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'patients',
     'phonenumber_field',
     'compressor',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

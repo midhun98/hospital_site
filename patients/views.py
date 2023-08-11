@@ -6,15 +6,21 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from core.views import CustomPageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from .filters import PatientFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 User = get_user_model()
 
 
 class PatientViewSet(viewsets.ModelViewSet):
-    queryset = Patient.objects.all()
+    queryset = Patient.objects.all().order_by('id')
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
+
+    # Use the filter class
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PatientFilter
 
     def create(self, request, *args, **kwargs):
 
