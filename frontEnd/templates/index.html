@@ -16,10 +16,13 @@
     <link href="{% static "assets/img/hospital.png" %}" rel="icon">
     <link href="{% static "assets/img/apple-touch-icon.png" %}" rel="apple-touch-icon">
 
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
           rel="stylesheet">
+{% load compress %}
 
+{% compress css %}
     <!-- Vendor CSS Files -->
     <link href="{% static "assets/vendor/fontawesome-free/css/all.min.css" %}" rel="stylesheet">
     <link href="{% static "assets/vendor/animate.css/animate.min.css" %}" rel="stylesheet">
@@ -32,7 +35,7 @@
 
     <!-- Template Main CSS File -->
     <link href="{% static "assets/css/style.css" %}" rel="stylesheet">
-
+{% endcompress %}
     <!-- =======================================================
     * Template Name: Medilab - v4.9.1
     * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
@@ -779,16 +782,22 @@
         class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+{% load compress %}
+{% compress js %}
+
 <script src="{% static "assets/vendor/purecounter/purecounter_vanilla.js" %}"></script>
 <script src="{% static "assets/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 <script src="{% static "assets/vendor/glightbox/js/glightbox.min.js" %}"></script>
 <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
 
 <!-- Template Main JS File -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{% static "assets/js/main.js" %}"></script>
 <script src="{% static "js/index.js" %}"></script>
+{% endcompress %}
+
 </body>
 
 </html>

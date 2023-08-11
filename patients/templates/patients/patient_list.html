@@ -14,28 +14,25 @@
     <!-- /Breadcrumb -->
     <!-- Main Content -->
     <!-- Widget Item -->
-    <div class="card mb-4">
-        <div class="card-header"><i class="fas fa-table me-1"></i>All Patients</div>
-        <div class="card-body">
-            <table id="all-patients-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
-                   style="width:100%">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Mobile</th>
-                    <th>IP No</th>
-                    <th>OP No</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="card mb-4">
+    <div class="card-header"><i class="fas fa-table me-1"></i>All Patients</div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="search-input" class="form-label">Search Patients:</label>
+                <input type="text" id="search-input" class="form-control" placeholder="Search patients...">
+            </div>
 
-{% endblock %}
+        </div>
+        <table id="all-patients-table" class="table table-bordered table-striped table-dark dt-responsive nowrap" style="width:100%">
+            <!-- Include table headers here if needed -->
+        </table>
+    </div>
+</div>{% endblock %}
 {% block scripts %}
+{% load compress %}
+{% compress js %}
+    <script src="{% static 'js/custom_datatable.js' %}"></script>
     <script src="{% static "js/patients/patient_list.js" %}"></script>
+{% endcompress %}
 {% endblock scripts %}

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'mptt',
     'rest_framework',
     'patients',
-    'phonenumber_field'
+    'phonenumber_field',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -161,3 +162,20 @@ AWS_QUERYSTRING_AUTH = config('AWS_QUERYSTRING_AUTH', cast=bool)
 # Set media storage for Django
 if config('DEBUG', cast=bool) == False:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter',
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
+
+# settings.py
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',  # Add this line
+]

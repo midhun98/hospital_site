@@ -5,7 +5,7 @@ from .models import Patient, CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('phone_number', 'first_name', 'last_name')
+        fields = ('phone_number', 'first_name', 'last_name', 'email')
 
 
 class PatientSerializer(serializers.ModelSerializer):
