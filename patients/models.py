@@ -15,6 +15,7 @@ class Patient(models.Model):
     allergies = models.TextField(null=True, blank=True)
     current_medications = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    additional_info = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return "{}".format(self.profile.phone_number if self.profile.phone_number else "")
