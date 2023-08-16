@@ -1,6 +1,6 @@
 from rest_framework import status, viewsets
 from .models import Patient
-from .serializers import PatientSerializer
+from .serializers import PatientSerializer, CustomUserSerializer
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -65,3 +65,32 @@ class PatientViewSet(viewsets.ModelViewSet):
         }
         Patient.objects.create(**patient_data)
         return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        user_data = {
+            'phone_number': request.data.get('phone_number'),
+            'first_name': request.data.get('first_name'),
+            'last_name': request.data.get('last_name'),
+            'email': request.data.get('email') or None,
+        }
+
+        user_serializer = CustomUserSerializer(instance.profile, data=user_data, partial=True)
+        errors = {}
+
+        if not user_serializer.is_valid():
+            errors.update(user_serializer.errors)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        if not serializer.is_valid():
+            errors.update(serializer.errors)
+
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user_serializer.save()
+        serializer.save()
+
+        return Response(serializer.data)
