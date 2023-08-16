@@ -32,8 +32,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    {% load compress %}
-    {% compress js %}
-        <script src="{% static "js/patients/patient_list.js" %}"></script>
-    {% endcompress %}
+    <script src="{% static "js/patients/patient_list.js" %}"></script>
 {% endblock scripts %}
