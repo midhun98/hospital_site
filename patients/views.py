@@ -61,6 +61,7 @@ class PatientViewSet(viewsets.ModelViewSet):
             'current_medications': request.data.get('current_medications'),
             'outpatient_number': request.data.get('outpatient_number') or None,
             'inpatient_number': request.data.get('inpatient_number') or None,
+            'additional_info': request.data.get('additional_info') or None,
         }
         Patient.objects.create(**patient_data)
         return Response({'success': True}, status=status.HTTP_201_CREATED)

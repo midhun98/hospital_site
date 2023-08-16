@@ -33,6 +33,7 @@ $(document).ready(function () {
             medical_history: $("#medical_history").val(),
             allergies: $("#allergies").val(),
             current_medications: $("#current_medications").val(),
+            additional_info: $("#additional_info").val(),
         };
 
         $.ajax({
