@@ -14,6 +14,7 @@ from core.models import (
     Career,
     Document,
 )
+from core.permissions import AdminGroupPermission
 from core.serializers import (
     AppointmentSerializer,
     ContactFormSerializer,
@@ -113,6 +114,9 @@ class CareerViewSet(viewsets.ViewSet):
     """
     A viewset to create, view, delete the applications in the career page of the site.
     """
+
+    permission_classes = [AdminGroupPermission]
+
     def list(self, request):
         careers = Career.objects.all()
         serializer = CareerSerializer(careers, context={'request': request}, many=True)
