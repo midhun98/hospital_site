@@ -1,25 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
     {% load static %}
-    <!-- Modal Start-->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Hi, this is the modal content.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal End -->
-
     <!-- Add the Bootstrap CSS to the header of your HTML file -->
     <title>Patient List</title>
     <div class="container-fluid px-4">
@@ -37,27 +18,22 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="search-input" class="form-label">Search Patients:</label>
+                    <label for="search-input-phone" class="form-label">Search Patients:</label>
                     <div class="input-group">
-                        <input type="text" id="search-input" class="form-control" placeholder="Search patients by phone...">
-                        <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#myModal" style="margin-left: 10px;">
-                            Open Modal
-                        </button>
+                        <input type="text" id="search-input-phone" class="form-control" placeholder="Search by phone...">
+                        <label for="search-input-inpatient"></label><input type="text" id="search-input-inpatient" class="form-control" placeholder="Search by IP ..." style="margin-left: 10px;">
+                        <label for="search-input-outpatient"></label><input type="text" id="search-input-outpatient" class="form-control" placeholder="Search by OP ..." style="margin-left: 10px;">
                     </div>
                 </div>
 
             </div>
-            <table id="all-patients-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
-                   style="width:100%">
-                <!-- Include table headers here if needed -->
-            </table>
+            <table id="patient-table" class="table table-bordered table-striped table-dark dt-responsive nowrap" style="width:100%"></table>
         </div>
     </div>
 {% endblock %}
 {% block scripts %}
     {% load compress %}
     {% compress js %}
-        <script src="{% static 'js/custom_datatable.js' %}"></script>
         <script src="{% static "js/patients/patient_list.js" %}"></script>
     {% endcompress %}
 {% endblock scripts %}
