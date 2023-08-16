@@ -31,11 +31,24 @@ $(document).ready(function () {
             {"data": "profile.email", title: 'Email', defaultContent: ''},
             {"data": "inpatient_number", title: 'IP Number', defaultContent: ''},
             {"data": "outpatient_number", title: 'OP Number', defaultContent: ''},
+            {
+                "data": null,
+                "title": "Actions",
+                "defaultContent": '<button class="btn btn-primary btn-sm btn-view">Detail View/Edit</button>'
+            }
         ]
     });
 
     // Handle search input changes
     $('#search-input-phone, #search-input-inpatient, #search-input-outpatient').on('keyup', function () {
         patientTable.ajax.reload();
+    });
+
+    $('#patient-table tbody').on('click', '.btn-view', function () {
+    var data = patientTable.row($(this).parents('tr')).data();
+    var patientId = data.id;
+
+    // Redirect to the detailed view/edit page for the patient
+    window.location.href = '/patient/' + patientId + '/';
     });
 });

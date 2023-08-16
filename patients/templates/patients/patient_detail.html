@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Update Patient</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+    </style>
+    <div class="container mt-4">
+        <h2>View / Update Patient</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patient List</a></li>
+            <li class="breadcrumb-item active">View or Update Patients</li>
+        </ol>
+
+        <form id="update-patient-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name:</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number:</label>
+                <input type="text" class="form-control " id="phone_number" name="phone_number" placeholder="1234567890"
+                       required>
+                <small class="form-text text-muted">Please enter a 10-digit phone number without spaces or dashes (e.g., 1234567890).</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address:</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="inpatient_number" class="form-label">Inpatient Number:</label>
+                        <input type="text" class="form-control" id="inpatient_number" name="inpatient_number">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="outpatient_number" class="form-label">Outpatient Number:</label>
+                        <input type="text" class="form-control" id="outpatient_number" name="outpatient_number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="medical_history" class="form-label">Medical History:</label>
+                <textarea class="form-control" id="medical_history" name="medical_history"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="allergies" class="form-label">Allergies:</label>
+                <textarea class="form-control" id="allergies" name="allergies"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="current_medications" class="form-label">Current Medications:</label>
+                <textarea class="form-control" id="current_medications" name="current_medications"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="additional_info" class="form-label">Additional Info:</label>
+                <textarea class="form-control" id="additional_info" name="additional_info"></textarea>
+                <small class="form-text text-muted">Add extra info as needed like address or any other</small>
+
+            </div>
+            <button type="button" class="btn btn-primary" id="update-patient-button">Update Patient</button>
+            <br>
+        </form>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static "js/patients/patient_update.js" %}"></script>
+{% endblock scripts %}
