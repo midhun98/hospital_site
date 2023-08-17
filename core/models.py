@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, Group, User, Permission
 from django.db import models
 from mptt.models import MPTTModel
 from core.manger import CustomUserManager
-
+from django.utils import timezone
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15, unique=True, db_index=True)
@@ -14,7 +14,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    date = models.DateTimeField(default=datetime.datetime.now())
+    date = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
@@ -29,7 +29,7 @@ class Appointment(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    date = models.DateTimeField(default=datetime.datetime.now())
+    date = models.DateTimeField(default=timezone.now)
     message = models.TextField()
     # doctor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='doctor_role', null=True, blank=True)
     subject = models.CharField(max_length=255)
@@ -50,7 +50,7 @@ class Career(models.Model):
     email = models.EmailField()
     message = models.TextField()
     phone = models.IntegerField()
-    date = models.DateTimeField(default=datetime.datetime.now())
+    date = models.DateTimeField(default=timezone.now)
 
 
 class Document(models.Model):
