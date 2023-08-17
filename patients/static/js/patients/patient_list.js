@@ -35,8 +35,8 @@ $(document).ready(function () {
                 "data": null,
                 "title": "Actions",
                 "defaultContent": '<button class="btn btn-primary btn-sm btn-view">Detail View/Edit</button>'
-            }
-        ]
+            },
+        ],
     });
 
     // Handle search input changes
@@ -44,11 +44,15 @@ $(document).ready(function () {
         patientTable.ajax.reload();
     });
 
-    $('#patient-table tbody').on('click', '.btn-view', function () {
-    var data = patientTable.row($(this).parents('tr')).data();
-    var patientId = data.id;
+    $('#patient-table').on('click', '.btn-view', function () {
+        var rowIndex = $(this).closest('tr').index();
+        var rowData = patientTable.row(rowIndex).data();
 
-    // Redirect to the detailed view/edit page for the patient
-    window.location.href = '/patient/' + patientId + '/';
+        if (rowData) {
+            var patientId = rowData.id;
+            // Redirect to the detailed view/edit page for the patient
+            window.location.href = '/patient/' + patientId + '/';
+        }
     });
+
 });
