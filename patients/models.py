@@ -3,7 +3,8 @@ from core.models import (
     CustomUser
 )
 from core import utils
-
+from ckeditor.fields import RichTextField
+from django.utils import timezone
 
 # Create your models here.
 class Patient(models.Model):
@@ -39,6 +40,13 @@ class PatientVisit(models.Model):
     treatment_notes = models.TextField(null=True, blank=True)
     insurance_provider = models.TextField(null=True, blank=True)
     policy_number = models.CharField(max_length=20, null=True, blank=True)
+    visit_date = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.visit_date:
+            self.visit_date = timezone.now()
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f"{self.patient.profile.phone_number} - {self.admission_date}"
@@ -52,3 +60,36 @@ class LabResult(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.test_name, self.test_result)
+
+
+class ScanReport(models.Model):
+    patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE)
+    report_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+    scan_type = models.CharField(max_length=50)
+    findings = RichTextField(null=True, blank=True)
+    conclusion = models.TextField(null=True, blank=True)
+    technician = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_technician', null=True, blank=True)
+    doctor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_doctor', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.report_date:
+            self.report_date = timezone.now()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.patient_visit.patient.profile.phone_number} - {self.report_date} - {self.scan_type}"
+
+
+
+class ScanImage(models.Model):
+    scan_report = models.ForeignKey(ScanReport, on_delete=models.CASCADE, related_name='scan_images')
+    image_file = models.FileField(upload_to='scan_reports/')
+    uploaded_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.uploaded_at:
+            self.uploaded_at = timezone.now()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Scan Image for {self.scan_report.patient_visit.patient.profile.phone_number} - {self.scan_report.report_date} - {self.scan_report.scan_type}"
