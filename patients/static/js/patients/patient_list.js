@@ -34,7 +34,8 @@ $(document).ready(function () {
             {
                 "data": null,
                 "title": "Actions",
-                "defaultContent": '<button class="btn btn-primary btn-sm btn-view">Detail View/Edit</button>'
+                "defaultContent": '<button class="btn btn-primary btn-sm btn-view">Detail View/Edit</button> ' +
+                                   '<button class="btn btn-light btn-sm btn-visit">Add Visit</button>'
             },
         ],
     });
@@ -52,6 +53,17 @@ $(document).ready(function () {
             var patientId = rowData.id;
             // Redirect to the detailed view/edit page for the patient
             window.location.href = '/patient/' + patientId + '/';
+        }
+    });
+
+    $('#patient-table').on('click', '.btn-visit', function () {
+        var rowIndex = $(this).closest('tr').index();
+        var rowData = patientTable.row(rowIndex).data();
+
+        if (rowData) {
+            var patientId = rowData.id;
+            // Redirect to the add visit for the patient
+            window.location.href = '/patient-visit/' + patientId + '/';
         }
     });
 

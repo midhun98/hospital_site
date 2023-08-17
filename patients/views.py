@@ -1,6 +1,8 @@
 from rest_framework import status, viewsets
-from .models import Patient
-from .serializers import PatientSerializer, CustomUserSerializer
+from .models import Patient, ScanReport
+from .serializers import (PatientSerializer,
+                          CustomUserSerializer,
+                          ScanReportSerializer)
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -94,3 +96,11 @@ class PatientViewSet(viewsets.ModelViewSet):
         serializer.save()
 
         return Response(serializer.data)
+
+
+class ScanReportViewset(viewsets.ModelViewSet):
+    queryset = ScanReport.objects.all().order_by('id')
+    serializer_class = ScanReportSerializer
+    pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticated]  # Require authenticated users
+

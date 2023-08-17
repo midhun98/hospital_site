@@ -17,6 +17,8 @@ class Patient(models.Model):
     current_medications = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     additional_info = models.TextField(null=True, blank=True)
+    insurance_provider = models.TextField(null=True, blank=True)
+    policy_number = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return "{}".format(self.profile.phone_number if self.profile.phone_number else "")
@@ -38,8 +40,6 @@ class PatientVisit(models.Model):
     reason_for_visit = models.TextField(null=True, blank=True)
     diagnosis = models.TextField(null=True, blank=True)
     treatment_notes = models.TextField(null=True, blank=True)
-    insurance_provider = models.TextField(null=True, blank=True)
-    policy_number = models.CharField(max_length=20, null=True, blank=True)
     visit_date = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -64,7 +64,7 @@ class LabResult(models.Model):
 
 class ScanReport(models.Model):
     patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE)
-    report_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+    report_date = models.DateTimeField(null=True, blank=True)
     scan_type = models.CharField(max_length=50)
     findings = RichTextField(null=True, blank=True)
     conclusion = models.TextField(null=True, blank=True)
