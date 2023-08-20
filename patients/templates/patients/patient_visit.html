@@ -223,5 +223,8 @@
     <!-- /Main Content -->
 {% endblock %}
 {% block scripts %}
+    <script>
+        let patientId = {{ patient_id }};
+    </script>
     <script type="text/javascript" src="{% static "js/patients/patient_visit.js" %}"></script>
 {% endblock scripts %}

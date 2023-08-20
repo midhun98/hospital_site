@@ -25,7 +25,7 @@ $(document).ready(function () {
         "serverSide": true,
         "searching": false,
         "ajax": {
-            "url": "http://127.0.0.1:8000/api/patients/32/patient-visits/",
+            url: `/api/patients/${patientId}/patient-visits/`,
             "data": function (data) {
                 let customData = {
                     page: (data.start / data.length) + 1,
