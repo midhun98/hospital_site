@@ -6,6 +6,7 @@ from core import utils
 from ckeditor.fields import RichTextField
 from django.utils import timezone
 
+
 # Create your models here.
 class Patient(models.Model):
     profile = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -47,7 +48,6 @@ class PatientVisit(models.Model):
             self.visit_date = timezone.now()
         super().save(*args, **kwargs)
 
-
     def __str__(self):
         return f"{self.patient.profile.phone_number} - {self.admission_date}"
 
@@ -64,6 +64,7 @@ class LabResult(models.Model):
 
 class ScanReport(models.Model):
     patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
     report_date = models.DateTimeField(null=True, blank=True)
     scan_type = models.CharField(max_length=50)
     findings = RichTextField(null=True, blank=True)
@@ -78,7 +79,6 @@ class ScanReport(models.Model):
 
     def __str__(self):
         return f"{self.patient_visit.patient.profile.phone_number} - {self.report_date} - {self.scan_type}"
-
 
 
 class ScanImage(models.Model):
