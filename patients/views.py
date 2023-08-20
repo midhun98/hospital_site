@@ -1,8 +1,11 @@
 from rest_framework import status, viewsets
-from .models import Patient, ScanReport
+from .models import (Patient,
+                     ScanReport,
+                     PatientVisit)
 from .serializers import (PatientSerializer,
                           CustomUserSerializer,
-                          ScanReportSerializer)
+                          ScanReportSerializer,
+                          PatientVisitSerializer)
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -50,7 +53,8 @@ class PatientViewSet(viewsets.ModelViewSet):
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
         if not existing_user:
-            userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name, email=email)
+            userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name,
+                                          email=email)
             patients_group = Group.objects.get(name='patients')
             userobj.groups.add(patients_group)
         else:
@@ -104,3 +108,17 @@ class ScanReportViewset(viewsets.ModelViewSet):
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
 
+
+class PatientVisitViewSet(viewsets.ModelViewSet):
+    serializer_class = PatientVisitSerializer
+    pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticated]  # Require authenticated users
+
+    def get_queryset(self):
+        # Filter patient visits by the patient's ID
+        patient_id = self.kwargs['patient_id']
+        return PatientVisit.objects.filter(patient_id=patient_id)
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        return Response({"ok":'po'})

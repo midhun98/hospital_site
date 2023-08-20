@@ -145,8 +145,6 @@ django_heroku.settings(locals())
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 CSRF_TRUSTED_ORIGINS = ['https://www.jayanthihospital.in']
 
-SESSION_COOKIE_AGE = 1800
-SESSION_SAVE_EVERY_REQUEST = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

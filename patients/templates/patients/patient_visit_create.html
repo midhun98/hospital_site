@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Create Patien Visit</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .proclinic-box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 2px;
+        }
+
+        .widget-title {
+            font-size: 22px;
+            padding-bottom: .5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+    </style>
+    <!-- ... Other meta tags and title ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+    <div class="container mt-4">
+        <h2>Create Patient Visit</h2>
+        <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">Patients</li>
+                <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'patient-visit' patient_id %}">Patients Visit</a>
+                </li>
+                <li class="breadcrumb-item active">Patients Visit Create</li>
+            </ol>
+        </ol>
+
+        <form id="patient-visit-create-form" class="widget-area-2 proclinic-box-shadow">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="admission_date" class="form-label">Admission Date:</label>
+                        <input type="text" class="form-control" id="admission_date" name="admission_date" required
+                               placeholder="Select admission date">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="discharge_date" class="form-label">Discharge Date:</label>
+                        <input type="text" class="form-control" id="discharge_date" name="discharge_date" required
+                               placeholder="Select discharge date">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="visit_date" class="form-label">Visit Date:</label>
+                        <input type="text" class="form-control" id="visit_date" name="visit_date" required
+                               placeholder="Select Visit Date">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="follow_up_appointments" class="form-label">Follow Up Appointments Date:</label>
+                        <input type="text" class="form-control" id="follow_up_appointments"
+                               name="follow_up_appointments" required
+                               placeholder="Select Follow Up Appointments Date">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="reason_for_visit" class="form-label">Reason For Visit:</label>
+                <textarea class="form-control" id="reason_for_visit" name="reason_for_visit"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="diagnosis" class="form-label">Diagnosis:</label>
+                <textarea class="form-control" id="diagnosis" name="diagnosis"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="treatment_notes" class="form-label">Treatment Notes</label>
+                <textarea class="form-control" id="treatment_notes" name="treatment_notes"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Patient</button>
+
+            <br>
+            <br>
+        </form>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+
+        initializeDateTimePicker("#admission_date");
+        initializeDateTimePicker("#discharge_date");
+        initializeDateTimePicker("#follow_up_appointments");
+        initializeDateTimePicker("#visit_date");
+    </script>
+    <script type="text/javascript" src="{% static "js/patients/patient_visit_create.js" %}"></script>
+{% endblock scripts %}

@@ -1,10 +1,227 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
-</body>
-</html>
+    {% load static %}
+    <title>Patient Visit</title>
+    <div class="container-fluid px-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="mt-4">Patient Visit</h1>
+            <a href="{% url 'patient-visit-create' patient_id %}" class="btn btn-primary mt-4" target="_blank">Add Visit</a>
+        </div>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">Patients</li>
+            <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+            <li class="breadcrumb-item active">Patients Visit</li>
+        </ol>
+    </div>
+
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .proclinic-box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 2px;
+        }
+
+        .widget-title {
+            font-size: 22px;
+            padding-bottom: .5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+    </style>
+    <!-- Pre Loader -->
+
+    <!-- /Breadcrumb -->
+    <!-- Main Content -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Widget Item -->
+            <div class="col-md-6">
+                <div class="widget-area-2 proclinic-box-shadow">
+                    <h3 class="widget-title">Patient Details</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="patientTable">
+                            <tbody>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td id="name"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP No</strong></td>
+                                <td id="ipno"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OP No</strong></td>
+                                <td id="opno"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Address</strong></td>
+                                <td id="address"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone </strong></td>
+                                <td id="phone"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email</strong></td>
+                                <td id="email"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--Export links-->
+                    {#                    <nav aria-label="Page navigation example">#}
+                    {#                        <ul class="pagination justify-content-center export-pagination">#}
+                    {#                            <li class="page-item">#}
+                    {#                                <a class="page-link" href="#"><span class="ti-download"></span> csv</a>#}
+                    {#                            </li>#}
+                    {#                            <li class="page-item">#}
+                    {#                                <a class="page-link" href="#"><span class="ti-printer"></span> print</a>#}
+                    {#                            </li>#}
+                    {#                            <li class="page-item">#}
+                    {#                                <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>#}
+                    {#                            </li>#}
+                    {#                            <li class="page-item">#}
+                    {#                                <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>#}
+                    {#                            </li>#}
+                    {#                        </ul>#}
+                    {#                    </nav>#}
+                    {#                    <!-- /Export links-->#}
+                    {#                    <button type="button" class="btn btn-success mb-3"><span class="ti-pencil-alt"></span> Edit Patient#}
+                    {#                    </button>#}
+                    {#                    <button type="button" class="btn btn-danger mb-3"><span class="ti-trash"></span> Delete Patient#}
+                    {#                    </button>#}
+                    {#                    <button type="button" class="btn btn-info mb-3"><span class="ti-arrow-down"></span> Download File#}
+                    {#                    </button>#}
+                </div>
+            </div>
+            <!-- /Widget Item -->
+            <!-- Widget Item -->
+            <div class="col-md-12">
+                <div class="widget-area-2 proclinic-box-shadow">
+                    <h3 class="widget-title">Patient Visits</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped dt-responsive nowrap" style="width:100%"
+                               id="visitTable"></table>
+                        <!--Export links-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center export-pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-printer"></span> print</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- /Export links-->
+                    </div>
+                </div>
+            </div>
+            <!-- /Widget Item -->
+            <!-- Widget Item -->
+            <div class="col-md-12">
+                <div class="widget-area-2 proclinic-box-shadow">
+                    <h3 class="widget-title">Patient Payment Transactions</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Cost</th>
+                                <th>Discount</th>
+                                <th>Payment Type</th>
+                                <th>Invoive</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>12-03-2018</td>
+                                <td>$300</td>
+                                <td>15%</td>
+                                <td>Check</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-info mb-0"><span
+                                            class="ti-arrow-down"></span> Invoice
+                                    </button>
+                                </td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>12-03-2018</td>
+                                <td>$300</td>
+                                <td>15%</td>
+                                <td>Check</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-info mb-0"><span
+                                            class="ti-arrow-down"></span> Invoice
+                                    </button>
+                                </td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!--Export links-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center export-pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-printer"></span> print</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- /Export links-->
+                    </div>
+                </div>
+            </div>
+            <!-- /Widget Item -->
+        </div>
+    </div>
+    <br>
+
+    <!-- /Main Content -->
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static "js/patients/patient_visit.js" %}"></script>
+{% endblock scripts %}

@@ -32,11 +32,11 @@ class EmergencyContact(models.Model):
 
 class PatientVisit(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    admission_date = models.DateField(null=True, blank=True)
-    discharge_date = models.DateField(null=True, blank=True)
+    admission_date = models.DateTimeField(null=True, blank=True)
+    discharge_date = models.DateTimeField(null=True, blank=True)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     balance_amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    follow_up_appointments = models.DateField(null=True, blank=True)
+    follow_up_appointments = models.DateTimeField(null=True, blank=True)
     reason_for_visit = models.TextField(null=True, blank=True)
     diagnosis = models.TextField(null=True, blank=True)
     treatment_notes = models.TextField(null=True, blank=True)
