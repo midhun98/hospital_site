@@ -129,6 +129,7 @@
         initializeDateTimePicker("#discharge_date");
         initializeDateTimePicker("#follow_up_appointments");
         initializeDateTimePicker("#visit_date");
+        let patientId = {{ patient_id }};  // pass the patient_id value from your view
     </script>
     <script type="text/javascript" src="{% static "js/patients/patient_visit_create.js" %}"></script>
 {% endblock scripts %}

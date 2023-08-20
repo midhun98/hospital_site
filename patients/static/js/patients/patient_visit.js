@@ -42,9 +42,54 @@ $(document).ready(function () {
         },
         "columns": [
             {"data": "id", title: 'ID', defaultContent: ''},
-            {"data": "admission_date", title: 'Admission Date', defaultContent: '-'},
-            {"data": "discharge_date", title: 'Discharge Date', defaultContent: '-'},
-            {"data": "visit_date", title: 'Visit Date', defaultContent: '-'},
+            {
+                "data": "admission_date",
+                "title": "Admission Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "discharge_date",
+                "title": "Discharge Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "visit_date",
+                "title": "Visit Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "follow_up_appointments",
+                "title": "Follow Up Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
             {"data": "reason_for_visit", title: 'Reason for Visit', defaultContent: '-'},
             {
                 "data": null,

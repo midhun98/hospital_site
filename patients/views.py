@@ -13,7 +13,8 @@ from core.views import CustomPageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from .filters import PatientFilter
 from django_filters.rest_framework import DjangoFilterBackend
-
+from django.utils import timezone
+import datetime
 User = get_user_model()
 
 
@@ -120,5 +121,31 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
         return PatientVisit.objects.filter(patient_id=patient_id)
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
-        return Response({"ok":'po'})
+        patient_id = self.kwargs['patient_id']
+
+        admission_date_str = request.data.get('admission_date')
+        admission_date = timezone.make_aware(datetime.datetime.strptime(admission_date_str, '%Y-%m-%d %H:%M'))
+
+        discharge_date_str = request.data.get('discharge_date')
+        discharge_date = timezone.make_aware(datetime.datetime.strptime(discharge_date_str, '%Y-%m-%d %H:%M'))
+
+        visit_date_str = request.data.get('visit_date')
+        visit_date = timezone.make_aware(datetime.datetime.strptime(visit_date_str, '%Y-%m-%d %H:%M'))
+
+        follow_up_appointments_str = request.data.get('follow_up_appointments')
+        follow_up_appointments = timezone.make_aware(datetime.datetime.strptime(follow_up_appointments_str, '%Y-%m-%d %H:%M'))
+
+        patient_data = {
+            'patient_id': patient_id,
+            'admission_date': admission_date,
+            'discharge_date': discharge_date,
+            'follow_up_appointments': follow_up_appointments,
+            'reason_for_visit': request.data.get('reason_for_visit'),
+            'diagnosis': request.data.get('diagnosis'),
+            'treatment_notes': request.data.get('treatment_notes'),
+            'visit_date': visit_date or timezone.now(),
+        }
+
+        patient_visit = PatientVisit(**patient_data)
+        patient_visit.save()
+        return Response({'success': True}, status=status.HTTP_201_CREATED)
