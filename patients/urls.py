@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
 router.register('patients', views.PatientViewSet)
-router.register('scanreport', views.ScanReportViewset)
+router.register('scanreport/(?P<patient_id>[0-9]+)', views.ScanReportViewset)
 router.register('patients/(?P<patient_id>[0-9]+)/patient-visits', views.PatientVisitViewSet, basename='patient-visit')
 urlpatterns = [
     path("patient-list/", TemplateView.as_view(template_name="patients/patient_list.html"), name='list-patients'),

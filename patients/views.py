@@ -15,6 +15,8 @@ from .filters import PatientFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 import datetime
+from django.db.models import Q
+
 User = get_user_model()
 
 
@@ -109,6 +111,11 @@ class ScanReportViewset(viewsets.ModelViewSet):
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
 
+    def get_queryset(self):
+        # Filter patient visits by the patient's ID
+        patient_id = self.kwargs['patient_id']
+        return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id))
+
 
 class PatientVisitViewSet(viewsets.ModelViewSet):
     serializer_class = PatientVisitSerializer
@@ -123,17 +130,25 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs['patient_id']
 
+        admission_date = None
         admission_date_str = request.data.get('admission_date')
-        admission_date = timezone.make_aware(datetime.datetime.strptime(admission_date_str, '%Y-%m-%d %H:%M'))
+        if admission_date_str:
+            admission_date = timezone.make_aware(datetime.datetime.strptime(admission_date_str, '%Y-%m-%d %H:%M'))
 
+        discharge_date = None
         discharge_date_str = request.data.get('discharge_date')
-        discharge_date = timezone.make_aware(datetime.datetime.strptime(discharge_date_str, '%Y-%m-%d %H:%M'))
+        if discharge_date_str:
+            discharge_date = timezone.make_aware(datetime.datetime.strptime(discharge_date_str, '%Y-%m-%d %H:%M'))
 
+        visit_date = None
         visit_date_str = request.data.get('visit_date')
-        visit_date = timezone.make_aware(datetime.datetime.strptime(visit_date_str, '%Y-%m-%d %H:%M'))
+        if visit_date_str:
+            visit_date = timezone.make_aware(datetime.datetime.strptime(visit_date_str, '%Y-%m-%d %H:%M'))
 
+        follow_up_appointments = None
         follow_up_appointments_str = request.data.get('follow_up_appointments')
-        follow_up_appointments = timezone.make_aware(datetime.datetime.strptime(follow_up_appointments_str, '%Y-%m-%d %H:%M'))
+        if follow_up_appointments_str:
+            follow_up_appointments = timezone.make_aware(datetime.datetime.strptime(follow_up_appointments_str, '%Y-%m-%d %H:%M'))
 
         patient_data = {
             'patient_id': patient_id,
