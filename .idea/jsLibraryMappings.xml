@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{@popperjs/core, bootstrap, flatpickr, jquery-3.5.1.slim, moment.js, tempusdominus-bootstrap-4}" />
+    <file url="file://$PROJECT_DIR$" libraries="{select2, select2-bootstrap-theme}" />
   </component>
 </project>

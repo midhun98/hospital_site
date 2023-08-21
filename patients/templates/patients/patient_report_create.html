@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Create Patient Report</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .proclinic-box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 2px;
+        }
+
+        .widget-title {
+            font-size: 22px;
+            padding-bottom: .5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .select2-results__option[aria-selected=true] {
+            display: none;
+        }
+
+    </style>
+    <!-- ... Other meta tags and title ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+    <div class="container mt-4">
+        <h2>Create Patient Report</h2>
+        <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">Patients</li>
+                <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'patient-visit' patient_id %}">Patients Visit</a>
+                </li>
+                <li class="breadcrumb-item active">Patients Report Create</li>
+            </ol>
+        </ol>
+
+        <form id="patient-report-create-form" class="widget-area-2 proclinic-box-shadow">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="report_date" class="form-label">Report Date:</label>
+                        <input type="text" class="form-control" id="report_date" name="report_date" required
+                               placeholder="Select Report date">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="scan_type" class="form-label">Scan Type:</label>
+                        <input type="text" class="form-control" id="scan_type" name="scan_type" required
+                               placeholder="Enter the type of scan">
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="patient_visit" class="form-label">Select visit:</label>
+                <select id="patient_visit" class="form-control" name="patient_visit"
+                        style="width: 100%;">
+                    <!-- Options will be populated dynamically using JavaScript -->
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="findings" class="form-label">Findings:</label>
+                <textarea class="form-control" id="findings" name="findings"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="conclusion" class="form-label">Conclusion:</label>
+                <textarea class="form-control" id="conclusion" name="conclusion"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Report</button>
+
+            <br>
+            <br>
+        </form>
+    </div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+{% endblock %}
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+
+        initializeDateTimePicker("#report_date");
+        let patientId = {{ patient_id }};  // pass the patient_id value from your view
+    </script>
+    <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/patients/patient_report_create.js" %}"></script>
+{% endblock scripts %}

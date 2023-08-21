@@ -17,6 +17,8 @@ class PatientSerializer(serializers.ModelSerializer):
 
 
 class ScanReportSerializer(serializers.ModelSerializer):
+    doctor = CustomUserSerializer(read_only=True)  # Use the custom serializer for the doctor field
+    technician = CustomUserSerializer(read_only=True)  # Use the custom serializer for the technician field
     class Meta:
         model = ScanReport
         fields = '__all__'
