@@ -107,9 +107,21 @@
             src="{% static "node_modules/froala-editor/js/froala_editor.pkgd.min.js" %}"></script>
 {% endblock %}
 {% block scripts %}
-    <script> var editor = new FroalaEditor('#findings'); </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+        var editor = new FroalaEditor('#findings');
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Find all <a> elements with href containing "froala.com"
+            var warningLink = document.querySelector('a[href="https://www.froala.com/wysiwyg-editor?k=u"]');
+
+            // If the link is found, remove its parent container
+            if (warningLink) {
+                var warningContainer = warningLink.parentElement;
+                warningContainer.remove();
+            }
+        });
+
         function initializeDateTimePicker(elementId) {
             flatpickr(elementId, {
                 enableTime: true,
