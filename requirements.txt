@@ -25,6 +25,7 @@ django-on-heroku==1.1.2
 django-phonenumber-field==7.1.0
 django-rest-swagger==2.2.0
 django-storages==1.13.2
+django-tinymce==3.6.1
 djangorestframework==3.14.0
 djangorestframework-datatables==0.7.0
 fonttools==4.42.0
