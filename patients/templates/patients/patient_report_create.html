@@ -109,9 +109,10 @@
 {% block scripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        var editor = new FroalaEditor('#findings');
 
         document.addEventListener("DOMContentLoaded", function () {
+            var editor = new FroalaEditor('#findings');
+
             // Find all <a> elements with href containing "froala.com"
             var warningLink = document.querySelector('a[href="https://www.froala.com/wysiwyg-editor?k=u"]');
 
