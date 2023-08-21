@@ -37,6 +37,7 @@
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
     <orderEntry type="library" name="select2-bootstrap-theme" level="application" />
     <orderEntry type="library" name="select2" level="application" />
+    <orderEntry type="library" name="froala-editor" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />

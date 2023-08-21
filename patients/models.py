@@ -3,9 +3,8 @@ from core.models import (
     CustomUser
 )
 from core import utils
-from ckeditor.fields import RichTextField
 from django.utils import timezone
-
+from froala_editor.fields import FroalaField
 
 # Create your models here.
 class Patient(models.Model):
@@ -67,7 +66,7 @@ class ScanReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
     report_date = models.DateTimeField(null=True, blank=True)
     scan_type = models.CharField(max_length=50)
-    findings = RichTextField(null=True, blank=True)
+    findings = FroalaField(null=True, blank=True)
     conclusion = models.TextField(null=True, blank=True)
     technician = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_technician', null=True, blank=True)
     doctor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_doctor', null=True, blank=True)

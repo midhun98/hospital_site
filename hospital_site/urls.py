@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('frontEnd.urls')),
     path('', include('patients.urls')),
+    path('froala_editor/',include('froala_editor.urls')),
 ]
 
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})]

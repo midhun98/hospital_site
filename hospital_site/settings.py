@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'compressor',
     'django_filters',
-    'ckeditor'
+    'ckeditor',
+    'froala_editor',
 ]
 
 MIDDLEWARE = [

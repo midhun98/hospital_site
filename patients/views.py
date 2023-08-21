@@ -117,14 +117,10 @@ class ScanReportViewset(viewsets.ModelViewSet):
         return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id))
 
     def create(self, request, *args, **kwargs):
-        patient_id = self.kwargs['patient_id']
-
         report_date = None
         report_date_str = request.data.get('report_date')
         if report_date_str:
             report_date = timezone.make_aware(datetime.datetime.strptime(report_date_str, '%Y-%m-%d %H:%M'))
-        print('request.data', request.data)
-
 
         patient_visit_id = request.data.get('patient_visit')
         patient_visit = get_object_or_404(PatientVisit, pk=patient_visit_id)  # Retrieve the PatientVisit instance
