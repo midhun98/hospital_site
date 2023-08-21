@@ -101,8 +101,13 @@
         </form>
     </div>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <link href="{% static "/node_modules/froala-editor/css/froala_editor.pkgd.min.css" %}" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript"
+            src="{% static "node_modules/froala-editor/js/froala_editor.pkgd.min.js" %}"></script>
 {% endblock %}
 {% block scripts %}
+    <script> var editor = new FroalaEditor('#findings'); </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         function initializeDateTimePicker(elementId) {
