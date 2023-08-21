@@ -6,6 +6,7 @@ from core import utils
 from django.utils import timezone
 from froala_editor.fields import FroalaField
 
+
 # Create your models here.
 class Patient(models.Model):
     profile = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
