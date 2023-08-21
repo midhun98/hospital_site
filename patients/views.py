@@ -114,7 +114,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         # Filter patient visits by the patient's ID
         patient_id = self.kwargs['patient_id']
-        return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id))
+        return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id)).order_by('id')
 
     def create(self, request, *args, **kwargs):
         report_date = None
