@@ -1,8 +1,6 @@
 $(document).ready(function () {
-    let patientId = window.location.pathname.split('/').slice(-2, -1)[0];
-
     $.ajax({
-        url: '/api/patients/' + patientId + '/',
+        url: `/api/patients/${patientId}/`,
         method: "GET",
         success: function (data) {
             // Populate the table cells with data from the API response
@@ -113,6 +111,64 @@ $(document).ready(function () {
                     }
                 }
             },]
+    });
+
+    let scanTable = $('#scanReportTable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: `/api/scanreport/${patientId}/`,
+            "data": function (data) {
+                let customData = {
+                    page: (data.start / data.length) + 1,
+                    page_size: data.length,
+                    ordering: data.order[0].dir,
+                };
+                return customData;
+            },
+            "dataSrc": function (json) {
+                json.recordsTotal = json.count;
+                json.recordsFiltered = json.count;
+                return json.results;
+            }
+        },
+        "columns": [
+            {"data": "id", title: 'ID', defaultContent: ''},
+            {
+                "data": "report_date",
+                "title": "Report Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {"data": "scan_type", title: 'Scan Type', defaultContent: ''},
+            {"data": "patient_visit", title: 'Patient Visit', defaultContent: ''},
+            {
+                "data": "doctor",
+                "title": "Doctor",
+                "render": function (data) {
+                    if (data) {
+                        return data.first_name + ' ' + data.last_name;
+                    }
+                    return '-';
+                }
+            },
+            {
+                "data": "technician",
+                "title": "technician",
+                "render": function (data) {
+                    if (data) {
+                        return data.first_name + ' ' + data.last_name;
+                    }
+                    return '-';
+                }
+            },
+        ]
     });
 
     // Open SweetAlert when clicking the "View Diagnosis" button

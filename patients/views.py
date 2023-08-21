@@ -16,7 +16,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 import datetime
 from django.db.models import Q
-
+from django.shortcuts import get_object_or_404
 User = get_user_model()
 
 
@@ -116,6 +116,31 @@ class ScanReportViewset(viewsets.ModelViewSet):
         patient_id = self.kwargs['patient_id']
         return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id))
 
+    def create(self, request, *args, **kwargs):
+        patient_id = self.kwargs['patient_id']
+
+        report_date = None
+        report_date_str = request.data.get('report_date')
+        if report_date_str:
+            report_date = timezone.make_aware(datetime.datetime.strptime(report_date_str, '%Y-%m-%d %H:%M'))
+        print('request.data', request.data)
+
+
+        patient_visit_id = request.data.get('patient_visit')
+        patient_visit = get_object_or_404(PatientVisit, pk=patient_visit_id)  # Retrieve the PatientVisit instance
+
+        report_data = {
+            'patient_visit': patient_visit,
+            'report_date': report_date,
+            'conclusion': request.data.get('conclusion'),
+            'findings': request.data.get('findings'),
+            'scan_type': request.data.get('scan_type'),
+        }
+        patient_report = ScanReport(**report_data)
+        patient_report.save()
+
+        return Response({'success': True}, status=status.HTTP_201_CREATED)
+
 
 class PatientVisitViewSet(viewsets.ModelViewSet):
     serializer_class = PatientVisitSerializer
@@ -125,7 +150,7 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # Filter patient visits by the patient's ID
         patient_id = self.kwargs['patient_id']
-        return PatientVisit.objects.filter(patient_id=patient_id)
+        return PatientVisit.objects.filter(patient_id=patient_id).order_by('id')
 
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs['patient_id']
