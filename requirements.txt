@@ -12,11 +12,9 @@ cycler==0.11.0
 dj-database-url==1.2.0
 Django==4.2.3
 django-appconf==1.0.5
-django-ckeditor==6.7.0
 django-cloudinary-storage==0.3.0
 django-compression-middleware==0.5.0
 django-compressor==4.3
-django-dynamic-datatb==1.0.25
 django-filter==23.2
 django-froala-editor==4.1.1
 django-js-asset==2.0.0
@@ -25,9 +23,7 @@ django-on-heroku==1.1.2
 django-phonenumber-field==7.1.0
 django-rest-swagger==2.2.0
 django-storages==1.13.2
-django-tinymce==3.6.1
 djangorestframework==3.14.0
-djangorestframework-datatables==0.7.0
 fonttools==4.42.0
 gunicorn==21.2.0
 idna==3.4
@@ -36,7 +32,6 @@ Jinja2==3.1.2
 jmespath==1.0.1
 kiwisolver==1.4.4
 MarkupSafe==2.1.2
-matplotlib==3.7.2
 openapi-codec==1.3.2
 packaging==23.1
 pandas==2.0.3
