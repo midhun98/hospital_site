@@ -13,7 +13,7 @@
             margin-top: 4px;
         }
 
-        .proclinic-box-shadow {
+        .box-shadow {
             border-radius: 0;
             border: 0;
             -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
@@ -27,20 +27,8 @@
             margin-top: 20px;
             padding: 20px;
             padding-bottom: 2px;
-            border-radius: 2px;
+            border-radius: 5px;
         }
-
-        .widget-title {
-            font-size: 22px;
-            padding-bottom: .5rem;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eeeeee;
-        }
-
-        .select2-results__option[aria-selected=true] {
-            display: none;
-        }
-
     </style>
     <!-- ... Other meta tags and title ... -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
@@ -58,7 +46,7 @@
             </ol>
         </ol>
 
-        <form id="patient-report-create-form" class="widget-area-2 proclinic-box-shadow">
+        <form id="patient-report-create-form" class="widget-area-2 box-shadow">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-6">
@@ -79,7 +67,7 @@
             </div>
             <div class="mb-3">
                 <label for="patient_visit" class="form-label">Select visit:</label>
-                <select id="patient_visit" class="form-control" name="patient_visit"
+                <select id="patient_visit" class="form-control" name="patient_visit" required
                         style="width: 100%;">
                     <!-- Options will be populated dynamically using JavaScript -->
                 </select>
@@ -94,12 +82,21 @@
                 <label for="conclusion" class="form-label">Conclusion:</label>
                 <textarea class="form-control" id="conclusion" name="conclusion"></textarea>
             </div>
+            <div class="mb-3">
+                <label for="scan_files" class="form-label">Upload Files</label>
+                <input class="form-control" type="file" id="scan_files" multiple>
+                <small class="form-text text-muted">Upload multiple files if needed</small>
+            </div>
+            <div id="selected-files"></div> <!-- Placeholder for displaying selected file names -->
             <button type="submit" class="btn btn-primary">Create Report</button>
 
             <br>
             <br>
         </form>
     </div>
+    <br>
+    <br>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
     <link href="{% static "/node_modules/froala-editor/css/froala_editor.pkgd.min.css" %}" rel="stylesheet"
           type="text/css"/>
@@ -107,21 +104,23 @@
             src="{% static "node_modules/froala-editor/js/froala_editor.pkgd.min.js" %}"></script>
 {% endblock %}
 {% block scripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+        document.getElementById('scan_files').addEventListener('change', function () {
+            const selectedFilesContainer = document.getElementById('selected-files');
+            selectedFilesContainer.innerHTML = ''; // Clear previous selections
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var editor = new FroalaEditor('#findings');
-
-            // Find all <a> elements with href containing "froala.com"
-            var warningLink = document.querySelector('a[href="https://www.froala.com/wysiwyg-editor?k=u"]');
-
-            // If the link is found, remove its parent container
-            if (warningLink) {
-                var warningContainer = warningLink.parentElement;
-                warningContainer.remove();
+            const filesInput = this;
+            for (let i = 0; i < filesInput.files.length; i++) {
+                const file = filesInput.files[i];
+                const fileNameElement = document.createElement('p');
+                fileNameElement.textContent = file.name;
+                selectedFilesContainer.appendChild(fileNameElement);
             }
         });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        let editor = new FroalaEditor('#findings');
 
         function initializeDateTimePicker(elementId) {
             flatpickr(elementId, {

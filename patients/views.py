@@ -1,6 +1,7 @@
 from rest_framework import status, viewsets
 from .models import (Patient,
                      ScanReport,
+                     ScanImage,
                      PatientVisit)
 from .serializers import (PatientSerializer,
                           CustomUserSerializer,
@@ -16,7 +17,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 import datetime
 from django.db.models import Q
+from rest_framework.parsers import MultiPartParser
 from django.shortcuts import get_object_or_404
+from django.core.files.uploadedfile import TemporaryUploadedFile
 User = get_user_model()
 
 
@@ -110,6 +113,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
     serializer_class = ScanReportSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
+    parser_classes = [MultiPartParser]  # Include MultiPartParser to handle file uploads
 
     def get_queryset(self):
         # Filter patient visits by the patient's ID
@@ -117,6 +121,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
         return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id)).order_by('id')
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         report_date = None
         report_date_str = request.data.get('report_date')
         if report_date_str:
@@ -135,6 +140,15 @@ class ScanReportViewset(viewsets.ModelViewSet):
         patient_report = ScanReport(**report_data)
         patient_report.save()
 
+        # Process and save scan images
+
+        scan_images = request.data.getlist('scan_files', [])  # Use getlist to get all uploaded files
+        for scan_image_data in scan_images:
+            scan_image = ScanImage(
+                scan_report=patient_report,
+                image_file=scan_image_data
+            )
+            scan_image.save()
         return Response({'success': True}, status=status.HTTP_201_CREATED)
 
 

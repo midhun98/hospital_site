@@ -14,20 +14,26 @@ $(document).ready(function () {
     $("#patient-report-create-form").submit(function (event) {
         event.preventDefault();
         let selectedPatientVisit = $("#patient_visit").select2('data')[0].id;
-        let formData = {
-            report_date: $("#report_date").val(),
-            scan_type: $("#scan_type").val(),
-            findings: $("#findings").val(),
-            conclusion: $("#conclusion").val(),
-            patient_visit: selectedPatientVisit,
-        };
+        let formData = new FormData();  // Create FormData object
+
+        formData.append('report_date', $("#report_date").val());
+        formData.append('scan_type', $("#scan_type").val());
+        formData.append('findings', $("#findings").val());
+        formData.append('conclusion', $("#conclusion").val());
+        formData.append('patient_visit', selectedPatientVisit);
+
+        let filesInput = document.getElementById('scan_files');
+        for (let i = 0; i < filesInput.files.length; i++) {
+            formData.append('scan_files', filesInput.files[i]);
+        }
 
         $.ajax({
             type: "POST",
             url: `/api/scanreport/${patientId}/`,
-            data: JSON.stringify(formData),
+            data: formData,  // Use FormData object
+            contentType: false, // Important: Set to false for multipart/form-data
+            processData: false, // Important: Set to false for multipart/form-data
             headers: {
-                'Content-type': 'application/json',
                 'X-CSRFToken': csrfToken,
             },
             success: function (response) {
@@ -39,7 +45,7 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr) {
-                console.error(xhr.responseJSON);  // Print the detailed error response
+                console.error(xhr.responseJSON);
                 if (xhr.status === 400) {
                     displayFieldErrors(xhr.responseJSON);
                 } else {
@@ -48,6 +54,7 @@ $(document).ready(function () {
             }
         });
     });
+
 
 });
 
