@@ -13,14 +13,14 @@ $(document).ready(function () {
     });
     $("#patient-report-create-form").submit(function (event) {
         event.preventDefault();
-        let selectedPatientVisit = $("#patient_visit").select2('data')[0].id;
+        // let selectedPatientVisit = $("#patient_visit").select2('data')[0].id;
         let formData = new FormData();  // Create FormData object
 
         formData.append('report_date', $("#report_date").val());
         formData.append('scan_type', $("#scan_type").val());
         formData.append('findings', $("#findings").val());
         formData.append('conclusion', $("#conclusion").val());
-        formData.append('patient_visit', selectedPatientVisit);
+        formData.append('patient_visit', visitId);
 
         let filesInput = document.getElementById('scan_files');
         for (let i = 0; i < filesInput.files.length; i++) {
