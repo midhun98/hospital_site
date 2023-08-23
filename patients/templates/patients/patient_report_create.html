@@ -65,13 +65,13 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="patient_visit" class="form-label">Select visit:</label>
-                <select id="patient_visit" class="form-control" name="patient_visit" required
-                        style="width: 100%;">
-                    <!-- Options will be populated dynamically using JavaScript -->
-                </select>
-            </div>
+{#            <div class="mb-3">#}
+{#                <label for="patient_visit" class="form-label">Select visit:</label>#}
+{#                <select id="patient_visit" class="form-control" name="patient_visit" required#}
+{#                        style="width: 100%;">#}
+{#                    <!-- Options will be populated dynamically using JavaScript -->#}
+{#                </select>#}
+{#            </div>#}
 
             <div class="mb-3">
                 <label for="findings" class="form-label">Findings:</label>
@@ -132,6 +132,9 @@
 
         initializeDateTimePicker("#report_date");
         let patientId = {{ patient_id }};  // pass the patient_id value from your view
+        let visitId = {{ visit_id }};  // pass the patient_id value from your view
+        console.log('patientId', patientId)
+        console.log('visitId', visitId)
     </script>
     <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
     <script type="text/javascript" src="{% static "js/patients/patient_report_create.js" %}"></script>
