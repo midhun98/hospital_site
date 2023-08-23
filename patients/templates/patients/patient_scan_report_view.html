@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% load static %}
-    <title>Create Patient Report</title>
+    <title>View Patient Report</title>
     <style>
         .input-error {
             border: 1px solid red;
@@ -29,13 +29,29 @@
             padding-bottom: 2px;
             border-radius: 5px;
         }
+
+        /* Only for demo purposes. */
+        body {
+            font-family: "Fira Sans", sans-serif;
+            background-color: #f1f1f1;
+            margin: 85px 0;
+        }
+
+        /* Start Gallery CSS */
+        .thumb {
+            margin-bottom: 15px;
+        }
+
+        .thumb:last-child {
+            margin-bottom: 0;
+        }
     </style>
     <!-- ... Other meta tags and title ... -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
 
     <div class="container mt-4">
-        <h2>Create Patient Report</h2>
+        <h2>View Patient Report</h2>
         <ol class="breadcrumb mb-4">
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item">Patients</li>
@@ -84,8 +100,13 @@
         </form>
 
         <div class="widget-area-2 box-shadow">
-            <h3>Scan Images:</h3>
-            <div class="scan-images"></div>
+            <div class="scan-images">
+                <section class="container">
+                    <h1 class="my-4 text-center text-lg-left">Scan Documents</h1>
+                    <div class="row gallery">
+                    </div>
+                </section>
+            </div>
         </div>
 
     </div>
