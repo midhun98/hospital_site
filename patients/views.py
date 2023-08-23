@@ -19,7 +19,6 @@ import datetime
 from django.db.models import Q
 from rest_framework.parsers import MultiPartParser
 from django.shortcuts import get_object_or_404
-from django.core.files.uploadedfile import TemporaryUploadedFile
 User = get_user_model()
 
 
