@@ -110,7 +110,18 @@ $(document).ready(function () {
                         return data.treatment_notes;
                     }
                 }
-            },]
+            },
+            {
+                data: null,
+                "title": "Actions",
+                render: function (data) {
+                    var visitId = data.id;
+                    var url = "/patient-report/" + patientId + "/create/" + visitId;
+                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Report</a>';
+                }
+            }
+
+        ]
     });
 
     let scanTable = $('#scanReportTable').DataTable({
