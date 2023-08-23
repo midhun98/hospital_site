@@ -168,6 +168,15 @@ $(document).ready(function () {
                     return '-';
                 }
             },
+            {
+                data: null,
+                "title": "Actions",
+                render: function (data) {
+                    var scanReportId = data.id;
+                    var url = "/patient/" + patientId + "/scan-report/" + scanReportId + "/view/";
+                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">View</a>';
+                }
+            }
         ]
     });
 

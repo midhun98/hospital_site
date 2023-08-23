@@ -78,7 +78,7 @@ class ScanReport(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.patient_visit.patient.profile.phone_number} - {self.report_date} - {self.scan_type}"
+        return f"{self.id} - {self.patient_visit.patient.profile.phone_number} - {self.report_date} - {self.scan_type}"
 
 
 class ScanImage(models.Model):
@@ -92,4 +92,4 @@ class ScanImage(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Scan Image for {self.scan_report.patient_visit.patient.profile.phone_number} - {self.scan_report.report_date} - {self.scan_report.scan_type}"
+        return f"Scan Image for {self.scan_report.id} - {self.scan_report.patient_visit.patient.profile.phone_number} - {self.scan_report.scan_type}"
