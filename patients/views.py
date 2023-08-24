@@ -19,6 +19,8 @@ import datetime
 from django.db.models import Q
 from rest_framework.parsers import MultiPartParser
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
+
 User = get_user_model()
 
 
@@ -196,4 +198,23 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
 
         patient_visit = PatientVisit(**patient_data)
         patient_visit.save()
+        return Response({'success': True}, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except PatientVisit.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as error:
+            return Response({'errors': error.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
         return Response({'success': True}, status=status.HTTP_201_CREATED)
