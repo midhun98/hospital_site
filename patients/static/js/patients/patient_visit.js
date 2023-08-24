@@ -116,8 +116,10 @@ $(document).ready(function () {
                 "title": "Actions",
                 render: function (data) {
                     var visitId = data.id;
-                    var url = "/patient-report/" + patientId + "/create/" + visitId;
-                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Report</a>';
+                    var url = "/patient-report/" + patientId + "/create/" + visitId + "/";
+                    var editUrl = "/patient/" + patientId + "/patient-visit/" + visitId + "/update/";
+                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Report</a> ' +
+                        ' <a href="' + editUrl + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '">Edit</a>';
                 }
             }
 

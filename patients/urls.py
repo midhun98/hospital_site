@@ -14,6 +14,7 @@ urlpatterns = [
     path("patient/<int:patient_id>/", TemplateView.as_view(template_name="patients/patient_detail.html"), name='patient-detail'),  # Add this line
     path("patient-visit/<int:patient_id>/", TemplateView.as_view(template_name="patients/patient_visit.html"), name='patient-visit'),  # Add this line
     path("patient-visit/<int:patient_id>/create/", TemplateView.as_view(template_name="patients/patient_visit_create.html"), name='patient-visit-create'),
+    path("patient/<int:patient_id>/patient-visit/<int:visit_id>/update/", TemplateView.as_view(template_name="patients/patient_visit_update.html"), name='patient-visit-update'),
     path("patient-report/<int:patient_id>/create/<int:visit_id>/", TemplateView.as_view(template_name="patients/patient_report_create.html"), name='patient-report-create'),
     path("patient/<int:patient_id>/scan-report/<int:scan_id>/view/", TemplateView.as_view(template_name="patients/patient_scan_report_view.html"), name='patient-scan-report-view'),
     path('api/', include(router.urls)),

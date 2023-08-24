@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Update Patient Visit</title>
+    <style>
+        .box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 2px;
+        }
+
+        .widget-title {
+            font-size: 22px;
+            padding-bottom: .5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+    </style>
+    <!-- ... Other meta tags and title ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+    <div class="container mt-4">
+        <h2>Update Patient Visit</h2>
+        <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">Patients</li>
+                <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'patient-visit' patient_id %}">Patients Visit</a>
+                </li>
+                <li class="breadcrumb-item active">Patients Visit Update</li>
+            </ol>
+        </ol>
+
+        <form id="patient-visit-create-form" class="widget-area-2 box-shadow">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="admission_date" class="form-label">Admission Date:</label>
+                        <input type="text" class="form-control" id="admission_date" name="admission_date" required
+                               placeholder="Select admission date">
+                        <button class="btn btn-outline-secondary mt-2" type="button" id="clear_admission_date">Clear</button>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="discharge_date" class="form-label">Discharge Date:</label>
+                        <input type="text" class="form-control" id="discharge_date" name="discharge_date" required
+                               placeholder="Select discharge date">
+                        <button class="btn btn-outline-secondary mt-2" type="button" id="clear_discharge_date">Clear</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="visit_date" class="form-label">Visit Date:</label>
+                        <input type="text" class="form-control" id="visit_date" name="visit_date" required
+                               placeholder="Select Visit Date">
+                        <small class="form-text text-muted">Visit Date can only be updated...</small>
+                        <br> <!-- Add a line break -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="follow_up_appointments" class="form-label">Follow Up Appointments Date:</label>
+                        <input type="text" class="form-control" id="follow_up_appointments"
+                               name="follow_up_appointments" required
+                               placeholder="Select Follow Up Appointments Date">
+                        <button class="btn btn-outline-secondary mt-2" type="button" id="clear_follow_up_appointments">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="reason_for_visit" class="form-label">Reason For Visit:</label>
+                <textarea class="form-control" id="reason_for_visit" name="reason_for_visit"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="diagnosis" class="form-label">Diagnosis:</label>
+                <textarea class="form-control" id="diagnosis" name="diagnosis"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="treatment_notes" class="form-label">Treatment Notes</label>
+                <textarea class="form-control" id="treatment_notes" name="treatment_notes"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="update-patient-button">Update Patient</button>
+
+            <br>
+            <br>
+        </form>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+
+        initializeDateTimePicker("#admission_date");
+        initializeDateTimePicker("#discharge_date");
+        initializeDateTimePicker("#follow_up_appointments");
+        initializeDateTimePicker("#visit_date");
+        let patientId = {{ patient_id }};  // pass the patient_id value from your view
+        let visitId = {{ visit_id }};  // pass the patient_id value from your view
+
+        const admissionDateInput = document.getElementById('admission_date');
+        const clearAdmissionDateButton = document.getElementById('clear_admission_date');
+        clearAdmissionDateButton.addEventListener('click', function () {
+            admissionDateInput._flatpickr.clear();
+        });
+
+        const dischargeDateInput = document.getElementById('discharge_date');
+        const clearDischargeDateButton = document.getElementById('clear_discharge_date');
+        clearDischargeDateButton.addEventListener('click', function () {
+            dischargeDateInput._flatpickr.clear();
+        });
+
+        const followDateInput = document.getElementById('follow_up_appointments');
+        const clearFollowDateButton = document.getElementById('clear_follow_up_appointments');
+        clearFollowDateButton.addEventListener('click', function () {
+            followDateInput._flatpickr.clear();
+        });
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script type="text/javascript" src="{% static "js/patients/patient_visit_update.js" %}"></script>
+{% endblock scripts %}
