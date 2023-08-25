@@ -187,7 +187,9 @@ $(document).ready(function () {
                 render: function (data) {
                     var scanReportId = data.id;
                     var url = "/patient/" + patientId + "/scan-report/" + scanReportId + "/view/";
-                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">View</a>';
+                    var editURL = "/patient/" + patientId + "/scan-report/" + scanReportId + "/update/";
+                    return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>' +
+                        ' <a href="' + editURL + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
                 }
             }
         ]

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Update Patient Report</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 5px;
+        }
+
+        /* Only for demo purposes. */
+        body {
+            font-family: "Fira Sans", sans-serif;
+            background-color: #f1f1f1;
+            margin: 85px 0;
+        }
+
+        /* Start Gallery CSS */
+        .thumb {
+            margin-bottom: 15px;
+        }
+
+        .thumb:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+    <!-- ... Other meta tags and title ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+    <div class="container mt-4">
+        <h2>Patient Report Update</h2>
+        <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">Patients</li>
+                <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'patient-visit' patient_id %}">Patients Visit</a>
+                </li>
+                <li class="breadcrumb-item active">Patients Report Update</li>
+            </ol>
+        </ol>
+
+        <form id="patient-report-create-form" class="widget-area-2 box-shadow">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="report_date" class="form-label">Report Date:</label>
+                        <input type="text" class="form-control" id="report_date" name="report_date" required
+                               placeholder="Select Report date">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="scan_type" class="form-label">Scan Type:</label>
+                        <input type="text" class="form-control" id="scan_type" name="scan_type" required
+                               placeholder="Enter the type of scan">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="patient_visit" class="form-label">Update the visit:</label>
+                        <select id="patient_visit" class="form-control" name="patient_visit"
+                                style="width: 100%;">
+                            <!-- Options will be populated dynamically using JavaScript -->
+                        </select>
+                        <small class="form-text text-muted">Update the patient visit to another one if needed...</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="current_patient_visit" class="form-label">Currently Selected visit:</label>
+                        <input type="text" class="form-control" id="current_patient_visit" name="current_patient_visit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="findings" class="form-label">Findings:</label>
+                <textarea class="form-control" id="findings" name="findings"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="conclusion" class="form-label">Conclusion:</label>
+                <textarea class="form-control" id="conclusion" name="conclusion"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="scan_files" class="form-label">Upload Files</label>
+                <input class="form-control" type="file" id="scan_files" multiple>
+                <small class="form-text text-muted">Upload multiple files if needed</small>
+            </div>
+            <div id="selected-files"></div> <!-- Placeholder for displaying selected file names -->
+
+            <button type="submit" class="btn btn-primary">Create Report</button>
+            <br>
+            <br>
+        </form>
+
+        <div class="widget-area-2 box-shadow">
+            <div class="scan-images">
+                <section class="container">
+                    <h1 class="my-4 text-center text-lg-left">Scan Documents</h1>
+                    <div class="row gallery">
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <br>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <link href="{% static "/node_modules/froala-editor/css/froala_editor.pkgd.min.css" %}" rel="stylesheet"
+          type="text/css"/>
+    <script type="text/javascript"
+            src="{% static "node_modules/froala-editor/js/froala_editor.pkgd.min.js" %}"></script>
+{% endblock %}
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        // Find the element using its class name
+
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+
+        initializeDateTimePicker("#report_date");
+        let csrfToken = "{{ csrf_token }}";  // Assign the CSRF token value to the JavaScript variable
+        let patientId = {{ patient_id }};  // pass the patient_id value from your view
+        let scanReportId = {{ scan_id  }};  // pass the patient_id value from your view
+    </script>
+    <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/patients/patient_scan_report_update.js" %}"></script>
+{% endblock scripts %}
