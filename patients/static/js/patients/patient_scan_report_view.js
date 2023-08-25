@@ -23,13 +23,30 @@ $(document).ready(function () {
             let fileContent;
 
             if (imageIsPDF(fileExtension)) {
-                fileContent = `<iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(imageUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%;"></iframe>`;
+                fileContent = `
+                    <div class="image-container">
+                        <label>
+                            <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(imageUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%;"></iframe>
+                        </label>                            
+                    </div>`;
             } else if (imageIsImage(fileExtension)) {
-                fileContent = `<a href="${imageUrl}">
-                                <figure><img class="img-fluid img-thumbnail" src="${imageUrl}" alt="Scan Image"></figure>
-                            </a>`;
+                fileContent = `
+                     <div class="image-container">
+                    <label>
+                        <a href="${imageUrl}" target="_blank">
+                            <figure><img class="img-fluid img-thumbnail" src="${imageUrl}" alt="Scan Image" style="width: 200px; height: 200px"></figure>${fileName}
+                        </a>
+                    </label>                            
+                    </div>`;
             } else {
-                fileContent = `<a href="${imageUrl}" target="_blank">${fileName}</a>`;
+                fileContent = `
+                <div class="image-container">
+                    <label>
+                        <a href="${imageUrl}" target="_blank">
+                            <figure><img class="img-fluid img-thumbnail" src="https://res.cloudinary.com/dbzcqkvnj/image/upload/v1692944606/rodeo.jpg" style="width: 200px; height: 200px"></figure>${fileName}
+                        </a>
+                    </label>                            
+                </div>`;
             }
 
             const fileTag = `<div class="col-lg-3 col-md-4 col-xs-6 thumb">${fileContent}</div>`;

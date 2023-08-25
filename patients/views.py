@@ -17,10 +17,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 import datetime
 from django.db.models import Q
-from rest_framework.parsers import MultiPartParser
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
-
 User = get_user_model()
 
 
@@ -114,7 +112,6 @@ class ScanReportViewset(viewsets.ModelViewSet):
     serializer_class = ScanReportSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
-    parser_classes = [MultiPartParser]  # Include MultiPartParser to handle file uploads
 
     def get_queryset(self):
         # Filter patient visits by the patient's ID
@@ -152,7 +149,6 @@ class ScanReportViewset(viewsets.ModelViewSet):
         return Response({'success': True}, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
-        print(request.data)
         try:
             instance = self.get_object()
         except ScanReport.DoesNotExist:
@@ -170,6 +166,16 @@ class ScanReportViewset(viewsets.ModelViewSet):
 
         # Handle uploaded files update
         scan_images = request.FILES.getlist('scan_files', [])
+        image_ids_to_delete = request.data.get('image_ids_to_delete', [])  # List of image IDs to delete
+
+        for image_id in image_ids_to_delete:
+            try:
+                scan_image = instance.scan_images.get(id=image_id)
+                scan_image.image_file.delete()  # Delete the associated image file from storage
+                scan_image.delete()  # Delete the scan image object
+            except ScanImage.DoesNotExist:
+                pass  # Ignore if the image doesn't exist
+
         for scan_image_data in scan_images:
             scan_image = ScanImage(
                 scan_report=instance,
