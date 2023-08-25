@@ -1,4 +1,17 @@
 $(document).ready(function () {
+    document.getElementById('scan_files').addEventListener('change', function () {
+        const selectedFilesContainer = document.getElementById('selected-files');
+        selectedFilesContainer.innerHTML = ''; // Clear previous selections
+
+        const filesInput = this;
+        for (let i = 0; i < filesInput.files.length; i++) {
+            const file = filesInput.files[i];
+            const fileNameElement = document.createElement('p');
+            fileNameElement.textContent = file.name;
+            selectedFilesContainer.appendChild(fileNameElement);
+        }
+    });
+
     $('#scan_files').val('');
     initializeSelect2WithPagination({
         apiUrl: `/api/patients/${patientId}/patient-visits/`,
@@ -30,25 +43,103 @@ $(document).ready(function () {
         const galleryDiv = $('.gallery');
 
         for (const image of scanImages) {
+            const imageId = image.id;  // Get the image ID
             const imageUrl = image.image_file;
             const fileName = getFileName(imageUrl);
             const fileExtension = getFileExtension(imageUrl);
             let fileContent;
 
             if (imageIsPDF(fileExtension)) {
-                fileContent = `<iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(imageUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%;"></iframe>`;
+                fileContent = `
+                    <div class="image-container">
+                        <label>
+                            <input type="checkbox" class="image-checkbox" data-image-id="${imageId}">
+                            <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(imageUrl)}&embedded=true" frameborder="0" style="width:100%; height:100%;"></iframe>
+                        </label>                            
+                    </div>`;
             } else if (imageIsImage(fileExtension)) {
-                fileContent = `<a href="${imageUrl}">
-                                <figure><img class="img-fluid img-thumbnail" src="${imageUrl}" alt="Scan Image"></figure>
-                            </a>`;
+                fileContent = `
+                     <div class="image-container">
+                    <label>
+                        <input type="checkbox" class="image-checkbox" data-image-id="${imageId}">
+                        <a href="${imageUrl}" target="_blank">
+                            <figure><img class="img-fluid img-thumbnail" src="${imageUrl}" alt="Scan Image" style="width: 200px; height: 200px"></figure>${fileName}
+                        </a>
+                    </label>                            
+                    </div>`;
             } else {
-                fileContent = `<a href="${imageUrl}" target="_blank">${fileName}</a>`;
+                fileContent = `
+                <div class="image-container">
+                    <label>
+                        <input type="checkbox" class="image-checkbox" data-image-id="${imageId}">
+                        <a href="${imageUrl}" target="_blank">
+                            <figure><img class="img-fluid img-thumbnail" src="https://res.cloudinary.com/dbzcqkvnj/image/upload/v1692944606/rodeo.jpg" style="width: 200px; height: 200px"></figure>${fileName}
+                        </a>
+                    </label>                            
+                </div>`;
             }
 
             const fileTag = `<div class="col-lg-3 col-md-4 col-xs-6 thumb">${fileContent}</div>`;
             galleryDiv.append(fileTag);
         }
     }
+
+    $('#delete-selected-images').on('click', function () {
+        const selectedImageIds = [];
+
+        $('.image-checkbox:checked').each(function () {
+            const imageId = $(this).data('image-id');
+            selectedImageIds.push(imageId);
+        });
+
+        if (selectedImageIds.length === 0) {
+            swal.fire({
+                text: "Select atleast one image to delete!",
+                icon: "info",
+                confirmButtonText: "OK"
+            });
+            return;
+        }
+        console.log('selectedImageIds', selectedImageIds);
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Make an API call to delete the selected images using the selectedImageIds
+                $.ajax({
+                    url: `/api/scanreport/${patientId}/${scanReportId}/`,
+                    method: 'PATCH',
+                    data: JSON.stringify({image_ids_to_delete: selectedImageIds}),
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                    success: function (response) {
+                        swal.fire({
+                            title: "Success",
+                            text: "Report updated successfully!",
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        });
+                        // Handle success (e.g., remove the selected image containers from the gallery)
+                        for (const imageId of selectedImageIds) {
+                            $(`.image-checkbox[data-image-id="${imageId}"]`).closest('.image-container').remove();
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error deleting images:', error);
+                    }
+                });
+            }
+        });
+    });
+
 
     function getFileName(filepath) {
         return filepath.split('/').pop();
@@ -135,6 +226,7 @@ $(document).ready(function () {
         });
     });
 });
+
 function clearFieldErrors() {
     $(".error-message").remove(); // Remove existing error messages
     $(".input-error").removeClass("input-error"); // Remove error styling
