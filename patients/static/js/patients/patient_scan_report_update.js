@@ -91,19 +91,22 @@ $(document).ready(function () {
         } else {
             console.error('Invalid date format');
         }
-        let selectedPatientVisit = $("#patient_visit").select2('data')[0].id;
-        console.log('selectedPatientVisit', selectedPatientVisit)
+        let selectedData = $("#patient_visit").select2('data');
+
+        if (selectedData && selectedData.length > 0) {
+            selectedPatientVisit = selectedData[0].id;
+            formData.append('patient_visit', selectedPatientVisit);
+        }
+
         formData.append('scan_type', $("#scan_type").val());
         formData.append('findings', $("#findings").val());
         formData.append('conclusion', $("#conclusion").val());
-        formData.append('patient_visit', selectedPatientVisit);
 
         let filesInput = document.getElementById('scan_files');
         for (let i = 0; i < filesInput.files.length; i++) {
             formData.append('scan_files', filesInput.files[i]);
         }
 
-        console.log(formData)
         $.ajax({
             url: `/api/scanreport/${patientId}/${scanReportId}/`,
             method: 'PATCH',
