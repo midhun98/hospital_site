@@ -151,6 +151,34 @@ class ScanReportViewset(viewsets.ModelViewSet):
             scan_image.save()
         return Response({'success': True}, status=status.HTTP_201_CREATED)
 
+    def partial_update(self, request, *args, **kwargs):
+        print(request.data)
+        try:
+            instance = self.get_object()
+        except ScanReport.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # Update fields using serializer (similar to your current implementation)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as error:
+            return Response({'errors': error.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Perform the field update
+        serializer.save()
+
+        # Handle uploaded files update
+        scan_images = request.FILES.getlist('scan_files', [])
+        for scan_image_data in scan_images:
+            scan_image = ScanImage(
+                scan_report=instance,
+                image_file=scan_image_data
+            )
+            scan_image.save()
+
+        return Response({'success': True}, status=status.HTTP_200_OK)
+
 
 class PatientVisitViewSet(viewsets.ModelViewSet):
     serializer_class = PatientVisitSerializer

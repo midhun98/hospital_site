@@ -37,6 +37,7 @@
     <orderEntry type="library" name="select2-bootstrap-theme" level="application" />
     <orderEntry type="library" name="magnific-popup.js" level="application" />
     <orderEntry type="library" name="moment.js" level="application" />
+    <orderEntry type="library" name="@editorjs" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
