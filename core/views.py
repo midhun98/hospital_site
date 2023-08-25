@@ -44,7 +44,6 @@ class AppointmentView(LoginRequiredMixin, APIView):
 class AppointmentModify(LoginRequiredMixin, APIView):
     def delete(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
-        print("pk", pk)
         try:
             brand = Appointment.objects.get(id=pk)
         except:
