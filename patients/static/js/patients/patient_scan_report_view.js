@@ -1,4 +1,51 @@
 $(document).ready(function () {
+    let scanTable = $('#scanReportDocumentsTable').DataTable({
+        "ajax": {
+            url: `/api/scanreport/${patientId}/${scanReportId}/`,
+            dataSrc: "scan_images"
+        },
+        "columns": [
+            {"data": "id", "title": "ID", "defaultContent": ""},
+            {
+                "data": "uploaded_at",
+                "title": "Creation Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "image_file",
+                "title": "Document link",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return `<a href="${data}" target="_blank">${getFileName(data)}</a>`;
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "image_file",
+                "title": "File Name",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return getFileName(data);
+                    } else {
+                        return "-";
+                    }
+                }
+            }
+        ]
+    });
+
+
     let scanReportDetails = {};
 
     function populateForm() {
@@ -74,7 +121,7 @@ $(document).ready(function () {
         url: `/api/scanreport/${patientId}/${scanReportId}/`,
         method: 'GET',
         success: function (data) {
-            scanReportDetails  = data;
+            scanReportDetails = data;
             populateForm();
         },
         error: function (error) {
