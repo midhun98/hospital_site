@@ -1,4 +1,50 @@
 $(document).ready(function () {
+        let scanTable = $('#scanReportDocumentsTable').DataTable({
+        "ajax": {
+            url: `/api/scanreport/${patientId}/${scanReportId}/`,
+            dataSrc: "scan_images"
+        },
+        "columns": [
+            {"data": "id", "title": "ID", "defaultContent": ""},
+            {
+                "data": "uploaded_at",
+                "title": "Creation Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "image_file",
+                "title": "Document link",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return `<a href="${data}" target="_blank">${getFileName(data)}</a>`;
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "image_file",
+                "title": "File Name",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return getFileName(data);
+                    } else {
+                        return "-";
+                    }
+                }
+            }
+        ]
+    });
+
     document.getElementById('scan_files').addEventListener('change', function () {
         const selectedFilesContainer = document.getElementById('selected-files');
         selectedFilesContainer.innerHTML = ''; // Clear previous selections
@@ -131,6 +177,8 @@ $(document).ready(function () {
                         for (const imageId of selectedImageIds) {
                             $(`.image-checkbox[data-image-id="${imageId}"]`).closest('.image-container').remove();
                         }
+                        // Refresh the DataTable after successful deletion
+                        scanTable.ajax.reload();
                     },
                     error: function (error) {
                         console.error('Error deleting images:', error);
@@ -157,17 +205,19 @@ $(document).ready(function () {
         return ['jpg', 'jpeg', 'png', 'gif'].includes(extension);
     }
 
-    $.ajax({
-        url: `/api/scanreport/${patientId}/${scanReportId}/`,
-        method: 'GET',
-        success: function (data) {
-            scanReportDetails = data;
-            populateForm();
-        },
-        error: function (error) {
-            console.error('Error fetching patient details:', error);
-        }
-    });
+    function fetchScanReportDetails() {
+        $.ajax({
+            url: `/api/scanreport/${patientId}/${scanReportId}/`,
+            method: 'GET',
+            success: function (data) {
+                scanReportDetails = data;
+                populateForm();
+            },
+            error: function (error) {
+                console.error('Error fetching scan report details:', error);
+            }
+        });
+    }
 
     $("#patient-report-create-form").submit(function (event) {
         event.preventDefault();
@@ -214,6 +264,8 @@ $(document).ready(function () {
                     icon: "success",
                     confirmButtonText: "OK"
                 });
+                // Refresh the DataTable after success
+                scanTable.ajax.reload();
             },
             error: function (xhr) {
                 console.error(xhr.responseJSON);
@@ -225,6 +277,7 @@ $(document).ready(function () {
             }
         });
     });
+    fetchScanReportDetails();
 });
 
 function clearFieldErrors() {
