@@ -126,6 +126,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
 
         patient_visit_id = request.data.get('patient_visit')
         patient_visit = get_object_or_404(PatientVisit, pk=patient_visit_id)  # Retrieve the PatientVisit instance
+        technician = get_object_or_404(User, phone_number=request.user)  # Retrieve the User instance
 
         report_data = {
             'patient_visit': patient_visit,
@@ -133,6 +134,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
             'conclusion': request.data.get('conclusion'),
             'findings': request.data.get('findings'),
             'scan_type': request.data.get('scan_type'),
+            'technician': technician,
         }
         patient_report = ScanReport(**report_data)
         patient_report.save()
