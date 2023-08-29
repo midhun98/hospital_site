@@ -115,11 +115,13 @@ $(document).ready(function () {
                 data: null,
                 "title": "Actions",
                 render: function (data) {
-                    var visitId = data.id;
-                    var url = "/patient-report/" + patientId + "/create/" + visitId + "/";
-                    var editUrl = "/patient/" + patientId + "/patient-visit/" + visitId + "/update/";
+                    let visitId = data.id;
+                    let url = "/patient-report/" + patientId + "/create/" + visitId + "/";
+                    let editUrl = "/patient/" + patientId + "/patient-visit/" + visitId + "/update/";
+                    let createInvoiceUrl=  "/patient-invoice/" + patientId + "/create/" + visitId + "/";
                     return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Report</a> ' +
-                        ' <a href="' + editUrl + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '">Edit</a>';
+                        ' <a href="' + editUrl + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '">Edit</a>'+
+                        ' <a href="' + createInvoiceUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Invoice</a>';
                 }
             }
 
