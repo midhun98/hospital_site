@@ -66,11 +66,15 @@ function createInvoice(event) {
         let quantity = parseInt(row.querySelector('[name="quantity[]"]').value);
         let unitPrice = parseFloat(row.querySelector('[name="unit_price[]"]').value);
         console.log('Row Data:', description, quantity, unitPrice);
-        invoiceItems.push({
-            description: description,
-            quantity: quantity,
-            unit_price: unitPrice
-        });
+
+        // Check if the row contains non-empty values
+        if (description.trim() !== '' && !isNaN(quantity) && !isNaN(unitPrice)) {
+            invoiceItems.push({
+                description: description,
+                quantity: quantity,
+                unit_price: unitPrice
+            });
+        }
     });
     console.log('invoiceItems', invoiceItems)
 
