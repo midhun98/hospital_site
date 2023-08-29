@@ -11,7 +11,7 @@ class Invoice(models.Model):
     payment_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Invoice for {self.patient_visit.patient} - {self.invoice_date}"
+        return f"Invoice for {self.id} - {self.invoice_date}"
 
 
 class InvoiceItem(models.Model):
