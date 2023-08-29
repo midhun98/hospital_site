@@ -1,5 +1,7 @@
 import json
+
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -7,7 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status, viewsets, pagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth import get_user_model
+
 from core.models import (
     Appointment,
     Enquiries,
@@ -20,6 +22,7 @@ from core.serializers import (
     ContactFormSerializer,
     CareerSerializer,
 )
+
 User = get_user_model()
 
 # Create your views here.

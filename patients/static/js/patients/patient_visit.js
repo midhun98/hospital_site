@@ -197,6 +197,68 @@ $(document).ready(function () {
         ]
     });
 
+    let invoiceTable = $('#invoiceTable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: `/api/invoices/${patientId}/invoice-patient/`,
+            "data": function (data) {
+                let customData = {
+                    page: (data.start / data.length) + 1,
+                    page_size: data.length,
+                    ordering: data.order[0].dir,
+                };
+                return customData;
+            },
+            "dataSrc": function (json) {
+                json.recordsTotal = json.count;
+                json.recordsFiltered = json.count;
+                return json.results;
+            }
+        },
+        "columns": [
+            {"data": "id", title: 'ID', defaultContent: ''},
+            {
+                "data": "invoice_date",
+                "title": "Invoice Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "due_date",
+                "title": "Due Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "payment_date",
+                "title": "Payment Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {"data": "total_amount", title: 'Total amount', defaultContent: ''},
+            {"data": "is_paid", title: 'Paid', defaultContent: ''},
+        ]
+    });
+
     // Open SweetAlert when clicking the "View Diagnosis" button
     $('#visitTable tbody').on('click', '.btn-diagnosis', function () {
         let diagnosis = $(this).data('diagnosis');
