@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_filters',
     'ckeditor',
     'froala_editor',
+    'invoices'
 ]
 
 MIDDLEWARE = [

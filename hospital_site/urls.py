@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('frontEnd.urls')),
     path('', include('patients.urls')),
+    # path('', include('invoices.urls')),
     path('froala_editor/',include('froala_editor.urls')),
 ]
 
