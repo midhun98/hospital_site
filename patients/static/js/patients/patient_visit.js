@@ -262,7 +262,9 @@ $(document).ready(function () {
                 render: function (data) {
                     var invoiceId = data.id;
                     var viewUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/view/";
-                    return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>';
+                    var updateUrl = "/patient-invoice/" + invoiceId + "/update/";
+                    return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>'+
+                        ' <a href="' + updateUrl + '" class="btn btn-outline-primary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
                 }
             }
 
