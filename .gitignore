@@ -4,3 +4,4 @@ db.sqlite3
 media/documents
 /media/uploads/froala_editor
 /media/scan_reports
+.idea
