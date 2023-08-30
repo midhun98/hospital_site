@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -14,6 +15,7 @@ from .models import (
 )
 from .serializers import (
     InvoiceSerializer,
+    InvoiceItemSerializer,
 )
 
 
@@ -55,6 +57,47 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             print(e)
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            invoice_id = kwargs.get('pk')
+            invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+            data = request.data
+
+            # Update due_date and total_amount if provided
+            if 'due_date' in data:
+                due_date_str = data['due_date']
+                if due_date_str:
+                    invoice.due_date = due_date_str
+
+            if 'total_amount' in data:
+                invoice.total_amount = data['total_amount']
+
+            invoice.save()
+
+            # Update or create InvoiceItem instances
+            items = data.get('items', [])
+            for item_data in items:
+                item_id = item_data.get('id')
+                description = item_data.get('description')
+                quantity = item_data.get('quantity')
+                unit_price = item_data.get('unit_price')
+
+                if item_id:
+                    # Update existing InvoiceItem
+                    invoice_item = get_object_or_404(InvoiceItem, pk=item_id)
+                    invoice_item.description = description
+                    invoice_item.quantity = quantity
+                    invoice_item.unit_price = unit_price
+                    invoice_item.save()
+                else:
+                    # Create new InvoiceItem
+                    InvoiceItem.objects.create(invoice=invoice, description=description, quantity=quantity, unit_price=unit_price)
+
+            return Response({'success': True}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     """
     This function retrieves all invoices associated with a specific patient and returns a
     paginated response.
@@ -88,23 +131,8 @@ class InvoiceViewSet(viewsets.ModelViewSet):
                 })
 
 
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-
-def generate_pdf(request):
-    template = get_template('invoice_card.html')
-    context = {}  # Provide context data if needed
-
-    html_content = template.render(context)
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="invoice.pdf"'
-
-    # Generate PDF using xhtml2pdf
-    pisa_status = pisa.CreatePDF(html_content, dest=response)
-
-    if pisa_status.err:
-        return HttpResponse('Error generating PDF', status=500)
-
-    return response
+class InvoiceItemViewSet(viewsets.ModelViewSet):
+    queryset = InvoiceItem.objects.all().order_by('id')
+    serializer_class = InvoiceItemSerializer
+    pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticated]  # Require authenticated users

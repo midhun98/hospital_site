@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <title>Update Patient Update</title>
+    <style>
+        .input-error {
+            border: 1px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 5px;
+        }
+    </style>
+    <!-- ... Other meta tags and title ... -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+    <div class="container mt-4">
+        <h2>Update Patient Invoice</h2>
+        <ol class="breadcrumb mb-4">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item">Patients</li>
+                <li class="breadcrumb-item"><a href="{% url 'list-patients' %}">Patients List</a></li>
+{#                <li class="breadcrumb-item active"><a href="{% url 'patient-visit' patient_id %}">Patients Visit</a>#}
+                </li>
+                <li class="breadcrumb-item active">Update Patient Invoice</li>
+            </ol>
+        </ol>
+
+        <form id="patient-invoice-update-form" class="widget-area-2 box-shadow">
+            {% csrf_token %}
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="due_date" class="form-label">Due Date:</label>
+                    <input type="text" class="form-control" id="due_date" name="due_date" required
+                           placeholder="Select Due date">
+                </div>
+            </div>
+
+            <br>
+            <table id="invoice-items" class="table table-bordered dt-responsive nowrap"
+                   style="width:100%">
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="col-sm-4 ml-auto">
+                <table class="table table-bordered dt-responsive nowrap " style="width:100%">
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td id="total-amount"><strong>₹ 0.00</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <button type="button" class="btn btn-outline-primary" onclick="addInvoiceItem()">Add Item</button>
+            <button type="submit" class="btn btn-primary" onclick="createInvoice(event)">Update Invoice</button>
+            <br>
+            <br>
+        </form>
+
+    </div>
+
+    <br>
+    <br>
+
+{% endblock %}
+{% block scripts %}
+
+
+    <script>
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+
+        initializeDateTimePicker("#due_date");
+
+        let invoiceId = {{ invoice_id }};  // pass the patient_id value from your view
+        let csrfToken = "{{ csrf_token }}";  // Assign the CSRF token value to the JavaScript variable
+
+    </script>
+    <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/patients/patient_invoice_update.js" %}"></script>
+{% endblock scripts %}
