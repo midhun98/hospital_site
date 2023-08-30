@@ -1,3 +1,5 @@
+let fileName;
+
 $(document).ready(function () {
     $.ajax({
         url: `/api/patients/${patientId}/`,
@@ -7,29 +9,31 @@ $(document).ready(function () {
             $("#patient_name").text(data.profile.first_name + " " + data.profile.last_name);
             $("#patient_email").text(data.profile.email);
             $("#patient_phone").text(data.profile.phone_number);
+            fileName = data.profile.first_name + " " + data.profile.last_name
         },
         error: function () {
             console.log("Error fetching data from the API.");
         }
     });
 });
-$(document).ready(function() {
+
+$(document).ready(function () {
     // Fetch data from the API using AJAX
     $.ajax({
         url: `/api/invoices/${invoiceId}/`,
         method: "GET",
-        success: function(data) {
-            var items = data.items;
-            var totalAmount = parseFloat(data.total_amount);
-            $("#invoice_no").text('#'+ data.id);
+        success: function (data) {
+            let items = data.items;
+            let totalAmount = parseFloat(data.total_amount);
+            $("#invoice_no").text('#' + data.id);
             $('#invoice_date').text(new Date(data.invoice_date).toLocaleString());
 
-            var tbodyHTML = "";
+            let tbodyHTML = "";
 
             // Loop through items and add rows to the tbodyHTML
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                var subTotal = parseFloat(item.unit_price) * item.quantity;
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+                let subTotal = parseFloat(item.unit_price) * item.quantity;
 
                 tbodyHTML += `
                     <tr>
@@ -57,8 +61,25 @@ $(document).ready(function() {
             // Insert the constructed tbodyHTML into the table body
             $("#table-container tbody").html(tbodyHTML);
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error fetching data:", error);
         }
     });
 });
+
+window.onload = function () {
+    document.getElementById("download")
+    .addEventListener("click", () => {
+        const invoice = this.document.getElementById("invoice");
+        console.log(invoice);
+        console.log(window);
+        let opt = {
+            margin: 0.1,
+            filename: fileName,
+            image: {type: 'jpeg', quality: 1},
+            html2canvas: {scale: 2},
+            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+        };
+        html2pdf().from(invoice).set(opt).save();
+    })
+}
