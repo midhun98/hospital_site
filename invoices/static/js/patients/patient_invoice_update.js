@@ -28,6 +28,11 @@ function updateTotal() {
 }
 
 $(document).ready(function() {
+    // Attach event listeners to quantity and unit_price inputs for changes
+    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
+        calculateSubtotal();
+    });
+
     // Fetch the invoice data from the API
 
     $.ajax({
@@ -58,12 +63,6 @@ $(document).ready(function() {
     });
 });
 
-
-
-function removeInvoiceItem(button) {
-    $(button).closest('tr').remove();
-    calculateSubtotal();
-}
 
 function addInvoiceItem() {
     let itemContainer = document.getElementById('invoice-items').getElementsByTagName('tbody')[0];
@@ -156,6 +155,7 @@ function createInvoice(event) {
                 confirmButtonText: "OK"
             });
 
+            window.location.reload();
             console.log('success', response)
         },
         error: function (xhr, status, error) {
@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function deleteInvoiceItem(itemId) {
     // Show a confirmation dialog using SweetAlert
-    Swal.fire({
+    swal.fire({
         title: 'Confirm Delete',
-        text: 'Are you sure you want to delete this invoice item this cannot be reverted?',
+        text: 'Are you sure you want to delete this invoice item this action cannot be reverted?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -220,11 +220,36 @@ function deleteInvoiceItem(itemId) {
 
                     // Recalculate subtotals and total
                     calculateSubtotal();
+
+                    // Update the total amount in the API
+                    updateTotalAmount();
                 },
                 error: function(xhr, status, error) {
                     console.log('Error deleting invoice item:', error);
                 }
             });
+        }
+    });
+}
+
+function updateTotalAmount() {
+    let totalAmountElement = document.getElementById('total-amount').textContent;
+    let totalAmountValue = parseFloat(totalAmountElement.replace('₹', '').trim());
+
+    // Send PATCH request to update total amount in the API
+    $.ajax({
+        type: 'PATCH',
+        url: `/api/invoices/${invoiceId}/`,
+        data: JSON.stringify({ total_amount: totalAmountValue }),
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrfToken,
+        },
+        success: function(response) {
+            console.log('Total amount updated successfully:', response);
+        },
+        error: function(xhr, status, error) {
+            console.log('Error updating total amount:', error);
         }
     });
 }
