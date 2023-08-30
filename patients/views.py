@@ -14,13 +14,13 @@ from rest_framework.response import Response
 from core.views import CustomPageNumberPagination
 from .filters import PatientFilter
 from .models import (Patient,
-                     ScanReport,
+                     PatientVisit,
                      ScanImage,
-                     PatientVisit)
-from .serializers import (PatientSerializer,
-                          CustomUserSerializer,
-                          ScanReportSerializer,
-                          PatientVisitSerializer)
+                     ScanReport)
+from .serializers import (CustomUserSerializer,
+                          PatientSerializer,
+                          PatientVisitSerializer,
+                          ScanReportSerializer)
 
 User = get_user_model()
 

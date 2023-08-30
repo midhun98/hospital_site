@@ -55,6 +55,19 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             print(e)
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    """
+    This function retrieves all invoices associated with a specific patient and returns a
+    paginated response.
+
+    :param request: The request object contains information about the current HTTP request, such as
+    the headers, body, and query parameters
+    :param pk: The "pk" parameter in the code refers to the primary key of the patient for whom the
+    invoices are being retrieved. It is used to filter the invoices based on the patient's primary key
+    :return: The code is returning a paginated response containing a list of serialized invoice data
+    for a specific patient. If no invoices are found for the patient, it will return a response with a
+    count of 0 and an empty list of results.
+    """
+
     @action(detail=True, methods=["get"], url_path="invoice-patient")
     def invoices_for_patient(self, request, pk=None):
         try:
@@ -73,3 +86,25 @@ class InvoiceViewSet(viewsets.ModelViewSet):
                     "previous": None,
                     "results": []
                 })
+
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+def generate_pdf(request):
+    template = get_template('invoice_card.html')
+    context = {}  # Provide context data if needed
+
+    html_content = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="invoice.pdf"'
+
+    # Generate PDF using xhtml2pdf
+    pisa_status = pisa.CreatePDF(html_content, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF', status=500)
+
+    return response

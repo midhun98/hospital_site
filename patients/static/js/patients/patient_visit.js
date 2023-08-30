@@ -256,6 +256,16 @@ $(document).ready(function () {
             },
             {"data": "total_amount", title: 'Total amount', defaultContent: ''},
             {"data": "is_paid", title: 'Paid', defaultContent: ''},
+            {
+                data: null,
+                "title": "Actions",
+                render: function (data) {
+                    var invoiceId = data.id;
+                    var viewUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/view/";
+                    return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>';
+                }
+            }
+
         ]
     });
 
