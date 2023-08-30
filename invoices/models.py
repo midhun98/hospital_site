@@ -1,5 +1,6 @@
 from django.db import models
 from patients.models import PatientVisit
+from core import utils
 
 
 class Invoice(models.Model):
@@ -9,6 +10,8 @@ class Invoice(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     payment_date = models.DateTimeField(null=True, blank=True)
+    invoice_name = models.TextField()
+    existence_status = models.IntegerField(choices=utils.existence_status, default=utils.ACTIVE)
 
     def __str__(self):
         return f"Invoice for {self.id} - {self.invoice_date}"

@@ -5,7 +5,7 @@ from core.models import (
 from core import utils
 from django.utils import timezone
 from froala_editor.fields import FroalaField
-
+from datetime import date
 
 # Create your models here.
 class Patient(models.Model):
@@ -20,6 +20,16 @@ class Patient(models.Model):
     additional_info = models.TextField(null=True, blank=True)
     insurance_provider = models.TextField(null=True, blank=True)
     policy_number = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)
+
+    def calculate_age(self):
+        if self.dob:
+            today = date.today()
+            birth_date = self.dob
+            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            return age
+        return None
 
     def __str__(self):
         return "{}".format(self.profile.phone_number if self.profile.phone_number else "")
