@@ -12,6 +12,24 @@
             font-size: 14px;
             margin-top: 4px;
         }
+
+        .box-shadow {
+            border-radius: 0;
+            border: 0;
+            -webkit-box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            box-shadow: 0 0 0 1px #dce3ec, 0 8px 16px 0 #dce3ec;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .widget-area-2 {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            padding-bottom: 2px;
+            border-radius: 5px;
+        }
+
     </style>
     <div class="container mt-4">
         <h2>Create Patient</h2>
@@ -20,7 +38,7 @@
             <li class="breadcrumb-item active">Patients</li>
         </ol>
 
-        <form id="create-patient-form">
+        <form id="create-patient-form" class="widget-area-2 box-shadow">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-6">
@@ -107,8 +125,12 @@
 
             <button type="submit" class="btn btn-primary">Create Patient</button>
             <br>
+            <br>
         </form>
     </div>
+    <br>
+    <br>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
 
 {% endblock %}

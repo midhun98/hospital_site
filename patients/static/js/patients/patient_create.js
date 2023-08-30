@@ -27,9 +27,10 @@ $(document).ready(function () {
         // Parse the input date using Moment.js
         let momentDate = moment(inputDate, "DD-MM-YYYY");
         // Check if the parsing was successful
+        let formattedDate;
         if (momentDate.isValid()) {
             // Format the date as "YYYY-MM-DD"
-            let formattedDate = momentDate.format("YYYY-MM-DD");
+            formattedDate = momentDate.format("YYYY-MM-DD");
         }
 
         let formData = {
