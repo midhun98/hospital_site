@@ -7,7 +7,7 @@ $(document).ready(function () {
             $("#name").text(data.profile.first_name + " " + data.profile.last_name);
             $("#ipno").text(data.inpatient_number);
             $("#opno").text(data.outpatient_number);
-            $("#address").text(data.profile.address);
+            $("#address").text(data.address);
             $("#phone").text(data.profile.phone_number);
             $("#email").text(data.profile.email);
         },
@@ -115,11 +115,13 @@ $(document).ready(function () {
                 data: null,
                 "title": "Actions",
                 render: function (data) {
-                    var visitId = data.id;
-                    var url = "/patient-report/" + patientId + "/create/" + visitId + "/";
-                    var editUrl = "/patient/" + patientId + "/patient-visit/" + visitId + "/update/";
+                    let visitId = data.id;
+                    let url = "/patient-report/" + patientId + "/create/" + visitId + "/";
+                    let editUrl = "/patient/" + patientId + "/patient-visit/" + visitId + "/update/";
+                    let createInvoiceUrl=  "/patient-invoice/" + patientId + "/create/" + visitId + "/";
                     return '<a href="' + url + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Report</a> ' +
-                        ' <a href="' + editUrl + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '">Edit</a>';
+                        ' <a href="' + editUrl + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '">Edit</a>'+
+                        ' <a href="' + createInvoiceUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '">Add Invoice</a>';
                 }
             }
 
@@ -192,6 +194,80 @@ $(document).ready(function () {
                         ' <a href="' + editURL + '" class="btn btn-secondary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
                 }
             }
+        ]
+    });
+
+    let invoiceTable = $('#invoiceTable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: `/api/invoices/${patientId}/invoice-patient/`,
+            "data": function (data) {
+                let customData = {
+                    page: (data.start / data.length) + 1,
+                    page_size: data.length,
+                    ordering: data.order[0].dir,
+                };
+                return customData;
+            },
+            "dataSrc": function (json) {
+                json.recordsTotal = json.count;
+                json.recordsFiltered = json.count;
+                return json.results;
+            }
+        },
+        "columns": [
+            {"data": "id", title: 'ID', defaultContent: ''},
+            {
+                "data": "invoice_date",
+                "title": "Invoice Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "due_date",
+                "title": "Due Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {
+                "data": "payment_date",
+                "title": "Payment Date",
+                "defaultContent": "-",
+                "render": function (data) {
+                    if (data) {
+                        return new Date(data).toLocaleString();
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            {"data": "total_amount", title: 'Total amount', defaultContent: ''},
+            {"data": "is_paid", title: 'Paid', defaultContent: ''},
+            {
+                data: null,
+                "title": "Actions",
+                render: function (data) {
+                    var invoiceId = data.id;
+                    var viewUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/view/";
+                    var updateUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/update/";
+                    return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>'+
+                        ' <a href="' + updateUrl + '" class="btn btn-outline-primary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
+                }
+            }
+
         ]
     });
 
