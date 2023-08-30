@@ -22,6 +22,15 @@ $(document).ready(function () {
             displayError($("#phone_number"), "Invalid phone number format.");
             return; // Stop form submission
         }
+        // Get the value of the date input field
+        let inputDate = $("#dob").val();
+        // Parse the input date using Moment.js
+        let momentDate = moment(inputDate, "DD-MM-YYYY");
+        // Check if the parsing was successful
+        if (momentDate.isValid()) {
+            // Format the date as "YYYY-MM-DD"
+            let formattedDate = momentDate.format("YYYY-MM-DD");
+        }
 
         let formData = {
             first_name: $("#first_name").val(),
@@ -34,6 +43,8 @@ $(document).ready(function () {
             allergies: $("#allergies").val(),
             current_medications: $("#current_medications").val(),
             additional_info: $("#additional_info").val(),
+            dob: formattedDate,
+            address: $("#address").val(),
         };
 
         $.ajax({

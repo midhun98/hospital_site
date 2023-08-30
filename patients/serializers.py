@@ -10,6 +10,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class PatientSerializer(serializers.ModelSerializer):
     profile = CustomUserSerializer()  # Include the nested serializer for the CustomUser model
+    age = serializers.SerializerMethodField()  # New field for calculated age
+
+    def get_age(self, obj):
+        return obj.calculate_age()  # Call the calculate_age method from the Patient model
 
     class Meta:
         model = Patient

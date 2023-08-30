@@ -17,6 +17,11 @@ $(document).ready(function () {
         $('#allergies').val(patientDetails.allergies);
         $('#current_medications').val(patientDetails.current_medications);
         $('#additional_info').val(patientDetails.additional_info);
+        $('#address').val(patientDetails.address);
+        $('#age').val(patientDetails.age);
+        $('#dob').val(new Date(patientDetails.dob).toLocaleDateString());
+
+
     }
 
     // Fetch patient details using AJAX
@@ -43,6 +48,13 @@ $(document).ready(function () {
             displayError($("#phone_number"), "Phone number must have exactly 10 digits.");
             return; // Stop form submission
         }
+        // Get the value of the date input field
+        let inputDate = $("#dob").val();
+        let momentDate = moment(inputDate, "DD-MM-YYYY");
+        let formattedDate;
+        if (momentDate.isValid()) {
+            formattedDate = momentDate.format("YYYY-MM-DD");
+        }
 
         // Collect updated data from form fields
         let updatedData = {
@@ -55,7 +67,10 @@ $(document).ready(function () {
             medical_history: $('#medical_history').val(),
             allergies: $('#allergies').val(),
             current_medications: $('#current_medications').val(),
-            additional_info: $('#additional_info').val()
+            additional_info: $('#additional_info').val(),
+            dob: formattedDate,
+            address: $("#address").val(),
+
         };
         // Get the CSRF token from the HTML form
         let csrfToken = $('input[name="csrfmiddlewaretoken"]').val();

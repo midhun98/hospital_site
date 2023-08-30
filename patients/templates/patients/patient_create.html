@@ -36,17 +36,36 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mb-3">
-                <label for="phone_number" class="form-label">Phone Number:</label>
-                <input type="text" class="form-control " id="phone_number" name="phone_number" placeholder="1234567890"
-                       required>
-                <small class="form-text text-muted">Please enter a 10-digit phone number without spaces or dashes (e.g., 1234567890).</small>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="phone_number" class="form-label">Phone Number:</label>
+                        <input type="text" class="form-control " id="phone_number" name="phone_number" placeholder="1234567890"
+                               required>
+                        <small class="form-text text-muted">Please enter a 10-digit phone number without spaces or dashes (e.g., 1234567890).</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">DOB:</label>
+                        <input type="text" class="form-control " id="dob" name="dob">
+                        <small class="form-text text-muted">Enter the date of birth.</small>
+                    </div>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address:</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address:</label>
+                        <textarea class="form-control" id="address" name="address"></textarea>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -82,7 +101,7 @@
             <div class="mb-3">
                 <label for="additional_info" class="form-label">Additional Info:</label>
                 <textarea class="form-control" id="additional_info" name="additional_info"></textarea>
-                <small class="form-text text-muted">Add extra info as needed like address or any other</small>
+                <small class="form-text text-muted">Add extra info as needed...</small>
 
             </div>
 
@@ -90,8 +109,18 @@
             <br>
         </form>
     </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
 
 {% endblock %}
 {% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+    <script>
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                dateFormat: "d-m-Y",
+            });
+        }
+        initializeDateTimePicker("#dob");
+    </script>
     <script type="text/javascript" src="{% static "js/patients/patient_create.js" %}"></script>
 {% endblock scripts %}

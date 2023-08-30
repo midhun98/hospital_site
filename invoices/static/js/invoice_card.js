@@ -7,6 +7,7 @@ $(document).ready(function () {
         success: function (data) {
             // Populate the table cells with data from the API response
             $("#patient_name").text(data.profile.first_name + " " + data.profile.last_name);
+            $("#patient_address").text(data.address);
             $("#patient_email").text(data.profile.email);
             $("#patient_phone").text(data.profile.phone_number);
             fileName = data.profile.first_name + " " + data.profile.last_name

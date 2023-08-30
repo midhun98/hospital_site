@@ -7,7 +7,7 @@ $(document).ready(function () {
             $("#name").text(data.profile.first_name + " " + data.profile.last_name);
             $("#ipno").text(data.inpatient_number);
             $("#opno").text(data.outpatient_number);
-            $("#address").text(data.profile.address);
+            $("#address").text(data.address);
             $("#phone").text(data.profile.phone_number);
             $("#email").text(data.profile.email);
         },
@@ -262,7 +262,7 @@ $(document).ready(function () {
                 render: function (data) {
                     var invoiceId = data.id;
                     var viewUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/view/";
-                    var updateUrl = "/patient-invoice/" + invoiceId + "/update/";
+                    var updateUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/update/";
                     return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>'+
                         ' <a href="' + updateUrl + '" class="btn btn-outline-primary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
                 }
