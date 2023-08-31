@@ -73,26 +73,28 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             if 'total_amount' in data:
                 invoice.total_amount = data['total_amount']
 
-            invoice.save()
+            # Use transaction.atomic()
+            with transaction.atomic():
+                invoice.save()
 
-            # Update or create InvoiceItem instances
-            items = data.get('items', [])
-            for item_data in items:
-                item_id = item_data.get('id')
-                description = item_data.get('description')
-                quantity = item_data.get('quantity')
-                unit_price = item_data.get('unit_price')
+                # Update or create InvoiceItem instances
+                items = data.get('items', [])
+                for item_data in items:
+                    item_id = item_data.get('id')
+                    description = item_data.get('description')
+                    quantity = item_data.get('quantity')
+                    unit_price = item_data.get('unit_price')
 
-                if item_id:
-                    # Update existing InvoiceItem
-                    invoice_item = get_object_or_404(InvoiceItem, pk=item_id)
-                    invoice_item.description = description
-                    invoice_item.quantity = quantity
-                    invoice_item.unit_price = unit_price
-                    invoice_item.save()
-                else:
-                    # Create new InvoiceItem
-                    InvoiceItem.objects.create(invoice=invoice, description=description, quantity=quantity, unit_price=unit_price)
+                    if item_id:
+                        # Update existing InvoiceItem
+                        invoice_item = get_object_or_404(InvoiceItem, pk=item_id)
+                        invoice_item.description = description
+                        invoice_item.quantity = quantity
+                        invoice_item.unit_price = unit_price
+                        invoice_item.save()
+                    else:
+                        # Create new InvoiceItem
+                        InvoiceItem.objects.create(invoice=invoice, description=description, quantity=quantity, unit_price=unit_price)
 
             return Response({'success': True}, status=status.HTTP_200_OK)
         except Exception as e:
