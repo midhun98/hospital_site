@@ -181,3 +181,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',  # Add this line
 ]
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+)

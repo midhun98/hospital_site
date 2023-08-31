@@ -5,3 +5,4 @@ media/documents
 /media/uploads/froala_editor
 /media/scan_reports
 .idea
+/staticfiles/CACHE
