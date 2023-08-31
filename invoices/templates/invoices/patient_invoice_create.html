@@ -49,14 +49,21 @@
         <form id="patient-invoice-create-form" class="widget-area-2 box-shadow">
             {% csrf_token %}
 
-            <div class="col-md-6">
-                <div class="mb-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
                     <label for="due_date" class="form-label">Due Date:</label>
                     <input type="text" class="form-control" id="due_date" name="due_date" required
                            placeholder="Select Due date">
                 </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="invoice_name" class="form-label">Inovice Name:</label>
+                        <input type="text" class="form-control" id="invoice_name" name="invoice_name">
+                    </div>
+                </div>
             </div>
-
             <br>
             <table id="invoice-items" class="table table-bordered dt-responsive nowrap"
                    style="width:100%">

@@ -36,13 +36,13 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             due_date_str = request.data.get('due_date')
             if due_date_str:
                 due_date = timezone.make_aware(datetime.datetime.strptime(due_date_str, '%Y-%m-%d %H:%M'))
-
+            invoice_name = data.get('invoice_name')
             # Create Invoice instance
             # The code block `with transaction.atomic():` is used to ensure that the database operations within it
             # are executed as a single transaction.
             with transaction.atomic():
                 invoice = Invoice.objects.create(patient_visit_id=patient_visit_id, due_date=due_date,
-                                                 total_amount=total_amount)
+                                                 total_amount=total_amount, invoice_name=invoice_name)
 
                 # Create InvoiceItem instances and associate with the created Invoice
                 for item_data in items:
@@ -65,13 +65,18 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             data = request.data
 
             # Update due_date and total_amount if provided
+
             if 'due_date' in data:
-                due_date_str = data['due_date']
-                if due_date_str:
-                    invoice.due_date = due_date_str
+                invoice.due_date = data['due_date']
 
             if 'total_amount' in data:
                 invoice.total_amount = data['total_amount']
+
+            if 'invoice_name' in data:
+                invoice.invoice_name = data['invoice_name']
+
+            if 'is_paid' in data:
+                invoice.is_paid = data['is_paid']
 
             # Use transaction.atomic()
             with transaction.atomic():
@@ -98,6 +103,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
             return Response({'success': True}, status=status.HTTP_200_OK)
         except Exception as e:
+            print(e)
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     """
