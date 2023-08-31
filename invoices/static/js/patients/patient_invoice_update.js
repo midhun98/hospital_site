@@ -27,24 +27,20 @@ function updateTotal() {
     document.getElementById('total-amount').textContent = '₹' + total.toFixed(2);
 }
 
-$(document).ready(function() {
-    // Attach event listeners to quantity and unit_price inputs for changes
-    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
-        calculateSubtotal();
-    });
-
-    // Fetch the invoice data from the API
-
+function fetchAndPopulateInvoiceData() {
     $.ajax({
         url: `/api/invoices/${invoiceId}/`,
         method: 'GET',
         success: function(response) {
+            // Clear the existing data
+            $('#invoice-items tbody').empty();
+
             // Populate the form fields and invoice items
             $('#due_date').val(response.due_date);
 
             response.items.forEach(function(item) {
                 let newRow = $('<tr>');
-                newRow.attr('data-item-id', item.id); // Store item ID as custom attribute
+                newRow.attr('data-item-id', item.id);
                 newRow.append(`<td><input type="text" name="description[]" value="${item.description}" required></td>`);
                 newRow.append(`<td><input type="number" name="quantity[]" value="${item.quantity}" min="1" required></td>`);
                 newRow.append(`<td><input type="number" name="unit_price[]" value="${item.unit_price}" step="0.01" required></td>`);
@@ -61,6 +57,16 @@ $(document).ready(function() {
             console.log('Error fetching invoice data:', error);
         }
     });
+}
+
+$(document).ready(function() {
+    // Attach event listeners to quantity and unit_price inputs for changes
+    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
+        calculateSubtotal();
+    });
+
+    // Fetch the invoice data from the API
+    fetchAndPopulateInvoiceData();
 });
 
 
@@ -154,8 +160,7 @@ function createInvoice(event) {
                 icon: "success",
                 confirmButtonText: "OK"
             });
-
-            window.location.reload();
+            fetchAndPopulateInvoiceData();
             console.log('success', response)
         },
         error: function (xhr, status, error) {

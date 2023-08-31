@@ -114,7 +114,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["get"], url_path="invoice-patient")
     def invoices_for_patient(self, request, pk=None):
         try:
-            invoices = Invoice.objects.filter(patient_visit__patient=pk)
+            invoices = Invoice.objects.filter(patient_visit__patient=pk).order_by('id')
 
             # Paginate the response using the main list pagination class
             page = self.paginate_queryset(invoices)
