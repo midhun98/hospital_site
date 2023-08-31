@@ -77,6 +77,8 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
             if 'is_paid' in data:
                 invoice.is_paid = data['is_paid']
+                if data['is_paid'] == 'True':
+                    invoice.payment_date = datetime.datetime.now(tz=timezone.utc)
 
             # Use transaction.atomic()
             with transaction.atomic():
