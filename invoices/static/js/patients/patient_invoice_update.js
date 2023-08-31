@@ -36,7 +36,8 @@ function fetchAndPopulateInvoiceData() {
             $('#invoice-items tbody').empty();
 
             // Populate the form fields and invoice items
-            $('#due_date').val(response.due_date);
+            let due_date = moment(response.due_date).format('DD-MM-YYYY hh:mm A');
+            $('#due_date').val(due_date);
             $('#invoice_name').val(response.invoice_name);
             if (response.is_paid) {
                 $('#paidRadio').prop('checked', true);
@@ -100,8 +101,16 @@ function createInvoice(event) {
     let totalAmountElement = document.getElementById('total-amount').textContent;
     let totalAmountValue = parseFloat(totalAmountElement.replace('₹', '').trim());
 
+    let inputDate = $("#due_date").val();
+    let parsedDate = moment(inputDate, ["D/M/YYYY, h:mm:ss a", "YYYY-MM-DD HH:mm"]);
+    if (parsedDate.isValid()) {
+        due_date = parsedDate.toISOString();  // Convert to ISO 8601 format for API
+    } else {
+        console.error('Invalid date format');
+    }
+
     let invoiceData = {
-        due_date: $("#due_date").val(),
+        due_date: due_date,
         invoice_name: $("#invoice_name").val(),
         total_amount: totalAmountValue,
         is_paid: $("input[name='paymentStatus']:checked").val()
