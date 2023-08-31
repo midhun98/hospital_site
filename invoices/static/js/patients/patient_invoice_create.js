@@ -58,6 +58,7 @@ function createInvoice(event) {
         patient_visit: visitId,  // Replace with the actual patient visit ID
         due_date: $("#due_date").val(),
         total_amount: totalAmountValue,
+        invoice_name: $("#invoice_name").val(),
     };
     let invoiceItems = [];
     let rows = document.querySelectorAll('#invoice-items tbody tr');
@@ -65,7 +66,6 @@ function createInvoice(event) {
         let description = row.querySelector('[name="description[]"]').value;
         let quantity = parseInt(row.querySelector('[name="quantity[]"]').value);
         let unitPrice = parseFloat(row.querySelector('[name="unit_price[]"]').value);
-        console.log('Row Data:', description, quantity, unitPrice);
 
         // Check if the row contains non-empty values
         if (description.trim() !== '' && !isNaN(quantity) && !isNaN(unitPrice)) {

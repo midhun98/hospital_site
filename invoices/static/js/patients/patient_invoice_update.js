@@ -37,7 +37,12 @@ function fetchAndPopulateInvoiceData() {
 
             // Populate the form fields and invoice items
             $('#due_date').val(response.due_date);
-
+            $('#invoice_name').val(response.invoice_name);
+            if (response.is_paid) {
+                $('#paidRadio').prop('checked', true);
+            } else {
+                $('#unpaidRadio').prop('checked', true);
+            }
             response.items.forEach(function(item) {
                 let newRow = $('<tr>');
                 newRow.attr('data-item-id', item.id);
@@ -97,7 +102,9 @@ function createInvoice(event) {
 
     let invoiceData = {
         due_date: $("#due_date").val(),
+        invoice_name: $("#invoice_name").val(),
         total_amount: totalAmountValue,
+        is_paid: $("input[name='paymentStatus']:checked").val()
     };
     let invoiceItems = [];
     let rows = document.querySelectorAll('#invoice-items tbody tr');
@@ -118,8 +125,6 @@ function createInvoice(event) {
             });
         }
     });
-    console.log('invoiceItems', invoiceItems)
-
 
     const errors = [];
 
@@ -143,7 +148,6 @@ function createInvoice(event) {
     }
 
     invoiceData.items = invoiceItems;
-    console.log('invoiceData', invoiceData)
     $.ajax({
         type: 'PATCH',
         url: `/api/invoices/${invoiceId}/`,
@@ -156,7 +160,7 @@ function createInvoice(event) {
         success: function (response) {
             swal.fire({
                 title: "Success",
-                text: "Invoice created successfully!",
+                text: "Invoice updated successfully!",
                 icon: "success",
                 confirmButtonText: "OK"
             });
@@ -166,7 +170,7 @@ function createInvoice(event) {
         error: function (xhr, status, error) {
             swal.fire({
                 title: "Error",
-                text: "Error creating Invoice check the fields!",
+                text: "Error updating Invoice check the fields!",
                 icon: "error",
                 confirmButtonText: "OK"
             });
