@@ -28,6 +28,7 @@ $(document).ready(function () {
             let totalAmount = parseFloat(data.total_amount);
             $("#invoice_no").text('#' + data.id);
             $('#invoice_date').text(new Date(data.invoice_date).toLocaleString());
+            $('#invoice_name').text(data.invoice_name);
 
             let tbodyHTML = "";
 

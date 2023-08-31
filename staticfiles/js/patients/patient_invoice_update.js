@@ -27,24 +27,26 @@ function updateTotal() {
     document.getElementById('total-amount').textContent = '₹' + total.toFixed(2);
 }
 
-$(document).ready(function() {
-    // Attach event listeners to quantity and unit_price inputs for changes
-    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
-        calculateSubtotal();
-    });
-
-    // Fetch the invoice data from the API
-
+function fetchAndPopulateInvoiceData() {
     $.ajax({
         url: `/api/invoices/${invoiceId}/`,
         method: 'GET',
         success: function(response) {
-            // Populate the form fields and invoice items
-            $('#due_date').val(response.due_date);
+            // Clear the existing data
+            $('#invoice-items tbody').empty();
 
+            // Populate the form fields and invoice items
+            let due_date = moment(response.due_date).format('DD-MM-YYYY hh:mm A');
+            $('#due_date').val(due_date);
+            $('#invoice_name').val(response.invoice_name);
+            if (response.is_paid) {
+                $('#paidRadio').prop('checked', true);
+            } else {
+                $('#unpaidRadio').prop('checked', true);
+            }
             response.items.forEach(function(item) {
                 let newRow = $('<tr>');
-                newRow.attr('data-item-id', item.id); // Store item ID as custom attribute
+                newRow.attr('data-item-id', item.id);
                 newRow.append(`<td><input type="text" name="description[]" value="${item.description}" required></td>`);
                 newRow.append(`<td><input type="number" name="quantity[]" value="${item.quantity}" min="1" required></td>`);
                 newRow.append(`<td><input type="number" name="unit_price[]" value="${item.unit_price}" step="0.01" required></td>`);
@@ -61,6 +63,16 @@ $(document).ready(function() {
             console.log('Error fetching invoice data:', error);
         }
     });
+}
+
+$(document).ready(function() {
+    // Attach event listeners to quantity and unit_price inputs for changes
+    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
+        calculateSubtotal();
+    });
+
+    // Fetch the invoice data from the API
+    fetchAndPopulateInvoiceData();
 });
 
 
@@ -89,9 +101,19 @@ function createInvoice(event) {
     let totalAmountElement = document.getElementById('total-amount').textContent;
     let totalAmountValue = parseFloat(totalAmountElement.replace('₹', '').trim());
 
+    let inputDate = $("#due_date").val();
+    let parsedDate = moment(inputDate, ["D/M/YYYY, h:mm:ss a", "YYYY-MM-DD HH:mm"]);
+    if (parsedDate.isValid()) {
+        due_date = parsedDate.toISOString();  // Convert to ISO 8601 format for API
+    } else {
+        console.error('Invalid date format');
+    }
+
     let invoiceData = {
-        due_date: $("#due_date").val(),
+        due_date: due_date,
+        invoice_name: $("#invoice_name").val(),
         total_amount: totalAmountValue,
+        is_paid: $("input[name='paymentStatus']:checked").val()
     };
     let invoiceItems = [];
     let rows = document.querySelectorAll('#invoice-items tbody tr');
@@ -112,8 +134,6 @@ function createInvoice(event) {
             });
         }
     });
-    console.log('invoiceItems', invoiceItems)
-
 
     const errors = [];
 
@@ -137,7 +157,6 @@ function createInvoice(event) {
     }
 
     invoiceData.items = invoiceItems;
-    console.log('invoiceData', invoiceData)
     $.ajax({
         type: 'PATCH',
         url: `/api/invoices/${invoiceId}/`,
@@ -150,18 +169,17 @@ function createInvoice(event) {
         success: function (response) {
             swal.fire({
                 title: "Success",
-                text: "Invoice created successfully!",
+                text: "Invoice updated successfully!",
                 icon: "success",
                 confirmButtonText: "OK"
             });
-
-            window.location.reload();
+            fetchAndPopulateInvoiceData();
             console.log('success', response)
         },
         error: function (xhr, status, error) {
             swal.fire({
                 title: "Error",
-                text: "Error creating Invoice check the fields!",
+                text: "Error updating Invoice check the fields!",
                 icon: "error",
                 confirmButtonText: "OK"
             });
