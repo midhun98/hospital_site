@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('frontEnd.urls')),
     path('', include('patients.urls')),
     path('', include('invoices.urls')),
-    path('froala_editor/',include('froala_editor.urls')),
+    path('froala_editor/', include('froala_editor.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 

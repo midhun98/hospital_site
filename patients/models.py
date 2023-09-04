@@ -7,6 +7,7 @@ from django.utils import timezone
 from froala_editor.fields import FroalaField
 from datetime import date
 
+
 # Create your models here.
 class Patient(models.Model):
     profile = models.OneToOneField(CustomUser, on_delete=models.CASCADE)

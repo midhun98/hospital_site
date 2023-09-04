@@ -1,4 +1,3 @@
-import datetime
 from django.contrib.auth.models import AbstractBaseUser, Group, User, PermissionsMixin
 from django.db import models
 from mptt.models import MPTTModel
