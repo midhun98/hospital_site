@@ -5,23 +5,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
-from rest_framework import status, viewsets, pagination
+from django.shortcuts import get_object_or_404, render
+from rest_framework import pagination, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import (
-    Appointment,
-    Enquiries,
-    Career,
-    Document,
-)
+from core.models import (Appointment,
+                         Career,
+                         Document,
+                         Enquiries)
 from core.permissions import AdminGroupPermission
-from core.serializers import (
-    AppointmentSerializer,
-    ContactFormSerializer,
-    CareerSerializer,
-)
+from core.serializers import (AppointmentSerializer,
+                              CareerSerializer,
+                              ContactFormSerializer)
 
 User = get_user_model()
 

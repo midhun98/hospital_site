@@ -11,7 +11,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from core.models import Hospital
 from core.views import CustomPageNumberPagination
+from .access_policies import PatientAccessPolicy
 from .filters import PatientFilter
 from .models import (Patient,
                      PatientVisit,
@@ -24,8 +26,11 @@ from .serializers import (CustomUserSerializer,
 
 User = get_user_model()
 
+from rest_access_policy import AccessViewSetMixin
 
-class PatientViewSet(viewsets.ModelViewSet):
+
+class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
+    access_policy = PatientAccessPolicy
     queryset = Patient.objects.all().order_by('id')
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
@@ -34,6 +39,9 @@ class PatientViewSet(viewsets.ModelViewSet):
     # Use the filter class
     filter_backends = [DjangoFilterBackend]
     filterset_class = PatientFilter
+
+    def get_queryset(self):
+        return self.access_policy.scope_queryset(self.request, self.queryset)
 
     def create(self, request, *args, **kwargs):
 
@@ -60,9 +68,11 @@ class PatientViewSet(viewsets.ModelViewSet):
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
+        hospital = Hospital.objects.get(id=request.user.active_hospital.id)
+
         if not existing_user:
             userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name,
-                                          email=email)
+                                          email=email, hospital=hospital)
             patients_group = Group.objects.get(name='patients')
             userobj.groups.add(patients_group)
         else:

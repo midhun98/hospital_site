@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django_filters',
     'ckeditor',
     'froala_editor',
-    'invoices'
+    'invoices',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'compression_middleware.middleware.CompressionMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'hospital_site.urls'

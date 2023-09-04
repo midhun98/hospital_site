@@ -5,7 +5,18 @@ from mptt.models import MPTTModel
 from core.manger import CustomUserManager
 from django.utils import timezone
 
+
+class Hospital(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    address = models.TextField(max_length=500)
+
+    def __str__(self):
+        return f"{self.id} - {self.name}"
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    hospital = models.ForeignKey(Hospital, null=True, blank=True, related_name='users', on_delete=models.SET_NULL)
     phone_number = models.CharField(max_length=15, unique=True, db_index=True)
     email = models.EmailField(unique=True, null=True, blank=True)
     first_name = models.CharField(max_length=30, blank=True)
