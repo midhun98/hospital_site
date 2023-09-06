@@ -1,19 +1,23 @@
+from datetime import date
+
+from django.core.exceptions import ValidationError
 from django.db import models
-from core.models import (
-    CustomUser
-)
-from core import utils
 from django.utils import timezone
 from froala_editor.fields import FroalaField
-from datetime import date
+
+from core import utils
+from core.models import (
+    CustomUser,
+    Hospital
+)
 
 
 # Create your models here.
 class Patient(models.Model):
     profile = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     existence_status = models.IntegerField(choices=utils.existence_status, default=utils.ACTIVE)
-    inpatient_number = models.CharField(max_length=10, blank=True, null=True, unique=True)
-    outpatient_number = models.CharField(max_length=10, blank=True, null=True, unique=True)
+    inpatient_number = models.CharField(max_length=10, blank=True, null=True)
+    outpatient_number = models.CharField(max_length=10, blank=True, null=True)
     medical_history = models.TextField(null=True, blank=True)
     allergies = models.TextField(null=True, blank=True)
     current_medications = models.TextField(null=True, blank=True)
@@ -23,6 +27,21 @@ class Patient(models.Model):
     policy_number = models.CharField(max_length=20, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
+
+    def validate_unique(self, exclude=None):
+        super().validate_unique(exclude)
+        if self.inpatient_number and self.__class__.objects.filter(profile__hospital=self.profile.hospital,
+                                                                   inpatient_number=self.inpatient_number).exclude(id=self.id).exists():
+            raise ValidationError(
+                message='Patient with this inpatient_number already exists in this hospital.',
+                code='unique_together',
+            )
+        if self.outpatient_number and self.__class__.objects.filter(profile__hospital=self.profile.hospital,
+                                                                    outpatient_number=self.outpatient_number).exclude(id=self.id).exists():
+            raise ValidationError(
+                message='Patient with this outpatient_number already exists in this hospital.',
+                code='unique_together',
+            )
 
     def calculate_age(self):
         if self.dob:
@@ -43,6 +62,7 @@ class EmergencyContact(models.Model):
 
 
 class PatientVisit(models.Model):
+    hospital = models.ForeignKey(Hospital, null=True, blank=True, related_name='patientvisits', on_delete=models.SET_NULL)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     admission_date = models.DateTimeField(null=True, blank=True)
     discharge_date = models.DateTimeField(null=True, blank=True)
