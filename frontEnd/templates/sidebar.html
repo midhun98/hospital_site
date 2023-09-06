@@ -18,6 +18,8 @@
 
 {% endif %}
 
+{% if not user|has_group:'patients' %}
+
 <div class="sb-sidenav-menu-heading">Patients</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false"
    aria-controls="collapseLayouts">
@@ -31,6 +33,9 @@
         <a class="nav-link" href="{% url 'list-patients' %}">Patient List</a>
     </nav>
 </div>
+
+{% endif %}
+
 {#<div class="sb-sidenav-menu-heading">Interface</div>#}
 {#<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false"#}
 {#   aria-controls="collapseLayouts">#}
