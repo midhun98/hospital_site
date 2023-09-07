@@ -10,11 +10,10 @@ from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_access_policy import AccessViewSetMixin
 
 from core.models import Hospital
 from core.views import CustomPageNumberPagination
-from .access_policies import PatientAccessPolicy, PatientVisitAccessPolicy
+from .access_policies import PatientAccessPolicy
 from .filters import PatientFilter
 from .models import (Patient,
                      PatientVisit,
@@ -27,12 +26,15 @@ from .serializers import (CustomUserSerializer,
 
 User = get_user_model()
 
+from rest_access_policy import AccessViewSetMixin
+
 
 class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
     access_policy = PatientAccessPolicy
     queryset = Patient.objects.all().order_by('id')
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
+    permission_classes = [IsAuthenticated]  # Require authenticated users
 
     # Use the filter class
     filter_backends = [DjangoFilterBackend]
@@ -66,7 +68,7 @@ class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-        hospital = Hospital.objects.get(id=request.user.hospital.id)
+        hospital = Hospital.objects.get(id=request.user.active_hospital.id)
 
         if not existing_user:
             userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name,
@@ -202,7 +204,6 @@ class ScanReportViewset(viewsets.ModelViewSet):
 
 
 class PatientVisitViewSet(viewsets.ModelViewSet):
-    access_policy = PatientVisitAccessPolicy
     serializer_class = PatientVisitSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
@@ -210,8 +211,7 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # Filter patient visits by the patient's ID
         patient_id = self.kwargs['patient_id']
-        queryset = PatientVisit.objects.filter(patient_id=patient_id).order_by('id')
-        return self.access_policy.scope_queryset(self.request, queryset)
+        return PatientVisit.objects.filter(patient_id=patient_id).order_by('id')
 
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs['patient_id']
@@ -236,10 +236,7 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
         if follow_up_appointments_str:
             follow_up_appointments = timezone.make_aware(datetime.datetime.strptime(follow_up_appointments_str, '%Y-%m-%d %H:%M'))
 
-        hospital = Hospital.objects.get(id=request.user.hospital.id)
-
         patient_data = {
-            'hospital': hospital,
             'patient_id': patient_id,
             'admission_date': admission_date,
             'discharge_date': discharge_date,
