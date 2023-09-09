@@ -18,7 +18,7 @@
         "buildCommand": "npm ci"
     },
     "deploy": {
-        "startCommand": "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn hospital_site.wsgi",
+        "startCommand": "pip install django-tenants==3.5.0 && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn hospital_site.wsgi",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     }
