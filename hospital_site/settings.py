@@ -30,7 +30,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Application definition
 
-INSTALLED_APPS = [
+SHARED_APPS  = [
+    'django_tenants',
+    'tenants',
     'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,7 +54,20 @@ INSTALLED_APPS = [
     'debug_toolbar',
 ]
 
+TENANT_APPS  = [
+    'core',
+    'patients',
+    'invoices',
+]
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
+
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -187,3 +202,9 @@ STATICFILES_FINDERS = [
 INTERNAL_IPS = (
     '127.0.0.1',
 )
+
+TENANT_MODEL = "tenants.Client" # app.Model
+
+TENANT_DOMAIN_MODEL = "tenants.Domain"  # app.Model
+
+PUBLIC_SCHEMA_URLCONF = "tenants.urls"

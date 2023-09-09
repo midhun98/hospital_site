@@ -1,11 +1,14 @@
+from datetime import date
+
+from django.db import connection
 from django.db import models
+from django.utils import timezone
+from froala_editor.fields import FroalaField
+
+from core import utils
 from core.models import (
     CustomUser
 )
-from core import utils
-from django.utils import timezone
-from froala_editor.fields import FroalaField
-from datetime import date
 
 
 # Create your models here.
@@ -92,9 +95,27 @@ class ScanReport(models.Model):
         return f"{self.id} - {self.patient_visit.patient.profile.phone_number} - {self.report_date} - {self.scan_type}"
 
 
+def upload_to_scan_images(instance, filename):
+    """
+    The function `upload_to_scan_images` returns the upload path for a file based on the current schema
+    name and the filename.
+    
+    :param instance: The `instance` parameter is an instance of the model that the file is being
+    uploaded for. It could be an instance of a user, document, or any other model that requires file
+    uploads
+    :param filename: The filename parameter is the name of the file that is being uploaded
+    :return: a string that represents the upload path for a file. The upload path is constructed using
+    the current schema name and the provided filename.
+    """
+    # get the current schema name
+    schema_name = connection.schema_name
+    # return the new upload path
+    return '{0}/scan_reports/{1}'.format(schema_name, filename)
+
+
 class ScanImage(models.Model):
     scan_report = models.ForeignKey(ScanReport, on_delete=models.CASCADE, related_name='scan_images')
-    image_file = models.FileField(upload_to='scan_reports/')
+    image_file = models.FileField(upload_to=upload_to_scan_images)
     uploaded_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
