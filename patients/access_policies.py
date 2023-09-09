@@ -24,4 +24,4 @@ class PatientAccessPolicy(AccessPolicy):
         if any(group in excluded_groups for group in request.user.groups.values_list("name", flat=True)):
             return qs.none()  # Return an empty queryset if the user is in an excluded group
 
-        return qs.filter(profile__hospital=user_hospital)
+        return qs
