@@ -68,7 +68,7 @@ class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-        hospital = Hospital.objects.get(id=request.user.active_hospital.id)
+        hospital = Hospital.objects.get(id=request.user.hospital.id)
 
         if not existing_user:
             userobj = User.objects.create(phone_number=phone_number, first_name=first_name, last_name=last_name,
