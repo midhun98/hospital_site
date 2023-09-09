@@ -30,7 +30,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Application definition
 
-SHARED_APPS  = [
+SHARED_APPS = [
     'django_tenants',
     'tenants',
     'whitenoise.runserver_nostatic',
@@ -54,7 +54,7 @@ SHARED_APPS  = [
     'debug_toolbar',
 ]
 
-TENANT_APPS  = [
+TENANT_APPS = [
     'core',
     'patients',
     'invoices',
@@ -179,7 +179,7 @@ AWS_DEFAULT_ACL = config('AWS_DEFAULT_ACL')
 AWS_QUERYSTRING_AUTH = config('AWS_QUERYSTRING_AUTH', cast=bool)
 
 # Set media storage for Django
-if config('DEBUG', cast=bool) == False:
+if not config('DEBUG', cast=bool):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 COMPRESS_ENABLED = True
@@ -203,7 +203,7 @@ INTERNAL_IPS = (
     '127.0.0.1',
 )
 
-TENANT_MODEL = "tenants.Client" # app.Model
+TENANT_MODEL = "tenants.Client"  # app.Model
 
 TENANT_DOMAIN_MODEL = "tenants.Domain"  # app.Model
 
