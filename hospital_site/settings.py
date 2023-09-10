@@ -162,7 +162,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-CSRF_TRUSTED_ORIGINS = ['https://www.jayanthihospital.in']
+CSRF_TRUSTED_ORIGINS = ['https://www.jayanthihospital.in', 'https://*.jayanthihospital.in']
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
