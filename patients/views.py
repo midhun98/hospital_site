@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_access_policy import AccessViewSetMixin
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -26,12 +27,10 @@ from .serializers import (CustomUserSerializer,
 
 User = get_user_model()
 
-from rest_access_policy import AccessViewSetMixin
-
 
 class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
     access_policy = PatientAccessPolicy
-    queryset = Patient.objects.all().order_by('id')
+    queryset = Patient.objects.select_related('profile').all().order_by('id')
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users

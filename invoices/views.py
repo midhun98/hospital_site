@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status, viewsets
@@ -61,7 +62,8 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         try:
             invoice_id = kwargs.get('pk')
             invoice = get_object_or_404(Invoice, pk=invoice_id)
-
+            if invoice.is_paid:
+                return JsonResponse({'message': 'Cannot update a paid invoice'}, status=400)
             data = request.data
 
             # Update due_date and total_amount if provided
