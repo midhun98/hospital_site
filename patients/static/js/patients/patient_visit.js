@@ -262,9 +262,17 @@ $(document).ready(function () {
                 render: function (data) {
                     var invoiceId = data.id;
                     var viewUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/view/";
-                    var updateUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/update/";
-                    return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>'+
-                        ' <a href="' + updateUrl + '" class="btn btn-outline-primary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
+
+                    // Check if is_paid is true
+                    if (data.is_paid) {
+                        // If is_paid is true, hide the "Update" button
+                        return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>';
+                    } else {
+                        // If is_paid is false, show both "View" and "Update" buttons
+                        var updateUrl = "/patient/" + patientId + "/patient-invoice/" + invoiceId + "/update/";
+                        return '<a href="' + viewUrl + '" class="btn btn-primary btn-sm" data-id="' + data.id + '" target="_blank">View</a>'+
+                            ' <a href="' + updateUrl + '" class="btn btn-outline-primary btn-sm" data-id="' + data.id + '" target="_blank">Update</a>';
+                    }
                 }
             }
 

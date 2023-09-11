@@ -177,12 +177,25 @@ function createInvoice(event) {
             console.log('success', response)
         },
         error: function (xhr, status, error) {
-            swal.fire({
-                title: "Error",
-                text: "Error updating Invoice check the fields!",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            var responseMessage = xhr.responseJSON && xhr.responseJSON.message;
+            if (xhr.status === 400) {
+                // This condition checks if the response status is 400 (Bad Request)
+                // It means you cannot update a paid invoice.
+                swal.fire({
+                    title: "Error",
+                    text: responseMessage,
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            } else {
+                // Handle other errors here
+                swal.fire({
+                    title: "Error",
+                    text: "Error updating Invoice. Please check the fields!",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            }
 
             console.log('error', error)
             console.log('xhr', xhr)
