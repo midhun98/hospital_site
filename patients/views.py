@@ -124,6 +124,7 @@ class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
 
 class ScanReportViewset(viewsets.ModelViewSet):
     queryset = ScanReport.objects.all().order_by('id')
+    access_policy = PatientAccessPolicy
     serializer_class = ScanReportSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
@@ -131,7 +132,8 @@ class ScanReportViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         # Filter patient visits by the patient's ID
         patient_id = self.kwargs['patient_id']
-        return ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id)).order_by('id')
+        queryset = ScanReport.objects.filter(Q(patient_id=patient_id) | Q(patient_visit__patient_id=patient_id)).order_by('id')
+        return self.access_policy.scope_queryset(self.request, queryset)
 
     def create(self, request, *args, **kwargs):
         report_date = None
@@ -204,6 +206,7 @@ class ScanReportViewset(viewsets.ModelViewSet):
 
 
 class PatientVisitViewSet(viewsets.ModelViewSet):
+    access_policy = PatientAccessPolicy
     serializer_class = PatientVisitSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
@@ -211,7 +214,8 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # Filter patient visits by the patient's ID
         patient_id = self.kwargs['patient_id']
-        return PatientVisit.objects.filter(patient_id=patient_id).order_by('id')
+        queryset = PatientVisit.objects.filter(patient_id=patient_id).order_by('id')
+        return self.access_policy.scope_queryset(self.request, queryset)
 
     def create(self, request, *args, **kwargs):
         patient_id = self.kwargs['patient_id']

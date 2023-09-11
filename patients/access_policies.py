@@ -4,11 +4,20 @@ from rest_access_policy import AccessPolicy
 class PatientAccessPolicy(AccessPolicy):
     statements = [
         {
+            "action": ["list", "retrieve", "create", "update", "delete"],
+            "principal": {"group": "patients"},
+            "effect": "deny"
+        },
+        {
             "action": ["list", "retrieve", "create", "update"],
             "principal": "authenticated",
-            "effect": "allow"
-        },
+            "effect": "allow",
+            "condition": ["not_in_patients_group"]
+        }
     ]
+
+    def not_in_patients_group(self, request, view, action) -> bool:
+        return "patients" not in request.user.groups.values_list("name", flat=True)
 
     @classmethod
     def scope_queryset(cls, request, qs):
