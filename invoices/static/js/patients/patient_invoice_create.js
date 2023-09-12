@@ -136,6 +136,9 @@ function createInvoice(event) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    let addInvoiceItemButton = document.getElementById('addInvoiceItemButton');
+    addInvoiceItemButton.addEventListener('click', addInvoiceItem);
+
     // Attach event listeners to existing rows for deletion
     let existingRows = document.querySelectorAll('#invoice-items tbody tr');
     existingRows.forEach(function (row) {
