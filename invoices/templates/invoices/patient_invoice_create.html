@@ -117,7 +117,14 @@
         let csrfToken = "{{ csrf_token }}";  // Assign the CSRF token value to the JavaScript variable
 
     </script>
-    <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/patients/patient_invoice_create.js" %}"></script>
-
+    {% if not debug %}
+        {% load compress %}
+            {% compress js %}
+                <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
+                <script type="text/javascript" src="{% static "js/patients/patient_invoice_create.js" %}"></script>
+            {% endcompress %}
+        {% else %}
+            <script type="text/javascript" src="{% static "js/customSelect2.js" %}"></script>
+            <script type="text/javascript" src="{% static "js/patients/patient_invoice_create.js" %}"></script>
+    {% endif %}
 {% endblock scripts %}
