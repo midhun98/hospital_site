@@ -91,7 +91,6 @@ class PatientViewSet(viewsets.ModelViewSet):
         return Response({'success': True}, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         instance = self.get_object()
 
         user_data = {
