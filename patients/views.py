@@ -6,7 +6,6 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_access_policy import AccessViewSetMixin
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -28,7 +27,7 @@ from .serializers import (CustomUserSerializer,
 User = get_user_model()
 
 
-class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
+class PatientViewSet(viewsets.ModelViewSet):
     access_policy = PatientAccessPolicy
     queryset = Patient.objects.select_related('profile').all().order_by('id')
     serializer_class = PatientSerializer
@@ -92,6 +91,7 @@ class PatientViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
         return Response({'success': True}, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
+        print(request.data)
         instance = self.get_object()
 
         user_data = {
