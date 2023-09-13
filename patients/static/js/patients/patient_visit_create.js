@@ -27,7 +27,7 @@ $(document).ready(function () {
             success: function (response) {
                 swal.fire({
                     title: "Success",
-                    text: "Patient created successfully!",
+                    text: "Patient Visit created successfully!",
                     icon: "success",
                     confirmButtonText: "OK"
                 });
