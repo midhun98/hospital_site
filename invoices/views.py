@@ -10,21 +10,31 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.views import CustomPageNumberPagination
+from .access_policies import InvoiceAccessPolicy
+
 from .models import (
     Invoice,
     InvoiceItem,
 )
 from .serializers import (
     InvoiceItemSerializer,
-    InvoiceSerializer
+    InvoiceRetrieveSerializer,
+    InvoiceSerializer,
 )
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
+    access_policy = InvoiceAccessPolicy
     queryset = Invoice.objects.all().order_by('id')
     serializer_class = InvoiceSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return InvoiceRetrieveSerializer
+        else:
+            return InvoiceSerializer
 
     def create(self, request, *args, **kwargs):
         try:
