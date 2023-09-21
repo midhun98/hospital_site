@@ -20,24 +20,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="rowReorder.dataTables" level="application" />
     <orderEntry type="library" name="responsive.dataTables" level="application" />
-    <orderEntry type="library" name="responsive.bootstrap5" level="application" />
-    <orderEntry type="library" name="dataTables.responsive" level="application" />
     <orderEntry type="library" name="auth" level="application" />
-    <orderEntry type="library" name="sweetalert2" level="application" />
-    <orderEntry type="library" name="jquery.dataTables" level="application" />
-    <orderEntry type="library" name="dataTables.bootstrap5" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="@popperjs/core" level="application" />
     <orderEntry type="library" name="tempusdominus-bootstrap-4" level="application" />
     <orderEntry type="library" name="jquery-3.5.1.slim" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="moment.js" level="application" />
     <orderEntry type="library" name="froala-editor" level="application" />
-    <orderEntry type="library" name="jquery-3.6.0" level="application" />
     <orderEntry type="library" name="select2-bootstrap-theme" level="application" />
     <orderEntry type="library" name="magnific-popup.js" level="application" />
-    <orderEntry type="library" name="moment.js" level="application" />
     <orderEntry type="library" name="@editorjs" level="application" />
+    <orderEntry type="library" name="popper.js" level="application" />
+    <orderEntry type="library" name="moment.js" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />

@@ -4,27 +4,50 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.views import CustomPageNumberPagination
+from .access_policies import InvoiceAccessPolicy
+from .filters import InvoiceFilter
+
 from .models import (
     Invoice,
     InvoiceItem,
 )
 from .serializers import (
     InvoiceItemSerializer,
-    InvoiceSerializer
+    InvoiceListingSerializer, InvoiceRetrieveSerializer,
+    InvoiceSerializer,
 )
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
+    access_policy = InvoiceAccessPolicy
     queryset = Invoice.objects.all().order_by('id')
     serializer_class = InvoiceSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
+
+    # Use the filter class
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = InvoiceFilter
+
+    def get_queryset(self):
+        if self.action == 'invoice_list':
+            return self.access_policy.scope_queryset(self.request, Invoice.objects.select_related('patient_visit').all().order_by('id'))
+        return self.access_policy.scope_queryset(self.request, self.queryset)
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return InvoiceRetrieveSerializer
+        elif self.action == 'invoice_list':
+            return InvoiceListingSerializer  # Use InvoiceListingSerializer for invoice_list
+        else:
+            return InvoiceSerializer
 
     def create(self, request, *args, **kwargs):
         try:
@@ -126,13 +149,32 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["get"], url_path="invoice-patient")
     def invoices_for_patient(self, request, pk=None):
         try:
-            invoices = Invoice.objects.filter(patient_visit__patient=pk).order_by('id')
+            invoices = self.access_policy.scope_queryset(self.request,Invoice.objects.filter(patient_visit__patient=pk).order_by('id'))
 
             # Paginate the response using the main list pagination class
             page = self.paginate_queryset(invoices)
             serializer = self.get_serializer(page, many=True)
 
             return self.get_paginated_response(serializer.data)
+        except Invoice.DoesNotExist:
+            return Response(
+                {
+                    "count": 0,
+                    "next": None,
+                    "previous": None,
+                    "results": []
+                })
+
+    @action(detail=False, methods=["get"], url_path="invoice-list")
+    def invoice_list(self, request):
+        try:
+
+            invoices = self.get_queryset()
+            invoices = self.filter_queryset(invoices)
+            page = self.paginate_queryset(invoices)
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
         except Invoice.DoesNotExist:
             return Response(
                 {

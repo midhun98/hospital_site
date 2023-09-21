@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load static %}
+    <!-- Add the Bootstrap CSS to the header of your HTML file -->
+    <title>All Invoices</title>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">All Invoices</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">Invoices</li>
+            <li class="breadcrumb-item active">Invoices List</li>
+        </ol>
+    </div>
+    <!-- /Breadcrumb -->
+    <!-- Main Content -->
+    <!-- Widget Item -->
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table me-1"></i>All Invoices</div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="search-id" class="form-label">Search Invoices:</label>
+                    <div class="input-group" >
+                        <input type="text" id="search-id" class="form-control" placeholder="Search by id...">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="paymentFilterDropdown"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;">
+                                Select Payment
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="paymentFilterDropdown" >
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="payment-option" id="search-input-all" checked>
+                                    <label class="form-check-label" for="search-input-all">All</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="search-input-paid">
+                                    <label class="form-check-label" for="search-input-paid">Paid</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="search-input-unpaid">
+                                    <label class="form-check-label" for="search-input-unpaid">Unpaid</label>
+                                </div>
+                            </div>
+                        <label for="filter_date_range" class="form-label" style="margin-left: 10px;"></label>
+                        <input type="text" class="form-control" id="filter_date_range" name="filter_date_range" required
+                               placeholder="Enter Date Range">
+
+                    </div>
+                </div>
+            </div>
+            <table id="invoices-table" class="table table-bordered table-striped table-dark dt-responsive nowrap"
+                   style="width:100%"></table>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
+        <script>
+        // Prevent dropdown from closing when clicking on checkboxes
+        $('.dropdown-menu').on('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Handle checkbox click
+        $('.form-check-input').on('click', function() {
+            $('.form-check-input').prop('checked', false);
+            $(this).prop('checked', true);
+        });
+
+        function initializeDateTimePicker(elementId) {
+            flatpickr(elementId, {
+                mode: "range",
+                dateFormat: "d-m-Y",
+                time_24hr: false // Set to false to enable AM/PM selection
+            });
+        }
+        initializeDateTimePicker("#date_range");
+    </script>
+    <script src="{% static "js/list_invoices.js" %}"></script>
+{% endblock scripts %}
