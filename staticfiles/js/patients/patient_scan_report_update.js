@@ -83,7 +83,12 @@ $(document).ready(function () {
         $('#current_patient_visit').val(scanReportDetails.patient_visit);
 
         // Initialize Froala Editor after populating the form
-        var editor = new FroalaEditor('#findings');
+        ClassicEditor
+        .create( document.querySelector( '#findings' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
         // Populate scan images
         const scanImages = scanReportDetails.scan_images;
         const galleryDiv = $('.gallery');
