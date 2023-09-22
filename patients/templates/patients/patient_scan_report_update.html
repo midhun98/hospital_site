@@ -152,6 +152,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+        ClassicEditor
+        .create( document.querySelector( '#findings' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
         // Find the element using its class name
 
         function initializeDateTimePicker(elementId) {
