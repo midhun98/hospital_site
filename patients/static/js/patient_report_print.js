@@ -32,18 +32,18 @@ $(document).ready(function () {
             // Assuming findings is the table data
             $('#tableContainer').html(data.findings);  // Inject table data into a container
 
-ClassicEditor
-    .create( document.querySelector( '#tableContainer' ), {
-        toolbar: [],  // Set an empty array to hide the toolbar
-    })
-    .then( editor => {
-        editor.enableReadOnlyMode('lock1'); // Enable read-only mode
+            ClassicEditor
+                .create( document.querySelector( '#tableContainer' ), {
+                    toolbar: [],  // Set an empty array to hide the toolbar
+                })
+                .then( editor => {
+                    editor.enableReadOnlyMode('lock1'); // Enable read-only mode
 
-        // Do something here...
-    })
-    .catch( error => {
-        console.error( error );
-    });
+                    // Do something here...
+                })
+                .catch( error => {
+                    console.error( error );
+                });
 
 
             // Update the invoice name and report summary
