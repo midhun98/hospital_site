@@ -3,7 +3,7 @@ from datetime import date
 from django.db import connection
 from django.db import models
 from django.utils import timezone
-from froala_editor.fields import FroalaField
+from django_ckeditor_5.fields import CKEditor5Field
 
 from core import utils
 from core.models import (
@@ -81,7 +81,7 @@ class ScanReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
     report_date = models.DateTimeField(null=True, blank=True)
     scan_type = models.CharField(max_length=50)
-    findings = FroalaField(null=True, blank=True)
+    findings = CKEditor5Field('Text', config_name='extends', null=True, blank=True)
     conclusion = models.TextField(null=True, blank=True)
     technician = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_technician', null=True, blank=True)
     doctor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_doctor', null=True, blank=True)

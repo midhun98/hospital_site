@@ -2,7 +2,6 @@ window.onload = function () {
     document.getElementById("patient-report-create-form").reset();
 };
 
-let editor = new FroalaEditor('#findings', {attribution: false});
 
 const csrfToken = $('#patient-report-create-form input[name="csrfmiddlewaretoken"]').val();
 $(document).ready(function () {
