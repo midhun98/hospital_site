@@ -31,10 +31,16 @@ $(document).ready(function () {
 
             // Assuming findings is the table data
             $('#tableContainer').html(data.findings);  // Inject table data into a container
-            var editor = new FroalaEditor('#tableContainer', {
-                toolbarButtons: [],
-                readOnly: true  // Set to true to make the editor read-only
-            });
+
+            ClassicEditor
+                .create( document.querySelector( '#tableContainer' ), {
+                    toolbar: [],  // Set an empty array to hide the toolbar
+                    readOnly: true  // Set the readOnly option to true to make CKEditor read-only
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+
 
             // Update the invoice name and report summary
             $('#invoice_name').text(data.scan_type);  // Replace with actual invoice name

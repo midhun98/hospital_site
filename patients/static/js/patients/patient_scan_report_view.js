@@ -56,9 +56,15 @@ $(document).ready(function () {
         $('#patient_visit').val(scanReportDetails.patient_visit).prop('disabled', true);
 
         // Initialize Froala Editor after populating the form
-        var editor = new FroalaEditor('#findings', {
-            toolbarButtons: ['fullscreen', 'print'],
-        });
+        // var editor = new FroalaEditor('#findings', {
+        //     toolbarButtons: ['fullscreen', 'print'],
+        // });
+        ClassicEditor
+        .create( document.querySelector( '#findings' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
         // Populate scan images
         const scanImages = scanReportDetails.scan_images;
         const galleryDiv = $('.gallery');
