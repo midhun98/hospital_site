@@ -1,4 +1,5 @@
 asgiref==3.7.2
+bleach==6.0.0
 boto3==1.28.14
 botocore==1.31.14
 Brotli==1.0.9
@@ -13,10 +14,12 @@ dj-database-url==1.2.0
 Django==4.2.3
 django-appconf==1.0.5
 django-ckeditor==6.7.0
+django-ckeditor-5==0.2.9
 django-cloudinary-storage==0.3.0
 django-compression-middleware==0.5.0
 django-compressor==4.3
 django-debug-toolbar==4.2.0
+django-extensions==3.2.3
 django-filter==23.2
 django-froala-editor==4.1.1
 django-js-asset==2.0.0
@@ -56,5 +59,6 @@ typing_extensions==4.7.1
 tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.14
+webencodings==0.5.1
 whitenoise==6.5.0
 zstandard==0.19.0
