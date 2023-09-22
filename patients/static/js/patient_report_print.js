@@ -38,8 +38,6 @@ $(document).ready(function () {
                 })
                 .then( editor => {
                     editor.enableReadOnlyMode('lock1'); // Enable read-only mode
-
-                    // Do something here...
                 })
                 .catch( error => {
                     console.error( error );
