@@ -35,7 +35,9 @@ $(document).ready(function () {
             ClassicEditor
                 .create( document.querySelector( '#tableContainer' ), {
                     toolbar: [],  // Set an empty array to hide the toolbar
-                    readOnly: true  // Set the readOnly option to true to make CKEditor read-only
+                })
+                .then( editor => {
+                    editor.enableReadOnlyMode('lock1'); // Enable read-only mode
                 })
                 .catch( error => {
                     console.error( error );
