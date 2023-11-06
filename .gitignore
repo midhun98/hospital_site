@@ -7,3 +7,6 @@ media/documents
 .idea
 /staticfiles/CACHE
 media
+/media/
+/node_modules/
+/staticfiles/
