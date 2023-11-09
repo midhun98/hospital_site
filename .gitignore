@@ -1,12 +1,9 @@
-/venv/
+venv/
 db.sqlite3
 .env
-media/documents
-/media/uploads/froala_editor
-/media/scan_reports
 .idea
 /staticfiles/CACHE
-media
-/media/
+media/
 /node_modules/
-/staticfiles/
+staticfiles/
+__pycache__/
