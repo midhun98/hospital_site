@@ -2,9 +2,7 @@ venv/
 db.sqlite3
 .env
 .idea
-/staticfiles/CACHE
 media/
-/node_modules/
+node_modules/
 staticfiles/
-/staticfiles/
 __pycache__/
