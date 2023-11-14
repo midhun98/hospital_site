@@ -24,6 +24,13 @@ class InvoiceFilter(django_filters.FilterSet):
         to_date = self.request.query_params.get('to_date', None)
         print("from_date and to_date", from_date, to_date)
 
+        id = self.request.query_params.get('id', None)
+        filter_date_range = self.request.query_params.get('filter_date_range', None)
+        print("filter_date_range", filter_date_range)
+        if id:
+            queryset = queryset.filter(id=id)
+
+
         # Handle filtering based on 'paid', 'unpaid', 'from_date', and 'to_date' parameters
         if paid == 'true':
             queryset = queryset.filter(is_paid=True)

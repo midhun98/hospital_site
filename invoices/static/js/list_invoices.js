@@ -92,4 +92,8 @@ $(document).ready(function () {
         invoicesTable.ajax.reload();
     });
 
+    // Handle filter_date_range changes
+    $('#filter_date_range').on('change', function () {
+        invoicesTable.ajax.reload();
+    });
 });

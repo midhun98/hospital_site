@@ -168,7 +168,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"], url_path="invoice-list")
     def invoice_list(self, request):
         try:
-
             invoices = self.get_queryset()
             invoices = self.filter_queryset(invoices)
             page = self.paginate_queryset(invoices)
