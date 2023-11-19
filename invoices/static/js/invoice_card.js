@@ -10,6 +10,8 @@ $(document).ready(function () {
             $("#patient_address").text(data.address);
             $("#patient_email").text(data.profile.email === null ? '' : data.profile.email);
             $("#patient_phone").text(data.profile.phone_number);
+            $("#patient_ip_no").text("IP No. "+data.inpatient_number);
+            $("#patient_op_no").text("OP No. "+data.outpatient_number);
             fileName = data.profile.first_name + " " + data.profile.last_name
         },
         error: function () {
