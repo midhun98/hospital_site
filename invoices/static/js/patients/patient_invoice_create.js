@@ -1,7 +1,15 @@
 function calculateSubtotal(row) {
-    let quantity = parseFloat(row.querySelector('[name="quantity[]"]').value);
+    let quantityInput = row.querySelector('[name="quantity[]"]');
+    let quantityValue = parseFloat(quantityInput.value);
+
+    // Check if quantity is empty or not a number
+    if (isNaN(quantityValue) || quantityValue <= 0) {
+        quantityInput.value = '1'; // Set quantity to 1 if empty or invalid
+        quantityValue = 1;
+    }
+
     let unitPrice = parseFloat(row.querySelector('[name="unit_price[]"]').value);
-    let subtotal = (quantity * unitPrice).toFixed(2);
+    let subtotal = (quantityValue * unitPrice).toFixed(2);
 
     row.querySelector('.subtotal').textContent = '₹' + subtotal;
 
