@@ -213,3 +213,10 @@ TENANT_DOMAIN_MODEL = "tenants.Domain"  # app.Model
 PUBLIC_SCHEMA_URLCONF = "tenants.urls"
 
 CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS
+
+if not DEBUG:
+    REST_FRAMEWORK = {
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
+    }
