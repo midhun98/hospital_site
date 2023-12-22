@@ -26,6 +26,26 @@ $(document).ready(function () {
         url: `/api/invoices/${invoiceId}/`,
         method: "GET",
         success: function (data) {
+            patientVisit = data.patient_visit;
+            $.ajax({
+                url: `/api/patients/${patientVisit}/patient-visits/`,
+                method: "GET",
+                success: function (visitData) {
+                    const admissionDateTime = new Date(visitData.results[0].admission_date).toLocaleString();
+                    const dischargeDateTime = new Date(visitData.results[0].discharge_date).toLocaleString();
+
+                    if (admissionDateTime){
+                        $("#admission_date").text("Admission Date: " + admissionDateTime);
+                    }
+                    if (dischargeDateTime){
+                        $("#discharge_date").text("Discharge Date: " + dischargeDateTime);
+                    }
+                },
+                error: function (error) {
+                    console.error("Error fetching patient visit data:", error);
+                }
+            });
+
             let items = data.items;
             let totalAmount = parseFloat(data.total_amount);
             $("#invoice_no").text('#' + data.id);
