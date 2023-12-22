@@ -12,7 +12,11 @@ $(document).ready(function () {
             $("#patient_phone").text(data.profile.phone_number);
             $("#patient_ip_no").text("IP No. "+data.inpatient_number);
             $("#patient_op_no").text("OP No. "+data.outpatient_number);
-            fileName = data.profile.first_name + " " + data.profile.last_name
+            fileName = data.profile.first_name + " " + data.profile.last_name;
+            claimNo = data.policy_number;
+            if(claimNo){
+                $("#policy_no").text("Claim no: "+claimNo);
+            }
         },
         error: function () {
             console.log("Error fetching data from the API.");
@@ -28,11 +32,12 @@ $(document).ready(function () {
         success: function (data) {
             patientVisit = data.patient_visit;
             $.ajax({
-                url: `/api/patients/${patientVisit}/patient-visits/`,
+                url: `/api/patients/${patientId}/patient-visits/${patientVisit}/`,
                 method: "GET",
                 success: function (visitData) {
-                    const admissionDateTime = new Date(visitData.results[0].admission_date).toLocaleString();
-                    const dischargeDateTime = new Date(visitData.results[0].discharge_date).toLocaleString();
+
+                    const admissionDateTime = new Date(visitData.admission_date).toLocaleString();
+                    const dischargeDateTime = new Date(visitData.discharge_date).toLocaleString();
 
                     if (admissionDateTime){
                         $("#admission_date").text("Admission Date: " + admissionDateTime);
