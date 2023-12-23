@@ -20,8 +20,8 @@ $(document).ready(function () {
         $('#address').val(patientDetails.address);
         $('#age').val(patientDetails.age);
         $('#dob').val(new Date(patientDetails.dob).toLocaleDateString());
-
-
+        $('#insurance_provider').val(patientDetails.insurance_provider);
+        $('#policy_number').val(patientDetails.policy_number);
     }
 
     // Fetch patient details using AJAX
@@ -70,6 +70,9 @@ $(document).ready(function () {
             additional_info: $('#additional_info').val(),
             dob: formattedDate,
             address: $("#address").val(),
+            insurance_provider: $("#insurance_provider").val(),
+            policy_number: $("#policy_number").val(),
+
 
         };
         // Get the CSRF token from the HTML form
