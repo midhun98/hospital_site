@@ -23,7 +23,7 @@ class Patient(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     additional_info = models.TextField(null=True, blank=True)
     insurance_provider = models.TextField(null=True, blank=True)
-    policy_number = models.CharField(max_length=20, null=True, blank=True)
+    policy_number = models.CharField(max_length=50, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
 

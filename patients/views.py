@@ -86,6 +86,8 @@ class PatientViewSet(viewsets.ModelViewSet):
             'additional_info': request.data.get('additional_info') or None,
             'address': request.data.get('address') or None,
             'dob': request.data.get('dob') or None,
+            'insurance_provider': request.data.get('insurance_provider') or None,
+            'policy_number': request.data.get('policy_number') or None,
         }
         Patient.objects.create(**patient_data)
         return Response({'success': True}, status=status.HTTP_201_CREATED)

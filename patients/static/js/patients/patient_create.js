@@ -46,6 +46,8 @@ $(document).ready(function () {
             additional_info: $("#additional_info").val(),
             dob: formattedDate,
             address: $("#address").val(),
+            insurance_provider: $("#insurance_provider").val(),
+            policy_number: $("#policy_number").val(),
         };
 
         $.ajax({
