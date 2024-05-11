@@ -8,7 +8,7 @@ $(document).ready(function () {
             // Populate the table cells with data from the API response
             $("#patient_name").text(data.profile.first_name + " " + data.profile.last_name);
             $("#patient_address").text(data.address);
-            $("#patient_email").text(data.profile.email === null ? '' : data.profile.email);
+            $("#patient_email").text(data.profile.email === null ? '' : data.profile.email);f
             $("#patient_phone").text(data.profile.phone_number);
             $("#patient_ip_no").text("IP No. "+data.inpatient_number);
             $("#patient_op_no").text("OP No. "+data.outpatient_number);
@@ -54,7 +54,7 @@ $(document).ready(function () {
             let items = data.items;
             let totalAmount = parseFloat(data.total_amount);
             $("#invoice_no").text('#' + data.id);
-            $('#invoice_date').text(new Date(data.invoice_date).toLocaleString());
+            // $('#invoice_date').text(new Date(data.invoice_date).toLocaleString());
             $('#invoice_name').text(data.invoice_name);
 
             let tbodyHTML = "";
