@@ -1,4 +1,5 @@
 let fileName;
+let invoiceName;
 
 $(document).ready(function () {
     $.ajax({
@@ -57,6 +58,7 @@ $(document).ready(function () {
             // $('#invoice_date').text(new Date(data.invoice_date).toLocaleString());
             $('#invoice_name').text(data.invoice_name);
 
+            invoiceName = data.invoice_name
             let tbodyHTML = "";
 
             // Loop through items and add rows to the tbodyHTML
@@ -104,7 +106,7 @@ window.onload = function () {
         console.log(window);
         let opt = {
             margin: 0.1,
-            filename: fileName,
+            filename: fileName +" - " + invoiceName,
             image: {type: 'jpeg', quality: 1},
             html2canvas: {scale: 2},
             jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
