@@ -18,3 +18,13 @@ INACTIVE = 2
 existence_status = ((DELETED, 'DELETED'),
                     (ACTIVE, 'ACTIVE'),
                     (INACTIVE, 'INACTIVE'))
+
+CASH = 0
+CREDIT = 1
+UPI = 2
+CARD = 3
+
+payment_mode = ((CASH, 'CASH'),
+                (CREDIT, 'CREDIT'),
+                (UPI, 'UPI'),
+                (CARD, 'CARD'))
