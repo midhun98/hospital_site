@@ -29,7 +29,7 @@ User = get_user_model()
 
 class PatientViewSet(viewsets.ModelViewSet):
     access_policy = PatientAccessPolicy
-    queryset = Patient.objects.select_related('profile').all().order_by('id')
+    queryset = Patient.objects.select_related('profile').all().order_by('-id')
     serializer_class = PatientSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
