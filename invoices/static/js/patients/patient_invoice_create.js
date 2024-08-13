@@ -61,12 +61,14 @@ function createInvoice(event) {
     event.preventDefault(); // Prevent the default form submission behavior
     var totalAmountElement = document.getElementById('total-amount').textContent;
     var totalAmountValue = parseFloat(totalAmountElement.replace('₹', '').trim());
-
+    var paymentModeSelect = document.getElementById("payment_mode");
+    var paymentMode = paymentModeSelect.value;
     let invoiceData = {
         patient_visit: visitId,  // Replace with the actual patient visit ID
         due_date: $("#due_date").val(),
         total_amount: totalAmountValue,
         invoice_name: $("#invoice_name").val(),
+        payment_mode: paymentMode,
     };
     let invoiceItems = [];
     let rows = document.querySelectorAll('#invoice-items tbody tr');

@@ -55,6 +55,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             patient_visit_id = data.get('patient_visit')
             items = data.get('items')
             total_amount = data.get('total_amount')
+            payment_mode = data.get('payment_mode')
 
             due_date = None
             due_date_str = request.data.get('due_date')
@@ -66,7 +67,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             # are executed as a single transaction.
             with transaction.atomic():
                 invoice = Invoice.objects.create(patient_visit_id=patient_visit_id, due_date=due_date,
-                                                 total_amount=total_amount, invoice_name=invoice_name)
+                                                 total_amount=total_amount, invoice_name=invoice_name, payment_mode= payment_mode)
 
                 # Create InvoiceItem instances and associate with the created Invoice
                 for item_data in items:
@@ -99,6 +100,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
             if 'invoice_name' in data:
                 invoice.invoice_name = data['invoice_name']
+
+            if 'payment_mode' in data:
+                invoice.payment_mode = data['payment_mode']
 
             if 'is_paid' in data:
                 invoice.is_paid = data['is_paid']
