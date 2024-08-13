@@ -1,5 +1,6 @@
 import django_filters
 from .models import Invoice
+from core import utils
 
 
 class InvoiceFilter(django_filters.FilterSet):
@@ -7,10 +8,11 @@ class InvoiceFilter(django_filters.FilterSet):
     is_paid = django_filters.BooleanFilter(field_name='is_paid')
     from_date = django_filters.DateFilter(field_name='payment_date', lookup_expr='gte')
     to_date = django_filters.DateFilter(field_name='payment_date', lookup_expr='lte')
+    payment_mode = django_filters.ChoiceFilter(field_name='payment_mode', choices=utils.payment_mode)
 
     class Meta:
         model = Invoice
-        fields = ['id', 'is_paid', 'from_date', 'to_date']
+        fields = ['id', 'is_paid', 'from_date', 'to_date', 'payment_mode']
 
     def filter_queryset(self, queryset):
         # Get the 'paid' parameter from the request
@@ -41,5 +43,11 @@ class InvoiceFilter(django_filters.FilterSet):
             # print("from_date and to_date", from_date, to_date)
             queryset = queryset.filter(payment_date__range=[from_date, to_date])
             print(len(queryset))
+
+        # Filter by payment_mode if provided
+        payment_mode = self.request.query_params.get('payment_mode', None)
+        if payment_mode is not None:
+            queryset = queryset.filter(payment_mode=payment_mode)
+
         return queryset
 
