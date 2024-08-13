@@ -1,6 +1,6 @@
 function calculateSubtotal() {
     // Iterate through all rows to calculate subtotals
-    $('#invoice-items tbody tr').each(function() {
+    $('#invoice-items tbody tr').each(function () {
         let row = this;
         let quantity = parseFloat($(row).find('[name="quantity[]"]').val());
         let unitPrice = parseFloat($(row).find('[name="unit_price[]"]').val());
@@ -31,7 +31,7 @@ function fetchAndPopulateInvoiceData() {
     $.ajax({
         url: `/api/invoices/${invoiceId}/`,
         method: 'GET',
-        success: function(response) {
+        success: function (response) {
             // Clear the existing data
             $('#invoice-items tbody').empty();
 
@@ -39,12 +39,13 @@ function fetchAndPopulateInvoiceData() {
             let due_date = moment(response.due_date).format('DD-MM-YYYY hh:mm A');
             $('#due_date').val(due_date);
             $('#invoice_name').val(response.invoice_name);
+            $('#payment_mode').val(response.payment_mode);
             if (response.is_paid) {
                 $('#paidRadio').prop('checked', true);
             } else {
                 $('#unpaidRadio').prop('checked', true);
             }
-            response.items.forEach(function(item) {
+            response.items.forEach(function (item) {
                 let newRow = $('<tr>');
                 newRow.attr('data-item-id', item.id);
                 newRow.append(`<td><input type="text" name="description[]" value="${item.description}" required></td>`);
@@ -59,15 +60,15 @@ function fetchAndPopulateInvoiceData() {
             // Calculate subtotals and total
             calculateSubtotal();
         },
-        error: function(error) {
+        error: function (error) {
             console.log('Error fetching invoice data:', error);
         }
     });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Attach event listeners to quantity and unit_price inputs for changes
-    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function() {
+    $('#invoice-items tbody').on('input', '[name="quantity[]"], [name="unit_price[]"]', function () {
         calculateSubtotal();
     });
 
@@ -108,12 +109,15 @@ function createInvoice(event) {
     } else {
         console.error('Invalid date format');
     }
+    let paymentModeSelect = document.getElementById("payment_mode");
+    let paymentMode = paymentModeSelect.value;
 
     let invoiceData = {
         due_date: due_date,
         invoice_name: $("#invoice_name").val(),
         total_amount: totalAmountValue,
-        is_paid: $("input[name='paymentStatus']:checked").val()
+        is_paid: $("input[name='paymentStatus']:checked").val(),
+        payment_mode: paymentMode,
     };
     let invoiceItems = [];
     let rows = document.querySelectorAll('#invoice-items tbody tr');
@@ -238,7 +242,7 @@ function deleteInvoiceItem(itemId) {
                 headers: {
                     'X-CSRFToken': csrfToken,
                 },
-                success: function(response) {
+                success: function (response) {
                     swal.fire({
                         title: "Success",
                         text: "Invoice Item deleted successfully!",
@@ -255,7 +259,7 @@ function deleteInvoiceItem(itemId) {
                     // Update the total amount in the API
                     updateTotalAmount();
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.log('Error deleting invoice item:', error);
                 }
             });
@@ -271,15 +275,15 @@ function updateTotalAmount() {
     $.ajax({
         type: 'PATCH',
         url: `/api/invoices/${invoiceId}/`,
-        data: JSON.stringify({ total_amount: totalAmountValue }),
+        data: JSON.stringify({total_amount: totalAmountValue}),
         contentType: 'application/json',
         headers: {
             'X-CSRFToken': csrfToken,
         },
-        success: function(response) {
+        success: function (response) {
             console.log('Total amount updated successfully:', response);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.log('Error updating total amount:', error);
         }
     });
