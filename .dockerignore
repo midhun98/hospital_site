@@ -1,4 +1,6 @@
 venv/
+Dockerfile
+__pycache__/
 db.sqlite3
 .env
 .idea
@@ -6,4 +8,4 @@ db.sqlite3
 media/
 node_modules/
 staticfiles/
-__pycache__/
+.DS_Store
