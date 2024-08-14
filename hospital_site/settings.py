@@ -50,7 +50,6 @@ SHARED_APPS = [
     'compressor',
     'django_filters',
     'ckeditor',
-    'froala_editor',
     'invoices',
     'debug_toolbar',
     'django_ckeditor_5',
