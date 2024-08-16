@@ -37,8 +37,8 @@ $(document).ready(function () {
                 method: "GET",
                 success: function (visitData) {
 
-                    const admissionDateTime = new Date(visitData.admission_date).toLocaleString();
-                    const dischargeDateTime = new Date(visitData.discharge_date).toLocaleString();
+                    const admissionDateTime = visitData.admission_date ? new Date(visitData.admission_date).toLocaleString() : null;
+                    const dischargeDateTime = visitData.discharge_date ? new Date(visitData.discharge_date).toLocaleString() : null;
 
                     if (admissionDateTime){
                         $("#admission_date").text("Admission Date: " + admissionDateTime);
