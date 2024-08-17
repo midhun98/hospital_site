@@ -6,6 +6,7 @@ from core.models import (
     Enquiries,
     Career,
     Document,
+    Hospital,
 )
 
 
@@ -39,3 +40,10 @@ class CareerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Career
         fields = ['id', 'name', 'email', 'phone', 'message', 'date', 'documents']
+
+
+class HospitalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Hospital
+        fields = "__all__"

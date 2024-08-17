@@ -13,13 +13,16 @@ from rest_framework.views import APIView
 from core.models import (Appointment,
                          Career,
                          Document,
-                         Enquiries)
+                         Enquiries,
+                         Hospital)
 from core.permissions import AdminGroupPermission
 from core.serializers import (AppointmentSerializer,
                               CareerSerializer,
-                              ContactFormSerializer)
+                              ContactFormSerializer,
+                              HospitalSerializer)
 
 User = get_user_model()
+
 
 # Create your views here.
 
@@ -151,3 +154,13 @@ class CustomPageNumberPagination(pagination.PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
+
+
+class HospitalView(APIView):
+    serializer_class = HospitalSerializer
+
+    def get(self, request):
+        hospital_id = request.user.hospital.id
+        hospital = Hospital.objects.get(id=hospital_id)
+        serializer = self.serializer_class(hospital)
+        return Response(serializer.data, status=status.HTTP_200_OK)

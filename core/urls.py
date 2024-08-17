@@ -12,5 +12,6 @@ urlpatterns = [
     path('api/otplesslogin/', views.otplesslogin, name='otpless-login-api'),
     path('api/logout/', views.logout_api, name='logout-api'),
     path('api/get_current_user/', views.get_current_user, name='logout-api'),
+    path('api/get_hospital/', views.HospitalView.as_view(), name='hospital-api'),
     path('api/', include(router.urls)),
 ]
