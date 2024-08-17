@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
-import django_on_heroku as django_heroku
 from ckeditor_config import CKEDITOR_5_CONFIGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -161,7 +160,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-django_heroku.settings(locals())
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 CSRF_TRUSTED_ORIGINS = ['https://www.jayanthihospital.in', 'https://*.jayanthihospital.in', 'https://www.navaneethhospital.com', 'https://navaneethhospital.com']
