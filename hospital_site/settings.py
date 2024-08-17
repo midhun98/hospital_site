@@ -161,11 +161,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 CSRF_TRUSTED_ORIGINS = [
+    'https://www.jayanthi.jayanthihospital.in/'
     'https://*.jayanthihospital.in',
     'https://*.navaneethhospital.com'
 ]
 
 ALLOWED_HOSTS = [
+    'https://www.jayanthi.jayanthihospital.in/'
     '*.jayanthihospital.in',
     '*.navaneethhospital.com',
     'localhost'
