@@ -2,7 +2,7 @@ let fileName;
 let invoiceName;
 $(document).ready(function() {
     $.ajax({
-        url: 'http://localhost:8000/api/get_hospital/',
+        url: '/api/get_hospital/',
         method: 'GET',
         success: function(data) {
             // Populate the HTML elements with the data from the API
