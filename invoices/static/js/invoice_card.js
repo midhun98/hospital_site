@@ -1,5 +1,22 @@
 let fileName;
 let invoiceName;
+$(document).ready(function() {
+    $.ajax({
+        url: 'http://localhost:8000/api/get_hospital/',
+        method: 'GET',
+        success: function(data) {
+            // Populate the HTML elements with the data from the API
+            $('#hospital_name').text(data.name);
+            $('#hospital_address').text(data.address);
+            $('#phone_number_1').text(data.phone_number_1);
+            $('#phone_number_2').text(data.phone_number_2);
+            $('#hospital_email').text(data.email);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching hospital data:', error);
+        }
+    });
+});
 
 $(document).ready(function () {
     $.ajax({
