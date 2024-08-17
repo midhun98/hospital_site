@@ -11,12 +11,12 @@ $(document).ready(function () {
             $("#patient_address").text(data.address);
             $("#patient_email").text(data.profile.email === null ? '' : data.profile.email);
             $("#patient_phone").text(data.profile.phone_number);
-            $("#patient_ip_no").text("IP No. "+data.inpatient_number);
-            $("#patient_op_no").text("OP No. "+data.outpatient_number);
+            $("#patient_ip_no").text("IP No. " + (data.inpatient_number || "--"));
+            $("#patient_op_no").text("OP No. " + (data.outpatient_number || "--"));
             fileName = data.profile.first_name + " " + data.profile.last_name;
             claimNo = data.policy_number;
-            if(claimNo){
-                $("#policy_no").text("Claim no: "+claimNo);
+            if (claimNo) {
+                $("#policy_no").text("Claim no: " + claimNo);
             }
         },
         error: function () {
@@ -40,10 +40,10 @@ $(document).ready(function () {
                     const admissionDateTime = visitData.admission_date ? new Date(visitData.admission_date).toLocaleString() : null;
                     const dischargeDateTime = visitData.discharge_date ? new Date(visitData.discharge_date).toLocaleString() : null;
 
-                    if (admissionDateTime){
+                    if (admissionDateTime) {
                         $("#admission_date").text("Admission Date: " + admissionDateTime);
                     }
-                    if (dischargeDateTime){
+                    if (dischargeDateTime) {
                         $("#discharge_date").text("Discharge Date: " + dischargeDateTime);
                     }
                 },
@@ -100,17 +100,15 @@ $(document).ready(function () {
 
 window.onload = function () {
     document.getElementById("download")
-    .addEventListener("click", () => {
-        const invoice = this.document.getElementById("invoice");
-        console.log(invoice);
-        console.log(window);
-        let opt = {
-            margin: 0.1,
-            filename: fileName +" - " + invoiceName,
-            image: {type: 'jpeg', quality: 1},
-            html2canvas: {scale: 2},
-            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
-        };
-        html2pdf().from(invoice).set(opt).save();
-    })
+        .addEventListener("click", () => {
+            const invoice = this.document.getElementById("invoice");
+            let opt = {
+                margin: 0.1,
+                filename: fileName + " - " + invoiceName,
+                image: {type: 'jpeg', quality: 1},
+                html2canvas: {scale: 2},
+                jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            };
+            html2pdf().from(invoice).set(opt).save();
+        })
 }

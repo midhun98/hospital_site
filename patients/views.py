@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -94,30 +95,46 @@ class PatientViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        errors = {}
 
+        # Prepare the user data for update
         user_data = {
             'phone_number': request.data.get('phone_number'),
             'first_name': request.data.get('first_name'),
-            'last_name': request.data.get('last_name'),
+            'last_name': request.data.get('last_name') or None,
             'email': request.data.get('email') or None,
         }
 
+        # Validate the user data
         user_serializer = CustomUserSerializer(instance.profile, data=user_data, partial=True)
-        errors = {}
-
         if not user_serializer.is_valid():
             errors.update(user_serializer.errors)
 
+        # Prepare the patient data for update
         serializer = self.get_serializer(instance, data=request.data, partial=True)
-
         if not serializer.is_valid():
             errors.update(serializer.errors)
 
+        # Attempt to save data if no validation errors
+        if not errors:
+            try:
+                user_serializer.save()
+                serializer.save()
+            except IntegrityError as e:
+                # Handle unique constraint violations
+                if 'phone_number' in str(e):
+                    errors["phone_number"] = ["This phone number is already in use."]
+                if 'email' in str(e):
+                    errors["email"] = ["This email is already in use."]
+                if 'inpatient_number' in str(e):
+                    errors["inpatient_number"] = ["This inpatient number is already in use."]
+                if 'outpatient_number' in str(e):
+                    errors["outpatient_number"] = ["This outpatient number is already in use."]
+                if not errors:
+                    errors["detail"] = "An unexpected error occurred."
+
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-
-        user_serializer.save()
-        serializer.save()
 
         return Response(serializer.data)
 
