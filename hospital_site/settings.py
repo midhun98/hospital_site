@@ -164,6 +164,8 @@ ALLOWED_HOSTS = [
     'jayanthihospital.in',
     'www.navaneethhospital.com',
     'navaneethhospital.com',
+    '*.jayanthihospital.in',
+    '*.navaneethhospital.com',
     'localhost',
 ]
 
