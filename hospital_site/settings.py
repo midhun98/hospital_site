@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
+
 from ckeditor_config import CKEDITOR_5_CONFIGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -157,16 +159,16 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-CSRF_TRUSTED_ORIGINS = ['https://www.jayanthihospital.in', 'https://*.jayanthihospital.in', 'https://www.navaneethhospital.com',
-                        'https://navaneethhospital.com']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.jayanthihospital.in',
+    'https://*.navaneethhospital.com'
+]
+
 ALLOWED_HOSTS = [
-    'www.jayanthihospital.in',
-    'jayanthihospital.in',
-    'www.navaneethhospital.com',
-    'navaneethhospital.com',
     '*.jayanthihospital.in',
     '*.navaneethhospital.com',
-    'localhost',
+    'localhost'
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
