@@ -5,7 +5,7 @@ services:
     image: my-docker-image
     container_name: my-docker-container
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - .:/app
     env_file:
