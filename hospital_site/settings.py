@@ -166,7 +166,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 ALLOWED_HOSTS = [
-    'jayanthi.jayanthihospital.in',
+    'www.jayanthi.jayanthihospital.in',
     'localhost'
 ]
 
