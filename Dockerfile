@@ -15,5 +15,5 @@ RUN pip install -r requirements.txt
 COPY . .
 
 EXPOSE 8000
-#CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 hospital_site.wsgi:application"]
+
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
