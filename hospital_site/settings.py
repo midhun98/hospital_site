@@ -165,10 +165,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.navaneethhospital.com'
 ]
 
-ALLOWED_HOSTS = [
-    'www.jayanthi.jayanthihospital.in'
-    'localhost'
-]
+# ALLOWED_HOSTS = [
+#     'www.jayanthi.jayanthihospital.in'
+#     'localhost'
+# ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
