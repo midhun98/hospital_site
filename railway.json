@@ -17,7 +17,7 @@
         }
     },
     "deploy": {
-        "startCommand": "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py compress && gunicorn hospital_site.wsgi",
+        "startCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py compress && gunicorn hospital_site.wsgi",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     }
