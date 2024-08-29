@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from rest_framework import pagination, status, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -40,8 +41,8 @@ class AppointmentModify(LoginRequiredMixin, APIView):
         pk = kwargs.get("pk")
         try:
             brand = Appointment.objects.get(id=pk)
-        except:
-            return Response("Appointment doesnt exist")
+        except Appointment.DoesNotExist:
+            raise NotFound("Appointment doesn't exist")
         brand.delete()
         return Response({"Message": "Appointment deleted"})
 
