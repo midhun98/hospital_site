@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('invoices', '0002_invoice_existence_status_invoice_invoice_name'),
+        ("invoices", "0002_invoice_existence_status_invoice_invoice_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='invoice',
-            name='payment_mode',
-            field=models.IntegerField(choices=[(0, 'CASH'), (1, 'CREDIT'), (2, 'UPI'), (3, 'CARD')], default=0),
+            model_name="invoice",
+            name="payment_mode",
+            field=models.IntegerField(choices=[(0, "CASH"), (1, "CREDIT"), (2, "UPI"), (3, "CARD")], default=0),
         ),
     ]

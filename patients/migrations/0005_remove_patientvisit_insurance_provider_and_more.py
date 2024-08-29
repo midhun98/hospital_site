@@ -4,28 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('patients', '0004_alter_scanreport_report_date'),
+        ("patients", "0004_alter_scanreport_report_date"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='patientvisit',
-            name='insurance_provider',
+            model_name="patientvisit",
+            name="insurance_provider",
         ),
         migrations.RemoveField(
-            model_name='patientvisit',
-            name='policy_number',
+            model_name="patientvisit",
+            name="policy_number",
         ),
         migrations.AddField(
-            model_name='patient',
-            name='insurance_provider',
+            model_name="patient",
+            name="insurance_provider",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='patient',
-            name='policy_number',
+            model_name="patient",
+            name="policy_number",
             field=models.CharField(blank=True, max_length=20, null=True),
         ),
     ]

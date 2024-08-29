@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('patients', '0008_alter_scanreport_findings'),
+        ("patients", "0008_alter_scanreport_findings"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patient',
-            name='address',
+            model_name="patient",
+            name="address",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='patient',
-            name='dob',
+            model_name="patient",
+            name="dob",
             field=models.DateField(blank=True, null=True),
         ),
     ]

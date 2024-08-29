@@ -11,23 +11,24 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.views import CustomPageNumberPagination
+
 from .access_policies import InvoiceAccessPolicy
 from .filters import InvoiceFilter
-
 from .models import (
     Invoice,
     InvoiceItem,
 )
 from .serializers import (
     InvoiceItemSerializer,
-    InvoiceListingSerializer, InvoiceRetrieveSerializer,
+    InvoiceListingSerializer,
+    InvoiceRetrieveSerializer,
     InvoiceSerializer,
 )
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     access_policy = InvoiceAccessPolicy
-    queryset = Invoice.objects.all().order_by('id')
+    queryset = Invoice.objects.all().order_by("id")
     serializer_class = InvoiceSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users
@@ -37,14 +38,16 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     filterset_class = InvoiceFilter
 
     def get_queryset(self):
-        if self.action == 'invoice_list':
-            return self.access_policy.scope_queryset(self.request, Invoice.objects.select_related('patient_visit').all().order_by('id'))
+        if self.action == "invoice_list":
+            return self.access_policy.scope_queryset(
+                self.request, Invoice.objects.select_related("patient_visit").all().order_by("id")
+            )
         return self.access_policy.scope_queryset(self.request, self.queryset)
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return InvoiceRetrieveSerializer
-        elif self.action == 'invoice_list':
+        elif self.action == "invoice_list":
             return InvoiceListingSerializer  # Use InvoiceListingSerializer for invoice_list
         else:
             return InvoiceSerializer
@@ -52,61 +55,67 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         try:
             data = request.data
-            patient_visit_id = data.get('patient_visit')
-            items = data.get('items')
-            total_amount = data.get('total_amount')
-            payment_mode = data.get('payment_mode')
+            patient_visit_id = data.get("patient_visit")
+            items = data.get("items")
+            total_amount = data.get("total_amount")
+            payment_mode = data.get("payment_mode")
 
             due_date = None
-            due_date_str = request.data.get('due_date')
+            due_date_str = request.data.get("due_date")
             if due_date_str:
-                due_date = timezone.make_aware(datetime.datetime.strptime(due_date_str, '%Y-%m-%d %H:%M'))
-            invoice_name = data.get('invoice_name')
+                due_date = timezone.make_aware(datetime.datetime.strptime(due_date_str, "%Y-%m-%d %H:%M"))
+            invoice_name = data.get("invoice_name")
             # Create Invoice instance
             # The code block `with transaction.atomic():` is used to ensure that the database operations within it
             # are executed as a single transaction.
             with transaction.atomic():
-                invoice = Invoice.objects.create(patient_visit_id=patient_visit_id, due_date=due_date,
-                                                 total_amount=total_amount, invoice_name=invoice_name, payment_mode= payment_mode)
+                invoice = Invoice.objects.create(
+                    patient_visit_id=patient_visit_id,
+                    due_date=due_date,
+                    total_amount=total_amount,
+                    invoice_name=invoice_name,
+                    payment_mode=payment_mode,
+                )
 
                 # Create InvoiceItem instances and associate with the created Invoice
                 for item_data in items:
-                    description = item_data.get('description')
-                    quantity = item_data.get('quantity')
-                    unit_price = item_data.get('unit_price')
-                    InvoiceItem.objects.create(invoice=invoice, description=description, quantity=quantity,
-                                               unit_price=unit_price)
+                    description = item_data.get("description")
+                    quantity = item_data.get("quantity")
+                    unit_price = item_data.get("unit_price")
+                    InvoiceItem.objects.create(
+                        invoice=invoice, description=description, quantity=quantity, unit_price=unit_price
+                    )
 
-            return Response({'success': True}, status=status.HTTP_201_CREATED)
+            return Response({"success": True}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def partial_update(self, request, *args, **kwargs):
         try:
-            invoice_id = kwargs.get('pk')
+            invoice_id = kwargs.get("pk")
             invoice = get_object_or_404(Invoice, pk=invoice_id)
             if invoice.is_paid:
-                return JsonResponse({'message': 'Cannot update a paid invoice'}, status=400)
+                return JsonResponse({"message": "Cannot update a paid invoice"}, status=400)
             data = request.data
 
             # Update due_date and total_amount if provided
 
-            if 'due_date' in data:
-                invoice.due_date = data['due_date']
+            if "due_date" in data:
+                invoice.due_date = data["due_date"]
 
-            if 'total_amount' in data:
-                invoice.total_amount = data['total_amount']
+            if "total_amount" in data:
+                invoice.total_amount = data["total_amount"]
 
-            if 'invoice_name' in data:
-                invoice.invoice_name = data['invoice_name']
+            if "invoice_name" in data:
+                invoice.invoice_name = data["invoice_name"]
 
-            if 'payment_mode' in data:
-                invoice.payment_mode = data['payment_mode']
+            if "payment_mode" in data:
+                invoice.payment_mode = data["payment_mode"]
 
-            if 'is_paid' in data:
-                invoice.is_paid = data['is_paid']
-                if data['is_paid'] == 'True':
+            if "is_paid" in data:
+                invoice.is_paid = data["is_paid"]
+                if data["is_paid"] == "True":
                     invoice.payment_date = datetime.datetime.now(tz=timezone.utc)
 
             # Use transaction.atomic()
@@ -114,12 +123,12 @@ class InvoiceViewSet(viewsets.ModelViewSet):
                 invoice.save()
 
                 # Update or create InvoiceItem instances
-                items = data.get('items', [])
+                items = data.get("items", [])
                 for item_data in items:
-                    item_id = item_data.get('id')
-                    description = item_data.get('description')
-                    quantity = item_data.get('quantity')
-                    unit_price = item_data.get('unit_price')
+                    item_id = item_data.get("id")
+                    description = item_data.get("description")
+                    quantity = item_data.get("quantity")
+                    unit_price = item_data.get("unit_price")
 
                     if item_id:
                         # Update existing InvoiceItem
@@ -130,12 +139,14 @@ class InvoiceViewSet(viewsets.ModelViewSet):
                         invoice_item.save()
                     else:
                         # Create new InvoiceItem
-                        InvoiceItem.objects.create(invoice=invoice, description=description, quantity=quantity, unit_price=unit_price)
+                        InvoiceItem.objects.create(
+                            invoice=invoice, description=description, quantity=quantity, unit_price=unit_price
+                        )
 
-            return Response({'success': True}, status=status.HTTP_200_OK)
+            return Response({"success": True}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     """
     This function retrieves all invoices associated with a specific patient and returns a
@@ -153,7 +164,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["get"], url_path="invoice-patient")
     def invoices_for_patient(self, request, pk=None):
         try:
-            invoices = self.access_policy.scope_queryset(self.request,Invoice.objects.filter(patient_visit__patient=pk).order_by('id'))
+            invoices = self.access_policy.scope_queryset(
+                self.request, Invoice.objects.filter(patient_visit__patient=pk).order_by("id")
+            )
 
             # Paginate the response using the main list pagination class
             page = self.paginate_queryset(invoices)
@@ -161,13 +174,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
             return self.get_paginated_response(serializer.data)
         except Invoice.DoesNotExist:
-            return Response(
-                {
-                    "count": 0,
-                    "next": None,
-                    "previous": None,
-                    "results": []
-                })
+            return Response({"count": 0, "next": None, "previous": None, "results": []})
 
     @action(detail=False, methods=["get"], url_path="invoice-list")
     def invoice_list(self, request):
@@ -179,17 +186,11 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         except Invoice.DoesNotExist:
-            return Response(
-                {
-                    "count": 0,
-                    "next": None,
-                    "previous": None,
-                    "results": []
-                })
+            return Response({"count": 0, "next": None, "previous": None, "results": []})
 
 
 class InvoiceItemViewSet(viewsets.ModelViewSet):
-    queryset = InvoiceItem.objects.all().order_by('id')
+    queryset = InvoiceItem.objects.all().order_by("id")
     serializer_class = InvoiceItemSerializer
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]  # Require authenticated users

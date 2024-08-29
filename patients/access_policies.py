@@ -6,14 +6,14 @@ class PatientAccessPolicy(AccessPolicy):
         {
             "action": ["list", "retrieve", "create", "update", "delete"],
             "principal": {"group": "patients"},
-            "effect": "deny"
+            "effect": "deny",
         },
         {
             "action": ["list", "retrieve", "create", "update"],
             "principal": "authenticated",
             "effect": "allow",
-            "condition": ["not_in_patients_group"]
-        }
+            "condition": ["not_in_patients_group"],
+        },
     ]
 
     def not_in_patients_group(self, request, view, action) -> bool:

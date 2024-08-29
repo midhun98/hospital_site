@@ -1,10 +1,11 @@
 from django.db import models
-from patients.models import PatientVisit
+
 from core import utils
+from patients.models import PatientVisit
 
 
 class Invoice(models.Model):
-    patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE, related_name='invoice')
+    patient_visit = models.ForeignKey(PatientVisit, on_delete=models.CASCADE, related_name="invoice")
     invoice_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -19,7 +20,7 @@ class Invoice(models.Model):
 
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="items")
     description = models.CharField(max_length=255)
     quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)

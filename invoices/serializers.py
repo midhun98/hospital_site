@@ -1,20 +1,18 @@
 from rest_framework import serializers
-from .models import (
-    Invoice,
-    InvoiceItem
-)
+
+from .models import Invoice, InvoiceItem
 
 
 class InvoiceItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceItem
-        fields = '__all__'
+        fields = "__all__"
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = '__all__'
+        fields = "__all__"
 
 
 class InvoiceRetrieveSerializer(serializers.ModelSerializer):
@@ -22,7 +20,7 @@ class InvoiceRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invoice
-        fields = '__all__'
+        fields = "__all__"
 
 
 class InvoiceListingSerializer(serializers.ModelSerializer):
@@ -30,7 +28,7 @@ class InvoiceListingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Invoice
-        fields = '__all__'
+        fields = "__all__"
 
     def get_patient_id(self, obj):
         # Get the patient ID from the related PatientVisit

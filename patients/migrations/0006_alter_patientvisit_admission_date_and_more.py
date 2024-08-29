@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('patients', '0005_remove_patientvisit_insurance_provider_and_more'),
+        ("patients", "0005_remove_patientvisit_insurance_provider_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='patientvisit',
-            name='admission_date',
+            model_name="patientvisit",
+            name="admission_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='patientvisit',
-            name='discharge_date',
+            model_name="patientvisit",
+            name="discharge_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='patientvisit',
-            name='follow_up_appointments',
+            model_name="patientvisit",
+            name="follow_up_appointments",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

@@ -4,21 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0003_hospital_customuser_hospital'),
+        ("core", "0003_hospital_customuser_hospital"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hospital',
-            name='phone_number_1',
+            model_name="hospital",
+            name="phone_number_1",
             field=models.CharField(default=1, max_length=15, unique=True),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='hospital',
-            name='phone_number_2',
+            model_name="hospital",
+            name="phone_number_2",
             field=models.CharField(default=1, max_length=15, unique=True),
             preserve_default=False,
         ),

@@ -1,14 +1,11 @@
 from datetime import date
 
-from django.db import connection
-from django.db import models
+from django.db import connection, models
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
 
 from core import utils
-from core.models import (
-    CustomUser
-)
+from core.models import CustomUser
 
 
 # Create your models here.
@@ -81,10 +78,14 @@ class ScanReport(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
     report_date = models.DateTimeField(null=True, blank=True)
     scan_type = models.CharField(max_length=50)
-    findings = CKEditor5Field('Text', config_name='extends', null=True, blank=True)
+    findings = CKEditor5Field("Text", config_name="extends", null=True, blank=True)
     conclusion = models.TextField(null=True, blank=True)
-    technician = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_technician', null=True, blank=True)
-    doctor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='scans_doctor', null=True, blank=True)
+    technician = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, related_name="scans_technician", null=True, blank=True
+    )
+    doctor = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, related_name="scans_doctor", null=True, blank=True
+    )
 
     def save(self, *args, **kwargs):
         if not self.report_date:
@@ -99,7 +100,7 @@ def upload_to_scan_images(instance, filename):
     """
     The function `upload_to_scan_images` returns the upload path for a file based on the current schema
     name and the filename.
-    
+
     :param instance: The `instance` parameter is an instance of the model that the file is being
     uploaded for. It could be an instance of a user, document, or any other model that requires file
     uploads
@@ -110,11 +111,11 @@ def upload_to_scan_images(instance, filename):
     # get the current schema name
     schema_name = connection.schema_name
     # return the new upload path
-    return '{0}/scan_reports/{1}'.format(schema_name, filename)
+    return "{0}/scan_reports/{1}".format(schema_name, filename)
 
 
 class ScanImage(models.Model):
-    scan_report = models.ForeignKey(ScanReport, on_delete=models.CASCADE, related_name='scan_images')
+    scan_report = models.ForeignKey(ScanReport, on_delete=models.CASCADE, related_name="scan_images")
     image_file = models.FileField(upload_to=upload_to_scan_images)
     uploaded_at = models.DateTimeField(null=True, blank=True)
 

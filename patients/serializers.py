@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from .models import Patient, CustomUser, ScanReport, PatientVisit, ScanImage
+
+from .models import CustomUser, Patient, PatientVisit, ScanImage, ScanReport
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('phone_number', 'first_name', 'last_name', 'email')
+        fields = ("phone_number", "first_name", "last_name", "email")
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -17,13 +18,13 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ScanImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScanImage
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ScanReportSerializer(serializers.ModelSerializer):
@@ -33,7 +34,7 @@ class ScanReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ScanReport
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PatientVisitSerializer(serializers.ModelSerializer):
@@ -41,4 +42,4 @@ class PatientVisitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientVisit
-        fields = '__all__'
+        fields = "__all__"
