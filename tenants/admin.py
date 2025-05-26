@@ -11,4 +11,4 @@ admin.site.register(models.Domain)
 
 @admin.register(Client)
 class ClientAdmin(TenantAdminMixin, admin.ModelAdmin):
-    list_display = ("name", "paid_until")
+	list_display = ("name", "paid_until")
