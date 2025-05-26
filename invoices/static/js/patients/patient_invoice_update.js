@@ -177,7 +177,7 @@ function createInvoice(event) {
                 icon: "success",
                 confirmButtonText: "OK"
             }).then(() => {
-                    window.location.href = `/patient-visit/${patientId}/`;
+                window.location.href = `/patient-visit/${patientId}/`;
             });
             fetchAndPopulateInvoiceData();
             console.log('success', response)
@@ -262,8 +262,23 @@ function deleteInvoiceItem(itemId) {
                     updateTotalAmount();
                 },
                 error: function (xhr, status, error) {
-                    console.log('Error deleting invoice item:', error);
+                    let errorMessage = "An error occurred.";
+
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.responseText) {
+                        errorMessage = xhr.responseText;
+                    }
+                    Swal.fire({
+                        title: "Error",
+                        text: errorMessage,
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+
+                    console.log('Error deleting invoice item:', errorMessage);
                 }
+
             });
         }
     });

@@ -116,7 +116,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 			if "is_paid" in data:
 				invoice.is_paid = data["is_paid"]
 				if data["is_paid"] == "True":
-					invoice.payment_date = datetime.datetime.now(tz=timezone.utc)
+					invoice.payment_date = datetime.datetime.now()
 
 			# Use transaction.atomic()
 			with transaction.atomic():
@@ -203,3 +203,12 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
 			return JsonResponse({"message": "Cannot update an item from a paid invoice."}, status=400)
 
 		return super().partial_update(request, *args, **kwargs)
+
+	def destroy(self, request, *args, **kwargs):
+		item = self.get_object()
+		invoice = item.invoice
+
+		if invoice.is_paid:
+			return JsonResponse({"message": "Cannot delete an item from a paid invoice."}, status=400)
+
+		return super().destroy(request, *args, **kwargs)
