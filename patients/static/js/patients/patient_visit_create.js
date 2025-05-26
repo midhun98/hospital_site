@@ -1,5 +1,5 @@
 window.onload = function () {
-  document.getElementById("patient-visit-create-form").reset();
+    document.getElementById("patient-visit-create-form").reset();
 };
 const csrfToken = $('#patient-visit-create-form input[name="csrfmiddlewaretoken"]').val();
 $(document).ready(function () {
@@ -30,6 +30,8 @@ $(document).ready(function () {
                     text: "Patient Visit created successfully!",
                     icon: "success",
                     confirmButtonText: "OK"
+                }).then(() => {
+                    window.location.href = `/patient-visit/${patientId}/`;
                 });
             },
             error: function (xhr) {
@@ -43,6 +45,7 @@ $(document).ready(function () {
         });
     });
 });
+
 function displayFieldErrors(errors) {
     for (let field in errors) {
         if (errors.hasOwnProperty(field)) {

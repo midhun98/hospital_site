@@ -126,7 +126,9 @@ function createInvoice(event) {
                 text: "Invoice created successfully!",
                 icon: "success",
                 confirmButtonText: "OK"
-            });
+            }).then(() => {
+                    window.location.href = `/patient-visit/${patientId}/`;
+                });
 
             console.log('success', response)
         },

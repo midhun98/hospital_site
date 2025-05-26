@@ -176,6 +176,8 @@ function createInvoice(event) {
                 text: "Invoice updated successfully!",
                 icon: "success",
                 confirmButtonText: "OK"
+            }).then(() => {
+                    window.location.href = `/patient-visit/${patientId}/`;
             });
             fetchAndPopulateInvoiceData();
             console.log('success', response)
