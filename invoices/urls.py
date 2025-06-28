@@ -16,7 +16,7 @@ urlpatterns = [
 	),
 	path(
 		"patient/<int:patient_id>/patient-invoice/<int:invoice_id>/view/",
-		TemplateView.as_view(template_name="invoice_card.html"),
+		TemplateView.as_view(template_name="invoices/invoice_card.html"),
 		name="patient-invoice-generate",
 	),
 	path(
@@ -24,6 +24,6 @@ urlpatterns = [
 		TemplateView.as_view(template_name="invoices/patient_invoice_update.html"),
 		name="patient-invoice-update",
 	),
-	path("list-invoices/", TemplateView.as_view(template_name="list_invoices.html"), name="list-invoices"),
+	path("list-invoices/", TemplateView.as_view(template_name="invoices/list_invoices.html"), name="list-invoices"),
 	path("api/", include(router.urls)),
 ]

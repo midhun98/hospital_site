@@ -50,7 +50,7 @@ urlpatterns = [
 	),
 	path(
 		"patient/<int:patient_id>/scan-report/<int:scan_id>/view/print/",
-		TemplateView.as_view(template_name="scan_report_template.html"),
+		TemplateView.as_view(template_name="patients/scan_report_template.html"),
 		name="scan-report-template",
 	),
 	path("api/", include(router.urls)),
